@@ -1,2 +1,25 @@
 node_modules/
-yomi/node_modules
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/yomi/node_modules
+/yomi/.pnp
+/yomi/.pnp.js
+
+# testing
+/yomi/coverage
+
+# production
+/yomi/build
+
+# misc
+/yomi/.DS_Store
+/yomi/.env.local
+/yomi/.env.development.local
+/yomi/.env.test.local
+/yomi/.env.production.local
+
+/yomi/npm-debug.log*
+/yomi/yarn-debug.log*
+/yomi/yarn-error.log*
