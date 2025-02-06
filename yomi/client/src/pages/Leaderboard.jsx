@@ -12,32 +12,23 @@ import {
 import { FaTrophy } from "react-icons/fa";
 
 // Sample data for the leaderboard
-const leaderboardData = [
-  { rank: 1, name: "Alice", score: 2500 },
-  { rank: 2, name: "Bob", score: 2200 },
-  { rank: 3, name: "Charlie", score: 2100 },
-  { rank: 4, name: "David", score: 2000 },
-  { rank: 5, name: "Eve", score: 1800 },
-];
 
 const Leaderboard = () => {
-  // const [leaderboardData, setLeaderboardData] = React.useState([]);
+  const [leaderboardData, setLeaderboardData] = React.useState([]);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const response = await fetch(
-  //         "https://jsonplaceholder.typicode.com/posts/1"
-  //       );
-  //       const data = await response.json();
-  //       setLeaderboardData([data.title, data.id]);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("http://localhost:5000/api/leaderboard");
+        const data = await response.json();
+        setLeaderboardData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
   return (
     <>
       <Typography variant="h1" align="center" gutterBottom>
