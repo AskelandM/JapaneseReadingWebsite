@@ -2,6 +2,7 @@
 
 # dependencies
 yomi/client/node_modules
+yomi/server/node_modules
 /node_modules
 /.pnp
 .pnp.js
