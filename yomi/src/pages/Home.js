@@ -27,6 +27,7 @@ const Home = () => {
             </table>
             <hr/>
             <h2><Link to="/katakana">Katakana Practice</Link></h2>
+            <h2><Link to="/flashcards">Flashcards</Link></h2>
         </>
     )
 };
