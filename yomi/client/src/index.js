@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import Katakana from "./pages/Katakana";
 import Flashcards from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
+import Lessons from "./pages/Lessons";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="katakana" element={<Katakana />} />
           <Route path="flashcards" element={<Flashcards />} />
           <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="lessons" element={<Lessons />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
