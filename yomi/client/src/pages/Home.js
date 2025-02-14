@@ -54,7 +54,7 @@ const Home = () => {
         <Link to="/leaderboard">Leaderboard</Link>
       </h2>
       <h2>
-        <Link to="/katakana">Katakana Practice</Link>
+        <Link to="/quizzes">Quizzes</Link>
       </h2>
     </>
   );
