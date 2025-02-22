@@ -24,7 +24,7 @@ export default function App() {
           <Route path="katakana" element={<Katakana />} />
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="*" element={<NoPage />} />
-       
+       8
         </Route>
       </Routes>
     </BrowserRouter>
