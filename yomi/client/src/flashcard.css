@@ -27,11 +27,19 @@
     border: 1px solid #000000;
     color: black;
     background-color: #fff;
-    transition: transform 0.6s;
+    transition: transform 0.3s;
 }
 
-.card-content {
-    transform: rotateY(180deg);
+.swap-card-face {
+    
+}
+
+.card-content-front {
+    transform: rotateX(0deg);
+}
+
+.card-content-back {
+    transform: rotateX(180deg);
 }
 
 .card-front {
@@ -41,9 +49,5 @@
 .card-back {
     backface-visibility: visible;
     background-color: rgb(255, 255, 255);
-    transform: rotateY(180deg);
-}
-
-.flipped {
-    transform: rotateY(180deg);
+    transform: rotateX(180deg);
 }

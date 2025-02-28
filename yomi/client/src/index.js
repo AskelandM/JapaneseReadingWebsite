@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import SignIn from "./pages/SignIn";
 import Katakana from "./pages/Katakana";
-import Flashcards from "./pages/Flashcards";
+import {Flashcards} from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
 
 export default function App() {

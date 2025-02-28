@@ -1,7 +1,16 @@
-const kanjiDictionary = [
-    {id: 1, front: 'one', back: 'ichi'},
-    {id: 2, front: 'two', back: 'ni'},
-    {id: 3, front: 'three', back: 'san'},
-    {id: 4, front: 'four', back: 'shi'},
-    {id: 5, front: 'five', back: 'go'},
+import React from 'react';
+import FlashcardSet from './FlashcardSet';
+
+const cards = [
+    { front: "ichi", back: "one"},
+    { front: "ni", back: "two"},
+    { front: "san", back: "three"},
+    { front: "shi", back: "four"},
+    { front: "go", back: "five"},
 ];
+
+export const Flashcards = () => (
+    <FlashcardSet cards={cards} />
+);
+
+export default Flashcards;
