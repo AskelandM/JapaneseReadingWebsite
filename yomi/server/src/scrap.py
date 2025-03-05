@@ -4,7 +4,7 @@ from supabase import create_client
 
 # Supabase credentials
 SUPABASE_URL = "https://czccvfxqcvogvqawvgyp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6Y2N2ZnhxY3ZvZ3ZxYXd2Z3lwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA5NDUzOTEsImV4cCI6MjA1NjUyMTM5MX0.5cwyJrFdwrESexbu9RltXzjS1JVzxb-bfTJXztI4_KM"
+SUPABASE_KEY = 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 BASE_URL = "https://www.csus.edu/indiv/s/sheaa/projects/genki/vocab_main.html"
@@ -72,10 +72,9 @@ def insert_words_into_supabase(words):
 
         print(f"Inserted: {word['kana']} -> {response}")
 
-# ✅ Main Execution
-if __name__ == "__main__":
-    lesson_links = get_all_lessons_link()  
 
+
+    lesson_links = get_all_lessons_link()  
     for lesson in lesson_links:
         words = scrape_words_from_lesson(lesson)  
         insert_words_into_supabase(words) 
