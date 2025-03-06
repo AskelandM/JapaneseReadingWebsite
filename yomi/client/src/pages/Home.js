@@ -56,6 +56,9 @@ const Home = () => {
       <h2>
         <Link to="/katakana">Katakana Practice</Link>
       </h2>
+      <h2>
+        <Link to="/lessons">Lessons</Link>
+      </h2>
     </>
   );
 };
