@@ -8,6 +8,8 @@ import Katakana from "./pages/Katakana";
 import Flashcards from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
 import supabase from './pages/supabaseclient';
+import Lessons from "./pages/Lessons";
+
 
 export default function App() {
   const handleLogin = async () => {
@@ -25,6 +27,7 @@ export default function App() {
           <Route path="katakana" element={<Katakana />} />
           <Route path="flashcards" element={<Flashcards />} />
           <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="lessons" element={<Lessons />} />
           <Route path="*" element={<NoPage />} />
        8
         </Route>
