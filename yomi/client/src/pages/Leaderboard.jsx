@@ -6,7 +6,6 @@ const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -28,8 +27,8 @@ const Leaderboard = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 text-white p-4">
       <h1 className="text-4xl font-bold mb-6">Leaderboard</h1>
-      <Link to="/dashboard" className="text-blue-400 hover:underline">
-          Back to Dashboard
+      <Link to="/" className="text-blue-400 hover:underline">
+        Back to Dashboard
       </Link>
       {error ? (
         <p className="text-red-500 text-center mt-4">{error}</p>
@@ -40,7 +39,9 @@ const Leaderboard = () => {
               <tr className="bg-gray-700">
                 <th className="border border-gray-600 px-4 py-2">Rank</th>
                 <th className="border border-gray-600 px-4 py-2">Name</th>
-                <th className="border border-gray-600 px-4 py-2 text-right">Score</th>
+                <th className="border border-gray-600 px-4 py-2 text-right">
+                  Score
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -57,8 +58,12 @@ const Leaderboard = () => {
                       user.rank
                     )}
                   </td>
-                  <td className="border border-gray-600 px-4 py-2">{user.name}</td>
-                  <td className="border border-gray-600 px-4 py-2 text-right">{user.score}</td>
+                  <td className="border border-gray-600 px-4 py-2">
+                    {user.name}
+                  </td>
+                  <td className="border border-gray-600 px-4 py-2 text-right">
+                    {user.score}
+                  </td>
                 </tr>
               ))}
             </tbody>
