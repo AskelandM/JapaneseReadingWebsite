@@ -3,33 +3,29 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
-import SignIn from "./pages/SignIn";
 import Katakana from "./pages/Katakana";
 import Flashcards from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
-import supabase from './pages/supabaseclient';
+import supabase from "./pages/supabaseclient";
 import Lessons from "./pages/Lessons";
-
 
 export default function App() {
   const handleLogin = async () => {
-  supabase.auth.signInWithOAuth({
-    provider: 'google',
-  })
-}
+    supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  };
   return (
     <BrowserRouter>
-    <button onClick={handleLogin}>Sign in with Google</button>
+      <button onClick={handleLogin}>Sign in with Google</button>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-        
           <Route path="katakana" element={<Katakana />} />
           <Route path="flashcards" element={<Flashcards />} />
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="lessons" element={<Lessons />} />
-          <Route path="*" element={<NoPage />} />
-       8
+          <Route path="*" element={<NoPage />} />8
         </Route>
       </Routes>
     </BrowserRouter>
