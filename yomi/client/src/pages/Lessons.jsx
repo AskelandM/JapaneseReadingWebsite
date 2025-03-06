@@ -62,7 +62,7 @@ const Lessons = () => {
           }}
         >
           <AccordionSummary
-            expandIcon={<CircularProgressWithLabel value={lesson.progress} />}
+            expandIcon={<CircularProgressWithLabel value={10} />}
             aria-controls={`lesson${index + 1}`}
             id={`panel${index + 1}-header`}
             sx={{

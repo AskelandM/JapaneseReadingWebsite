@@ -6,7 +6,7 @@ import NoPage from "./pages/NoPage";
 import Katakana from "./pages/Katakana";
 import Flashcards from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
-import supabase from "./pages/supabaseclient";
+import supabase from "../../client/src/pages/supabaseclient";
 import Lessons from "./pages/Lessons";
 
 export default function App() {
