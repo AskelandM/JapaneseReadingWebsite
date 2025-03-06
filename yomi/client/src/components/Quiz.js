@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Button from '@mui/material/Button';
 import '../index.css';
 
-function Quiz({ word, answers, correct_ans}) {
-    const [message, setMessage] = useState("");
+function Quiz({ word, answers, correct_ans, current_num }) {
+    const [message, setMessage] = useState(<h3><br/></h3>);
+    const [finished, setFinished] = useState(false);
+
+    // reset the message when moving between questions (when current_num changes)
+    useMemo(() => {setFinished(false); setMessage(<h3>　<br/>　</h3>);}, [current_num]); 
 
     // on click, flip the card
     const handleClick = (ans) => {
-        if (ans == correct_ans) {
-            setMessage("Correct! Good Job"); // 1 is true
-        }
-        else {
-            setMessage("Wrong! Try Again"); // 0 is false
+        if (finished === false) { // if current q is not finished
+            if (ans === correct_ans) {
+                setMessage(<h3>{ans}<br/>Correct! Good Job</h3>); // 1 is true
+                setFinished(true);
+            }
+            else {
+                setMessage(<h3><br/>Wrong! Try Again</h3>); // 0 is false
+            }
         }
     };
 
@@ -20,7 +27,7 @@ function Quiz({ word, answers, correct_ans}) {
         <div className="question">
             <h2>{word}</h2>
             {answers.map((answer) => <Button variant="contained" onClick={() => handleClick(answer)}>{answer}</Button>)}
-            <h3>{message}</h3>
+            {message}
         </div>
     );
 }
