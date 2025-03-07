@@ -1,7 +1,8 @@
-const express = require("express");
-const path = require("path");
+import express from "express";
+import path from "path";
+import cors from "cors";
+import supabase from "./supabaseclient.js";
 const app = express();
-const cors = require("cors");
 
 app.use(cors());
 app.use(express.json());
@@ -11,17 +12,24 @@ app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from the server!" });
 });
 
-app.get("/api/leaderboard", (req, res) => {
-  const leaderboardData = [
-    { rank: 1, name: "Alice", score: 2500 },
-    { rank: 2, name: "Bob", score: 2200 },
-    { rank: 3, name: "Charlie", score: 2100 },
-    { rank: 4, name: "David", score: 2000 },
-    { rank: 5, name: "Eve", score: 700 },
-  ];
+app.get("/api/leaderboard", async (req, res) => {
+  const response = await supabase
+    .from("users")
+    .select("*")
+    .order("score", { ascending: false });
+  const data = response.data;
+  const leaderboardData = data.map((user, index) => ({
+    name: user.name,
+    score: user.score,
+    rank: index + 1,
+  }));
   res.json(leaderboardData);
 });
 
+app.get("/api/lessons", async (req, res) => {
+  const lessons = await supabase.from("lessons").select("*");
+  return res.json(lessons.data);
+});
 app.listen(5000, () => {
   console.log("App running on http://localhost:5000");
 });
