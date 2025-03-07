@@ -18,7 +18,6 @@ app.get("/api/leaderboard", async (req, res) => {
     .select("*")
     .order("score", { ascending: false });
   const data = response.data;
-  console.log(response);
   const leaderboardData = data.map((user, index) => ({
     name: user.name,
     score: user.score,
