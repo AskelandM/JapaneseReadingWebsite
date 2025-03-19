@@ -2,25 +2,32 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import '../index.css';
 
-function Quiz({ word, answers, current_num }) {
+function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
     const [message, setMessage] = useState(<h3><br/></h3>);
-    const [finished, setFinished] = useState(false);
 
-    // reset the message when moving between questions (when current_num changes)
-    useEffect(() => {setFinished(false); setMessage(<h3>　<br/>　</h3>);}, [current_num]); 
-
-    // on click, flip the card
+    // clicking an answer choice
     const handleClick = (ans) => {
-        if (finished === false) { // if current q is not finished
+        if (answeredQs <= current_num) { // if current q is not finished
             if (ans === word.en) {
-                setMessage(<h3>{ans}<br/>Correct! Good Job</h3>); // 1 is true
-                setFinished(true);
+                setCorrect(ans);
+                onAnsweredQ();
             }
             else {
-                setMessage(<h3><br/>Wrong! Try Again</h3>); // 0 is false
+                setMessage(<h3><br/>Wrong! Try Again</h3>);
             }
         }
     };
+
+    const setEmpty = () => {
+        setMessage(<h3>　<br/>　</h3>);
+    }
+
+    const setCorrect = (ans) => {
+        setMessage(<h3>{ans}<br/>Correct! Good Job</h3>); // 1 is true
+    }
+
+    // reset the message when moving between questions (when current_num changes)
+    useEffect(() => {answeredQs > current_num ? setCorrect() : setEmpty()}, [current_num]); 
 
     // button component
     return (
