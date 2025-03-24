@@ -18,7 +18,7 @@ export default function App() {
   };
   return (
     <BrowserRouter>
-      <button onClick={handleLogin}>Sign in with Google</button>
+      {/* <button onClick={handleLogin}>Sign in with Google</button> */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

@@ -3,35 +3,8 @@ import { useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
-import { AccordionActions, Box, Button, CircularProgress } from "@mui/material";
-
-function CircularProgressWithLabel(props) {
-  return (
-    <Box position="relative" display="inline-flex">
-      <CircularProgress
-        color={
-          props.value < 25 ? "error" : props.value < 75 ? "warning" : "success"
-        }
-        variant="determinate"
-        value={props.value}
-      />
-      <Box
-        top={0}
-        left={0}
-        bottom={0}
-        right={0}
-        position="absolute"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Typography variant="caption" component="div" color="textSecondary">
-          {Math.round(props.value)}
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
+import { AccordionActions, Box, Button } from "@mui/material";
+import CircularProgressWithLabel from "../components/ProgressCircle";
 
 //lessonData is an array of JSON objects with values "title" and "progress"
 const Lessons = () => {
@@ -52,7 +25,7 @@ const Lessons = () => {
   }, []);
 
   return (
-    <div>
+    <div style={styles.lessons}>
       {lessonData.map((lesson, index) => (
         <Accordion
           sx={{
@@ -88,6 +61,14 @@ const Lessons = () => {
       ))}
     </div>
   );
+};
+
+const styles = {
+  lessons: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+  },
 };
 
 export default Lessons;
