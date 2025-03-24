@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import Quiz from '../components/Quiz.js';
+import { useLocation } from 'react-router';
 import '../flashcard.css';
 
-const Quizzes = () => {
+function Quizzes () {
+    // get lesson # from URL
+    const location = useLocation();
+    const searchParams = new URLSearchParams(
+        location.search
+    );
+    const lesson = searchParams.get("lesson");
+
     const words = [
         { jp: "一", en: "one"},
         { jp: "二", en: "two"},
@@ -11,6 +19,7 @@ const Quizzes = () => {
         { jp: "五", en: "five"},
     ];
 
+    // keep track of current question and how many we've answered
     const [currentIndex, setCurrentIndex] = useState(0);
     const [answeredQs, setAnsweredQs] = useState(0);
 
@@ -23,7 +32,7 @@ const Quizzes = () => {
 
     const prevQ = () => {
         // don't go back further than 0
-        if (currentIndex != 0) {
+        if (currentIndex !== 0) {
             setCurrentIndex((prevIndex) => prevIndex === 0 ? words.length - 1 : prevIndex - 1);
         }
     };
@@ -70,7 +79,7 @@ const Quizzes = () => {
     return (
         <div>
             <br/>
-            <h1 className='page-title'>Quizzes</h1>
+            <h1 className='page-title'>Lesson {lesson} Quiz</h1>
             <Quiz word={words[currentIndex]} 
                 answers={getAnswerChoices(currentIndex, words)} 
                 current_num={currentIndex}
