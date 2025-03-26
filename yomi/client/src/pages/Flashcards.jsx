@@ -1,37 +1,65 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Flashcard } from '../components/Flashcard.js';
 import '../flashcard.css';
 import { ToggleButton } from '@mui/material';
 import front_toggle_image from '../icons/front_toggle.png';
 import back_toggle_image from '../icons/back_toggle.png';
+import { useLocation } from 'react-router';
+import supabase from './supabaseclient.js';
 import shuffle_icon from '../icons/shuffle_icon.png';
 import shuffle_on_icon from '../icons/shuffle_on_icon.png';
 
 export function Flashcards() {
 
+    // controls which alphabets are shown on the front of the flashcard
+    // Romaji shown by default
+    const [showRomaji, setShowRomaji] = useState(true);
+    const [showKanji, setShowKanji] = useState(false);
+    const [showKana, setShowKana] = useState(false);
+
+    const [wordList, setWords] = React.useState([{kana: "loading...", kanji: "loading...", romaji: "loading...", English: "loading..."}]);
+    const initialFlashcards = wordList;
+
+    // cards that will be displayed after choosing romaji, kana, kanji
+    const outputFlashcards = initialFlashcards.map(word => ({
+        front: word.English, 
+        back: `${showRomaji ? word.romaji : ''} ${showKana ? word.kana : ''} ${showKanji ? word.kanji : ''}`.trim()
+    }));
+
+    // get lesson # from URL
+    const location = useLocation();
+    const searchParams = new URLSearchParams(
+        location.search
+    );
+    const lesson = searchParams.get("lesson");
+
+    // get words from DB
+    useEffect(() => {       
+        async function getWords() {         
+            const { data, error } = await supabase        
+            .from('Words')        
+            .select(`kana, kanji, romaji, English`)        
+            .eq('lesson', lesson)               
+            if (error) {          
+                console.warn(error)        
+            } else if (data) { 
+                // wordList = data;   
+                setWords(data);   
+            }      
+            console.log("from DB:");
+            console.log(wordList);
+        }
+
+        getWords() 
+    }, [])
+
+    useEffect(() => {
+        console.log("Updated wordList:", wordList);
+    }, [wordList]);
 
     // change flashcard logic so that the front of a flashcard can show up to 3 different japanese alphabets
     // database calls to get the flashcards
     // list all flashcards front and backs below the flashcard
-
-    const initialFlashcards = [
-        { front: "ichi", back: "one"},
-        { front: "ni", back: "two"},
-        { front: "san", back: "three"},
-        { front: "shi", back: "four"},
-        { front: "go", back: "five"},
-        { front: "roku", back: "six"},
-        { front: "nana", back: "seven"},
-        { front: "hachi", back: "eight"},
-        { front: "kyuu", back: "nine"},
-        { front: "juu", back: "ten"}
-    ];
-
-    const newFlashcards = [
-        //{ front: word, back: `${showRomaji ? romaji : ''} ${showKana ? kana : ''} ${showKanji ? kanji : ''}`.trim() },
-        { front: "ni", back: "two"},
-        { front: "san", back: "three"},
-    ]
 
     // flashcard data should come in form of word, romaji, kana, kanji
     // flashcards are then constructed with word on the front and the back being dependent on the state of the romaji, kana, kanji toggles
@@ -44,14 +72,14 @@ export function Flashcards() {
 
     // controls shuffle
     const [shuffled, setShuffle] = useState(false);
-    const [flashcards, setFlashcards] = useState(initialFlashcards);
+    const [flashcards, setFlashcards] = useState([]);
 
-    // controls which alphabets are shown on the front of the flashcard
-    // Romaji shown by default
-    const [showRomaji, setShowRomaji] = useState(true);
-    const [showKanji, setShowKanji] = useState(false);
-    const [showKana, setShowKana] = useState(false);
-    
+    useEffect(() => {
+        setFlashcards(wordList.map(word => ({
+            front: word.English, 
+            back: `${showRomaji ? word.romaji : ''} ${showKana ? word.kana : ''} ${showKanji ? word.kanji : ''}`.trim()
+        })));
+    }, [wordList, showRomaji, showKana, showKanji]);
 
     // add states for checkboxes for 3 different japanese alphabets
     // pull from database
@@ -82,7 +110,8 @@ export function Flashcards() {
     return (
         <div>
             <h1 className='page-title'>Flashcards</h1>
-                {!isSwapped ? (
+            {flashcards.length > 0 && flashcards[currentIndex] ? (
+                !isSwapped ? (
                     <Flashcard 
                         frontContent={flashcards[currentIndex].front}
                         backContent={flashcards[currentIndex].back}
@@ -92,7 +121,10 @@ export function Flashcards() {
                         frontContent={flashcards[currentIndex].back}
                         backContent={flashcards[currentIndex].front}
                     />
-                )}
+                )
+            ) : (
+                <p>Loading flashcards...</p> // Show a message while data loads
+            )}
             <div>
                 <button onClick={setFirstCard}>&lt;&lt;</button>
                 <button onClick={prevCard}>&lt;</button>

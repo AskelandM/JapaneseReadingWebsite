@@ -4,7 +4,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Quizzes from "./pages/Quizzes";
-import Flashcards from "./pages/Flashcards";
+import {Flashcards} from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
 import supabase from "../../client/src/pages/supabaseclient";
 import Lessons from "./pages/Lessons";
