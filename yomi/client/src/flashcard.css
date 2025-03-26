@@ -30,10 +30,6 @@
     transition: transform 0.3s;
 }
 
-.swap-card-face {
-    
-}
-
 .card-content-front {
     transform: rotateX(0deg);
 }

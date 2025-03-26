@@ -13,7 +13,7 @@ export function Flashcards() {
     // change flashcard logic so that the front of a flashcard can show up to 3 different japanese alphabets
     // database calls to get the flashcards
     // list all flashcards front and backs below the flashcard
-    
+
     const initialFlashcards = [
         { front: "ichi", back: "one"},
         { front: "ni", back: "two"},
@@ -27,6 +27,15 @@ export function Flashcards() {
         { front: "juu", back: "ten"}
     ];
 
+    const newFlashcards = [
+        //{ front: word, back: `${showRomaji ? romaji : ''} ${showKana ? kana : ''} ${showKanji ? kanji : ''}`.trim() },
+        { front: "ni", back: "two"},
+        { front: "san", back: "three"},
+    ]
+
+    // flashcard data should come in form of word, romaji, kana, kanji
+    // flashcards are then constructed with word on the front and the back being dependent on the state of the romaji, kana, kanji toggles
+
     // controls which flashcard is shown
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -38,7 +47,8 @@ export function Flashcards() {
     const [flashcards, setFlashcards] = useState(initialFlashcards);
 
     // controls which alphabets are shown on the front of the flashcard
-    const [showRomaji, setShowRomaji] = useState(false);
+    // Romaji shown by default
+    const [showRomaji, setShowRomaji] = useState(true);
     const [showKanji, setShowKanji] = useState(false);
     const [showKana, setShowKana] = useState(false);
     
