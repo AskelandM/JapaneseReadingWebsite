@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
@@ -54,7 +55,10 @@ const Lessons = () => {
             <AccordionActions>
               <Button>Vocabulary</Button>
               <Button>Flashcards</Button>
-              <Button>Quizzes</Button>
+              <Link to={{
+                  pathname: "/quizzes",
+                  search: `?lesson=${index+1}`
+                }}><Button>Quizzes</Button></Link>
             </AccordionActions>
           </Box>
         </Accordion>
