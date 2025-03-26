@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FaTrophy } from "react-icons/fa";
 import {
   Table,
   TableBody,
@@ -9,32 +11,40 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { FaTrophy } from "react-icons/fa";
-
-// Sample data for the leaderboard
 
 const Leaderboard = () => {
-  const [leaderboardData, setLeaderboardData] = React.useState([]);
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch("http://localhost:5000/api/leaderboard");
+        if (!response.ok) {
+          throw new Error("Failed to fetch leaderboard data");
+        }
         const data = await response.json();
         setLeaderboardData(data);
       } catch (error) {
         console.log(error);
+        setError("Unable to load leaderboard. Please try again later.");
       }
     }
 
     fetchData();
   }, []);
+
   return (
     <>
-      <Typography variant="h1" align="center" gutterBottom>
-        Leaderboard
+      <Typography align="center" gutterBottom>
+        <h1>
+          <strong>Weekly Leaderboard</strong>
+        </h1>
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{ borderRadius: 4, overflow: "hidden" }}
+      >
         <Table>
           <TableHead>
             <TableRow>
