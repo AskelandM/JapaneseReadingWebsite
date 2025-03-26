@@ -8,7 +8,7 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
     // clicking an answer choice
     const handleClick = (ans) => {
         if (answeredQs <= current_num) { // if current q is not finished
-            if (ans === word.en) {
+            if (ans === word.English) {
                 setCorrect(ans);
                 onAnsweredQ();
             }
@@ -32,7 +32,7 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
     // button component
     return (
         <div className="question">
-            <h2>{word.jp}</h2>
+            <h2>{word.kanji}&nbsp;{word.kana}</h2>
             {answers.map((answer) => <Button variant="contained" onClick={() => handleClick(answer)}>{answer}</Button>)}
             {message}
         </div>

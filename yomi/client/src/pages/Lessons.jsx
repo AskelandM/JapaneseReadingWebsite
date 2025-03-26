@@ -6,7 +6,6 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import { AccordionActions, Box, Button } from "@mui/material";
 import CircularProgressWithLabel from "../components/ProgressCircle";
-import Quizzes from "./Quizzes";
 
 //lessonData is an array of JSON objects with values "title" and "progress"
 const Lessons = () => {
@@ -56,14 +55,10 @@ const Lessons = () => {
             <AccordionActions>
               <Button>Vocabulary</Button>
               <Button>Flashcards</Button>
-              {/* <Link to={`quizzes?lesson=${index+1}`}><Button>Quizzes</Button></Link> */}
-              <Link
-                to={{
+              <Link to={{
                   pathname: "/quizzes",
                   search: `?lesson=${index+1}`
-                }}
-              >
-              <Button>Quizzes</Button></Link>
+                }}><Button>Quizzes</Button></Link>
             </AccordionActions>
           </Box>
         </Accordion>
