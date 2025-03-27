@@ -12,7 +12,10 @@ function Quizzes () {
     );
     const lesson = searchParams.get("lesson");
 
-    const [wordList, setWords] = React.useState([{kana: "loading...", kanji: "loading...", Enlgish: "loading..."}]);
+    // all words for this lesson
+    const [wordList, setWords] = React.useState([{kana: "loading", kanji: "loading", English: "loading"}]);
+    // random 10 words for this quiz
+    const [quizList, setQuiz] = React.useState([{kana: "loading...", kanji: "loading...", English: "loading..."}]);
 
     // get words from DB
     useEffect(() => {       
@@ -23,16 +26,16 @@ function Quizzes () {
             .eq('lesson', lesson)               
             if (error) {          
                 console.warn(error)        
-            } else if (data) { 
-                // wordList = data;   
-                setWords(data);   
-            }      
-            console.log("from DB:");
-            console.log(wordList);
+            } else if (data) {  
+                setWords(data);
+            } 
         }
 
-        getWords() 
-    }, [])
+        getWords();
+    }, [lesson])
+
+    // get words into quizList
+    useEffect(() => {setQuiz(getQuestionChoices(wordList, 10));}, [wordList]);
 
     // keep track of current question and how many we've answered
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -41,14 +44,14 @@ function Quizzes () {
     const nextQ = () => {
         // only lets you advance if you got this Q right
         if (answeredQs > currentIndex) {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % wordList.length);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % quizList.length);
         }
     };
 
     const prevQ = () => {
         // don't go back further than 0
         if (currentIndex !== 0) {
-            setCurrentIndex((prevIndex) => prevIndex === 0 ? wordList.length - 1 : prevIndex - 1);
+            setCurrentIndex((prevIndex) => prevIndex === 0 ? quizList.length - 1 : prevIndex - 1);
         }
     };
 
@@ -57,10 +60,29 @@ function Quizzes () {
     }
 
     const setLastQ = () => {
-        // only go to last Q if all questions are answered
-        if (answeredQs >= (wordList.length - 1)) {
-            setCurrentIndex(wordList.length - 1);
+        // go to last answered question
+        if(answeredQs < quizList.length) {
+            setCurrentIndex(answeredQs);
         }
+        else {setCurrentIndex(quizList.length - 1);}
+    }
+
+    // function to choose 10 random words for each quiz
+    const getQuestionChoices = (wordList, quizLength) => {
+        if (answeredQs > 0) {
+            // already exists; do not recreate
+            return quizList;
+        }
+        let answerBank = wordList.slice(); // .slice is creating a copy so we don't modify the original
+        let randInt = 0;
+        let result = [];
+        for (let i = 0; i < quizLength; i++) {
+            // choose a unique word, add it to quizList
+            randInt = Math.floor(Math.random() * (answerBank.length));
+            result = [...result, answerBank[randInt]];
+            answerBank.splice(randInt, 1);
+        }
+        return result;
     }
 
     // function to choose 3 random wordList that aren't the word in question + the word (for mult choice answers) 
@@ -70,8 +92,9 @@ function Quizzes () {
             return [];
         }
         let answerBank = wordList.slice();
-        let answers = [answerBank[index].English];
-        answerBank.splice(index, 1);
+        let answers = [quizList[index].English];
+        // remove the correct answer from possible answers
+        answerBank = answerBank.filter((val) => {return val.English !== quizList[index].English;});
         let randInt = 0;
         for (let i = 0; i < 3; i++) {
             // choose a random word that's not the answer
@@ -89,7 +112,7 @@ function Quizzes () {
     }
 
     const onAnsweredQ = () => {
-        if (answeredQs < wordList.length) {
+        if (answeredQs < quizList.length) {
             setAnsweredQs(answeredQs + 1);
         }
     }
@@ -98,7 +121,7 @@ function Quizzes () {
         <div>
             <br/>
             <h1 className='page-title'>Lesson {lesson} Quiz</h1>
-            <Quiz word={wordList[currentIndex]} 
+            <Quiz word={quizList[currentIndex]} 
                 answers={getAnswerChoices(currentIndex, wordList)} 
                 current_num={currentIndex}
                 answeredQs={answeredQs} 
@@ -107,10 +130,10 @@ function Quizzes () {
             <div>
                 <button onClick={setFirstQ}>&lt;&lt;</button>
                 <button onClick={prevQ}>&lt;</button>
-                &nbsp;{currentIndex + 1} / {wordList.length}&nbsp;
+                &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
                 <button onClick={nextQ}>&gt;</button>
                 <button onClick={setLastQ}>&gt;&gt;</button>
-                &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp; {answeredQs >= wordList.length ? "Complete!" : ""}
+                &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp; {answeredQs >= quizList.length ? "Complete!" : ""}
             </div>
         </div>
     );

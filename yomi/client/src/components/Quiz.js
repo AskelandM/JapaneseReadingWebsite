@@ -23,7 +23,7 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
     }
 
     const setCorrect = (ans) => {
-        setMessage(<h3>{ans}<br/>Correct! Good Job</h3>); // 1 is true
+        setMessage(<h3>{word.English}<br/>Correct! Good Job</h3>); // 1 is true
     }
 
     // reset the message when moving between questions (when current_num changes)
