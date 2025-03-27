@@ -11,7 +11,7 @@ function Quizzes () {
         location.search
     );
     const lesson = searchParams.get("lesson");
-
+      //wordslist will store all the supabase object that's returned
     const [wordList, setWords] = React.useState([{kana: "loading...", kanji: "loading...", Enlgish: "loading..."}]);
 
     // get words from DB
@@ -111,6 +111,7 @@ function Quizzes () {
                 &nbsp;{currentIndex + 1} / {wordList.length}&nbsp;
                 <button onClick={nextQ}>&gt;</button>
                 <button onClick={setLastQ}>&gt;&gt;</button>
+                
                 &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp; {answeredQs >= wordList.length ? "Complete!" : ""}
             </div>
         </div>
