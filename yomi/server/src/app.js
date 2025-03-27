@@ -30,6 +30,6 @@ app.get("/api/lessons", async (req, res) => {
   const lessons = await supabase.from("lessons").select("*");
   return res.json(lessons.data);
 });
-app.listen(5000, () => {
-  console.log("App running on http://localhost:5000");
+app.listen(4000, () => {
+  console.log("App running on http://localhost:4000");
 });
