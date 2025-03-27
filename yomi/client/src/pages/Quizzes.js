@@ -12,6 +12,7 @@ function Quizzes () {
     );
     const lesson = searchParams.get("lesson");
 
+
     // all words for this lesson
     const [wordList, setWords] = React.useState([{kana: "loading", kanji: "loading", English: "loading"}]);
     // random 10 words for this quiz
@@ -128,12 +129,15 @@ function Quizzes () {
                 onAnsweredQ={onAnsweredQ} 
             />
             <div>
+                js
                 <button onClick={setFirstQ}>&lt;&lt;</button>
                 <button onClick={prevQ}>&lt;</button>
                 &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
                 <button onClick={nextQ}>&gt;</button>
                 <button onClick={setLastQ}>&gt;&gt;</button>
+
                 &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp; {answeredQs >= quizList.length ? "Complete!" : ""}
+
             </div>
         </div>
     );
