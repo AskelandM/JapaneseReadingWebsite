@@ -105,6 +105,7 @@ function Quizzes () {
                 onAnsweredQ={onAnsweredQ} 
             />
             <div>
+                js
                 <button onClick={setFirstQ}>&lt;&lt;</button>
                 <button onClick={prevQ}>&lt;</button>
                 &nbsp;{currentIndex + 1} / {wordList.length}&nbsp;
