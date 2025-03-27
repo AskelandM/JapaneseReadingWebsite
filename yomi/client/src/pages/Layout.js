@@ -1,9 +1,36 @@
 import { Outlet, Link } from "react-router-dom";
 import { FaHome, FaUser } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import supabase from './supabaseclient.js';
 
 const Layout = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data: userData } = await supabase
+        .from("usersLogin")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (!userData) {
+        await supabase.from("usersLogin").insert([
+          {
+            id: user.id,
+            email: user.email,
+          },
+        ]);
+      } else {
+        console.log("found user!");
+      }
+    };
+
+    checkUser(); 
+  }, []);
 
   return (
     <>
