@@ -53,6 +53,7 @@ export function Flashcards() {
         getWords() 
     }, [])
 
+    // update wordList when wordList changes
     useEffect(() => {
         console.log("Updated wordList:", wordList);
     }, [wordList]);
