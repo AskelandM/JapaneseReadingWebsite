@@ -85,10 +85,18 @@ export function Flashcards() {
     // pull from database
 
     const shuffleFlashcards = () => {
-        const shuffledFlashcards = [...flashcards].sort(() => Math.random() - 0.5);
-        setFlashcards(shuffledFlashcards);
-        setCurrentIndex(0);
-        setShuffle((prevSelected) => !prevSelected);
+        if (shuffled) {
+            setFlashcards(outputFlashcards);
+            setCurrentIndex(0);
+            setShuffle((prevSelected) => !prevSelected);
+        }
+
+        else{
+            const shuffledFlashcards = [...flashcards].sort(() => Math.random() - 0.5);
+            setFlashcards(shuffledFlashcards);
+            setCurrentIndex(0);
+            setShuffle((prevSelected) => !prevSelected);
+        }
     }
 
     const nextCard = () => {
