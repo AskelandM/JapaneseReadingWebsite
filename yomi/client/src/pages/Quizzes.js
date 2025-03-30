@@ -23,7 +23,7 @@ function Quizzes () {
         async function getWords() {         
             const { data, error } = await supabase        
             .from('Words')        
-            .select(`kana, kanji, English`)        
+            .select(`id, kana, kanji, English`)        
             .eq('lesson', lesson)               
             if (error) {          
                 console.warn(error)        

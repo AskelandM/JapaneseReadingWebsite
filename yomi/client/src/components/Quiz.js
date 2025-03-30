@@ -6,7 +6,8 @@ import supabase from '../pages/supabaseclient.js';
 function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
     const [message, setMessage] = useState(<h3><br/></h3>);
 
-
+      console.log(word);
+      //print out to see what does work contain
     const checkUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
         
@@ -14,17 +15,10 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
       
         const baseRecord = {
           userName: user.email,
-          Kana: word.kana,
-          English: word.English,
-          Genki: word.genki
+          missedword_id: word.id
         };
-      
-        // If word has romaji, include it
-        if ("romaji" in word) {
-          baseRecord.romaji = word.romaji;
-        }
-      
-        await supabase.from("missedWords").insert([baseRecord]);
+         
+        await supabase.from("missedPool").insert([baseRecord]);
       };
   
     // clicking an answer choice
@@ -35,6 +29,7 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
                 onAnsweredQ();
             }
             else {
+                
                 checkUser(); 
                 setMessage(<h3><br/>Wrong! Try Again</h3>);
             }
