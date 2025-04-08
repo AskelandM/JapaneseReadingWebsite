@@ -4,6 +4,7 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Quizzes from "./pages/Quizzes";
+import Vocab from "./pages/vocab";
 import {Flashcards} from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
 import supabase from "../../client/src/pages/supabaseclient";
@@ -39,7 +40,8 @@ export default function App() {
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="lessons" element={<Lessons />} />
           <Route path="profile" element={<Profile />} />
-         
+          {/* it means the same thing as how links were used */}
+          <Route path="vocabulary" element={<Vocab />} />
         </Route>
                 )}
       </Routes>

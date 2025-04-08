@@ -25,7 +25,7 @@ const Lessons = () => {
     fetchData();
   }, []);
 
-  return (
+ return (
     <div style={styles.lessons}>
       {lessonData.map((lesson, index) => (
         <Accordion
@@ -49,19 +49,30 @@ const Lessons = () => {
             }}
           >
             <Typography component="span">{lesson.title}</Typography>
-          </AccordionSummary>
+          </AccordionSummary> 
 
           <Box display="flex" alignItems="center" justifyContent="flex-start">
             <AccordionActions>
-              <Button>Vocabulary</Button>
+
+            <Link to={{
+                  pathname: "/vocabulary",
+                  search: `?lesson=${index+1}`
+                }}> <Button>Vocabulary</Button>
+                </Link>
+               
+
               <Link to={{
                   pathname: "/flashcards",
                   search: `?lesson=${index+1}`
-                }}></Link><Button>Flashcards</Button>
+                }}> <Button>Flashcards</Button>
+                </Link>
+               
+
               <Link to={{
                   pathname: "/quizzes",
                   search: `?lesson=${index+1}`
-                }}><Button>Quizzes</Button></Link>
+                }}>
+                  <Button>Quizzes</Button></Link>
             </AccordionActions>
           </Box>
         </Accordion>
