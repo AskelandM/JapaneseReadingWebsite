@@ -59,7 +59,7 @@ const Lessons = () => {
                   search: `?lesson=${index+1}`
                 }}></Link><Button>Flashcards</Button>
               <Link to={{
-                  pathname: "/quizzes",
+                  pathname: "/quizoptions",
                   search: `?lesson=${index+1}`
                 }}><Button>Quizzes</Button></Link>
             </AccordionActions>
