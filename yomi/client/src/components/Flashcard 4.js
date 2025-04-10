@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css';
 
-export function Flashcard({ frontContent, backContent }) {
+function Flashcard({ frontContent, backContent }) {
     // state to keep track of whether the card is flipped
     const [isFlipped, setIsFlipped] = useState(false);
 
@@ -11,18 +11,19 @@ export function Flashcard({ frontContent, backContent }) {
     };
 
     // Flashcard component
-    // If the card is flipped, show the back content
     return (
         <div className="card" onClick={handleClick}>
             {isFlipped ? (
                 <div className="card-back">
-                    <div className="card-content-back">{backContent}</div>
+                    <div className="card-content">{backContent}</div>
                 </div>
             ) : (
                 <div className="card-front">
-                    <div className="card-content-front">{frontContent}</div>
+                    <div className="card-content">{frontContent}</div>
                 </div>
             )}
         </div>
     );
 }
+
+export default Flashcard;

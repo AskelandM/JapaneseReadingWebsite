@@ -1,0 +1,53 @@
+/* quizzes.css */
+
+/* Centering the title */
+.page-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Styling the quiz container */
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the navigation buttons container */
+.quiz-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Styling the buttons */
+.quiz-navigation button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    margin: 0 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.quiz-navigation button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling the 'Complete!' message */
+.complete-message {
+    font-size: 1.2rem;
+    color: green;
+    font-weight: bold;
+}

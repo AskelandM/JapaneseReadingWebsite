@@ -3,23 +3,46 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
-import SignIn from "./pages/SignIn";
-import Katakana from "./pages/Katakana";
-import Flashcards from "./pages/Flashcards";
+import Quizzes from "./pages/Quizzes";
+import {Flashcards} from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
+import supabase from "../../client/src/pages/supabaseclient";
+import Lessons from "./pages/Lessons";
+import SignIn from "./pages/SignIn";
+import Profile from "./pages/Profile";
+import React, { useEffect, useState } from "react";
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const checkSession = async () => {
+        const { data: { user } } = await supabase.auth.getUser(); 
+        setUser(user);
+    };
+    checkSession();
+}, [setUser]); 
+
+
+
   return (
     <BrowserRouter>
+      
       <Routes>
+      {!user ? (
+                    <Route path="*" element={<SignIn />} /> 
+                ) : (
+
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="signin" element={<SignIn />} />
-          <Route path="katakana" element={<Katakana />} />
+          <Route path="quizzes" element={<Quizzes />} />
           <Route path="flashcards" element={<Flashcards />} />
           <Route path="leaderboard" element={<Leaderboard />} />
-          <Route path="*" element={<NoPage />} />
+          <Route path="lessons" element={<Lessons />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="404" element={<NoPage />} />
+         
         </Route>
+                )}
       </Routes>
     </BrowserRouter>
   );

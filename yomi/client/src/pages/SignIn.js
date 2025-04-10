@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
+import supabase from './supabaseclient.js';
 
 const SignIn = () => {
-    return (
-        <h2><br/>
-            Username: ______
-            <br/>
-            Password: ______
-            <br/>
-            <Link to="/">Sign In</Link>
-        </h2>
-    )
+    const handleLogin = async () => {
+        supabase.auth.signInWithOAuth({
+          provider: "google",
+        });
+      };
+
+      return (
+        <div>
+           <button onClick={handleLogin}>Sign in with Google</button>
+        </div>
+    );
+
 };
 
 export default SignIn;
