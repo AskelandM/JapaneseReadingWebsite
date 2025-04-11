@@ -16,11 +16,11 @@ function Quizzes() {
 
   // all words for this lesson
   const [wordList, setWords] = useState([
-    { kana: "loading", kanji: "loading", English: "loading" },
+    { id: 0, kana: "loading", kanji: "loading", English: "loading" },
   ]);
   // random 10 words for this quiz
   const [quizList, setQuiz] = useState([
-    { kana: "loading...", kanji: "loading...", English: "loading..." },
+    { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
   ]);
 
   // get words from DB

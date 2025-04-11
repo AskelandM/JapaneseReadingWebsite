@@ -63,8 +63,8 @@ const Lessons = () => {
               <Button>Flashcards</Button>
               <Link
                 to={{
-                  pathname: "/quizzes",
-                  search: `?lesson=${index + 1}`,
+                  pathname: "/quizoptions",
+                  search: `?lesson=${index+1}`
                 }}
               >
                 <Button>Quizzes</Button>

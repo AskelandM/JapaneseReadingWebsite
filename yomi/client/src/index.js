@@ -36,6 +36,7 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="quizzes" element={<Quizzes />} />
+            <Route path="quizoptions" element={<QuizOptions />} />
             <Route path="flashcards" element={<Flashcards />} />
             <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="lessons" element={<Lessons />} />
