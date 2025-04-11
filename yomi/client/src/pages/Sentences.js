@@ -10,6 +10,12 @@ function Sentences () {
     const [txt, setTxt] = useState(""); // text in textbox
     const [query, setQuery] = useState(""); // final submitted text
     const [fromEn, setFromEn] = useState(false); // query in english?
+    const nomargin = `
+        .nomargin {
+            margin-bottom: 0px;
+            padding: 0px;
+        }
+    `
   
     useEffect(() => { 
         const loadPost = async () => { 
@@ -22,7 +28,6 @@ function Sentences () {
             const response = await axios.get( 
                 "https://tatoeba.org/eng/api_v0/search?from=" + (fromEn ? "eng" : "jpn") + "&has_audio=&list=&native=&original=&orphans=no&query=" + query + "&sort=relevance&sort_reverse=&tags=&to=" + (fromEn ? "jpn" : "eng") + "&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=" + (fromEn ? "jpn" : "eng") + "&trans_unapproved=&trans_user=&unapproved=no&user=&word_count_max=&word_count_min=1"
             ); 
-            console.log("https://tatoeba.org/eng/api_v0/search?from=" + (fromEn ? "eng" : "jpn") + "&has_audio=&list=&native=&original=&orphans=no&query=" + query + "&sort=relevance&sort_reverse=&tags=&to=" + (fromEn ? "jpn" : "eng") + "&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=" + (fromEn ? "jpn" : "eng") + "&trans_unapproved=&trans_user=&unapproved=no&user=&word_count_max=&word_count_min=1");
   
             // After fetching data stored it in posts state. 
             setPosts(response.data); 
@@ -80,11 +85,14 @@ function Sentences () {
                 posts.results.map((item) => ( 
                     // fetch the text and translation
                     <div>
-                    {item.translations[0].length > 0 ?
-                        <h4>{item.text}
-                        <br/>
-                        {item.translations[0][0].text}
-                        </h4> 
+                    {item.translations.length > 0 ?
+                        (<div>
+                            <h4>{item.text}</h4>
+                            {item.translations.map((trans) => (trans.length > 0 ? (
+                                <p className='nomargin'><style>{nomargin}</style>
+                                {trans[0].text}</p>)
+                                 : ""))}
+                        </div>)
                     : " "}
                     </div>
                 )) 
