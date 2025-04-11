@@ -2,7 +2,7 @@ import React from "react";
 import { Grid2, Box, Stack, Paper } from "@mui/material";
 import { useState, useEffect } from "react";
 import ConcentrationCard from "./ConcentrationCard";
-import supabase from "../pages/supabaseclient.js";
+import supabase from "../supabaseclient.js";
 
 async function fetchWords(lesson) {
   let answers = {};

@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import cors from "cors";
-import supabase from "./supabaseclient.js";
+import supabase from "../src/supabaseclient.js";
 const app = express();
 
 app.use(cors());

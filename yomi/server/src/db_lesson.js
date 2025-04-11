@@ -1,4 +1,4 @@
-import supabase from "./supabaseclient.js";
+import supabase from "../supabaseclient.js";
 
 const lessons = [
   { id: 1, title: "Lesson 1: New Friends" },

@@ -6,7 +6,7 @@ import NoPage from "./pages/NoPage";
 import Quizzes from "./pages/Quizzes";
 import { Flashcards } from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
-import supabase from "../../client/src/pages/supabaseclient";
+import supabase from "./supabaseclient";
 import Lessons from "./pages/Lessons";
 import SignIn from "./pages/SignIn";
 import Game from "./pages/Game";
