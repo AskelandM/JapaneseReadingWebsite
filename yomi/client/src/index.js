@@ -4,11 +4,12 @@ import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Quizzes from "./pages/Quizzes";
-import {Flashcards} from "./pages/Flashcards";
+import { Flashcards } from "./pages/Flashcards";
 import Leaderboard from "./pages/Leaderboard";
-import supabase from "../../client/src/pages/supabaseclient";
+import supabase from "./supabaseclient";
 import Lessons from "./pages/Lessons";
 import SignIn from "./pages/SignIn";
+import Game from "./pages/Game";
 import Profile from "./pages/Profile";
 import React, { useEffect, useState } from "react";
 import QuizOptions from "./pages/QuizOptions";
@@ -18,33 +19,31 @@ export default function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const checkSession = async () => {
-        const { data: { user } } = await supabase.auth.getUser(); 
-        setUser(user);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
     };
     checkSession();
-}, [setUser]); 
-
-
+  }, [setUser]);
 
   return (
     <BrowserRouter>
-      
       <Routes>
-      {!user ? (
-                    <Route path="*" element={<SignIn />} /> 
-                ) : (
-
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="quizzes" element={<Quizzes />} />
-          <Route path="quizoptions" element={<QuizOptions />} />
-          <Route path="flashcards" element={<Flashcards />} />
-          <Route path="leaderboard" element={<Leaderboard />} />
-          <Route path="lessons" element={<Lessons />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="sentences" element={<Sentences />} />
-        </Route>
-                )}
+        {!user ? (
+          <Route path="*" element={<SignIn />} />
+        ) : (
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="quizzes" element={<Quizzes />} />
+            <Route path="flashcards" element={<Flashcards />} />
+            <Route path="leaderboard" element={<Leaderboard />} />
+            <Route path="lessons" element={<Lessons />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="game" element={<Game />} />
+            <Route path="sentences" element={<Sentences />} />
+          </Route>
+        )}
       </Routes>
     </BrowserRouter>
   );

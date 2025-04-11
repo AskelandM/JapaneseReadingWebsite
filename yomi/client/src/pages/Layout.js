@@ -1,13 +1,15 @@
 import { Outlet, Link } from "react-router-dom";
 import { FaHome, FaUser } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import supabase from './supabaseclient.js';
+import supabase from "../supabaseclient.js";
 
 const Layout = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) return;
 
@@ -29,7 +31,7 @@ const Layout = () => {
       }
     };
 
-    checkUser(); 
+    checkUser();
   }, []);
 
   return (
