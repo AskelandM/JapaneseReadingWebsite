@@ -54,14 +54,29 @@ const Lessons = () => {
           <Box display="flex" alignItems="center" justifyContent="flex-start">
             <AccordionActions>
               <Button>Vocabulary</Button>
-              <Link to={{
+              <Link
+                to={{
                   pathname: "/flashcards",
-                  search: `?lesson=${index+1}`
-                }}></Link><Button>Flashcards</Button>
-              <Link to={{
+                  search: `?lesson=${index + 1}`,
+                }}
+              ></Link>
+              <Button>Flashcards</Button>
+              <Link
+                to={{
                   pathname: "/quizzes",
-                  search: `?lesson=${index+1}`
-                }}><Button>Quizzes</Button></Link>
+                  search: `?lesson=${index + 1}`,
+                }}
+              >
+                <Button>Quizzes</Button>
+              </Link>
+              <Link
+                to={{
+                  pathname: "/game",
+                  search: `?lesson=${index + 1}`,
+                }}
+              >
+                <Button>Game</Button>
+              </Link>
             </AccordionActions>
           </Box>
         </Accordion>
