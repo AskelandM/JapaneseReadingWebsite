@@ -3,11 +3,9 @@ import Button from '@mui/material/Button';
 import '../index.css';
 import supabase from '../pages/supabaseclient.js';
 
-function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
+function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ, format }) {
     const [message, setMessage] = useState(<h3><br/></h3>);
 
-      console.log(word);
-      //print out to see what does work contain
     const checkUser = async () => {
         const { data: { user } } = await supabase.auth.getUser();
         
@@ -19,12 +17,12 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
         };
          
         await supabase.from("missedPool").insert([baseRecord]);
-      };
+    };
   
     // clicking an answer choice
     const handleClick = (ans) => {
         if (answeredQs <= current_num) { // if current q is not finished
-            if (ans === word.English) {
+            if (ans.id === word.id) {
                 setCorrect(ans);
                 onAnsweredQ();
             }
@@ -50,8 +48,17 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ }) {
     // button component
     return (
         <div className="question">
-            <h2>{word.kanji}&nbsp;{word.kana}</h2>
-            {answers.map((answer) => <Button variant="contained" onClick={() => handleClick(answer)}>{answer}</Button>)}
+            <h2>
+                {format.kanji == "q" ? word.kanji+" " : ""}
+                {format.kana == "q" ? word.kana+" " : ""}
+                {format.en == "q" ? word.English+" " : ""}
+            </h2>
+            {answers.map((answer) => 
+                <Button variant="contained" onClick={() => handleClick(answer)}>
+                    {format.kanji == "a" ? answer.kanji+" " : ""}
+                    {format.kana == "a" ? answer.kana+" " : ""}
+                    {format.en == "a" ? answer.English+" " : ""}
+                </Button>)}
             {message}
         </div>
     );

@@ -11,12 +11,15 @@ function Quizzes () {
         location.search
     );
     const lesson = searchParams.get("lesson");
-
+    const qNum = searchParams.get("qnum");
+    const kanji = searchParams.get("kj");
+    const kana = searchParams.get("kn");
+    const en = searchParams.get("en");
 
     // all words for this lesson
-    const [wordList, setWords] = React.useState([{kana: "loading", kanji: "loading", English: "loading"}]);
+    const [wordList, setWords] = useState([{kana: "loading", kanji: "loading", English: "loading"}]);
     // random 10 words for this quiz
-    const [quizList, setQuiz] = React.useState([{kana: "loading...", kanji: "loading...", English: "loading..."}]);
+    const [quizList, setQuiz] = useState([{kana: "loading...", kanji: "loading...", English: "loading..."}]);
 
     // get words from DB
     useEffect(() => {       
@@ -36,7 +39,7 @@ function Quizzes () {
     }, [lesson])
 
     // get words into quizList
-    useEffect(() => {setQuiz(getQuestionChoices(wordList, 10));}, [wordList]);
+    useEffect(() => {setQuiz(getQuestionChoices(wordList, qNum));}, [wordList]);
 
     // keep track of current question and how many we've answered
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -74,6 +77,10 @@ function Quizzes () {
             // already exists; do not recreate
             return quizList;
         }
+        if (quizLength === 0 || quizLength === "0") {
+            // all questions
+            quizLength = wordList.length;
+        }
         let answerBank = wordList.slice(); // .slice is creating a copy so we don't modify the original
         let randInt = 0;
         let result = [];
@@ -93,19 +100,19 @@ function Quizzes () {
             return [];
         }
         let answerBank = wordList.slice();
-        let answers = [quizList[index].English];
+        let answers = [quizList[index]];
         // remove the correct answer from possible answers
-        answerBank = answerBank.filter((val) => {return val.English !== quizList[index].English;});
+        answerBank = answerBank.filter((val) => {return val.id !== quizList[index].id;});
         let randInt = 0;
         for (let i = 0; i < 3; i++) {
             // choose a random word that's not the answer
             randInt = Math.floor(Math.random() * (answerBank.length));
             // either add it before or after in the list (to randomize order)
             if (Math.floor(Math.random() * 2)) {
-                answers = [...answers, answerBank[randInt].English];
+                answers = [...answers, answerBank[randInt]];
             }
             else {
-                answers = [answerBank[randInt].English, ...answers];
+                answers = [answerBank[randInt], ...answers];
             }
             answerBank.splice(randInt, 1);
         }
@@ -127,9 +134,9 @@ function Quizzes () {
                 current_num={currentIndex}
                 answeredQs={answeredQs} 
                 onAnsweredQ={onAnsweredQ} 
+                format={{kanji: kanji, kana: kana, en: en}}
             />
             <div>
-                js
                 <button onClick={setFirstQ}>&lt;&lt;</button>
                 <button onClick={prevQ}>&lt;</button>
                 &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;

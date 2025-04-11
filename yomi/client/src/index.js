@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn";
 import Game from "./pages/Game";
 import Profile from "./pages/Profile";
 import React, { useEffect, useState } from "react";
+import QuizOptions from "./pages/QuizOptions";
 
 export default function App() {
   const [user, setUser] = useState(null);
