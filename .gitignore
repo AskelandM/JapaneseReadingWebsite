@@ -4,6 +4,7 @@ yomi/client/node_modules
 yomi/server/node_modules
 yomi/node_modules
 /node_modules
+yomi/client/src/pages/supabaseclient.js
 /.pnp
 .pnp.js
 

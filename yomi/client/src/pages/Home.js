@@ -1,6 +1,7 @@
 import React from "react";
 import Leaderboard from "./Leaderboard";
 import Lessons from "./Lessons";
+import { Link } from "react-router-dom";
 import CircularProgressWithLabel from "../components/ProgressCircle";
 
 export default function Home() {
@@ -12,6 +13,8 @@ export default function Home() {
         </div>
         <div style={{ textAlign: "center" }}>
           <h1>
+            <Link to={{pathname: "/sentences"}}>Example Sentence Search</Link>
+            <br/>
             <strong>Total Progress</strong>
           </h1>
           <CircularProgressWithLabel value={50} size={200} fontSize={20} />
