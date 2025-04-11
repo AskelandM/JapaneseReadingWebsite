@@ -9,6 +9,7 @@ import Leaderboard from "./pages/Leaderboard";
 import supabase from "../../client/src/pages/supabaseclient";
 import Lessons from "./pages/Lessons";
 import SignIn from "./pages/SignIn";
+import SignOut from "./pages/SignOut";
 import Profile from "./pages/Profile";
 import React, { useEffect, useState } from "react";
 
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="leaderboard" element={<Leaderboard />} />
           <Route path="lessons" element={<Lessons />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="logout" element={<SignOut />} />
           <Route path="404" element={<NoPage />} />
          
         </Route>

@@ -14,7 +14,7 @@ export default function Home() {
           <h1>
             <strong>Total Progress</strong>
           </h1>
-          <CircularProgressWithLabel value={50} size={200} fontSize={20} />
+          <CircularProgressWithLabel value={50} size={150} fontSize={20} />
         </div>
       </div>
       <div style={styles.rightColumn}>
@@ -27,7 +27,7 @@ export default function Home() {
 const styles = {
   container: {
     padding: "20px",
-    height: "100vh",
+    height: "85vh",
     display: "flex",
     flexDirection: "row",
     backgroundColor: "white",
@@ -40,6 +40,7 @@ const styles = {
     gap: "100px",
     borderRight: "3px solid black", // Add a dividing line
     paddingRight: "20px",
+    height: '80%',
   },
   rightColumn: {
     display: "flex",

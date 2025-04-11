@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Quiz from '../components/Quiz.js';
 import { useLocation } from 'react-router';
 import supabase from './supabaseclient.js';
-import '../quizzes.css';  // Import the new CSS file
+import './index.css';  // Import the new CSS file
 
 function Quizzes () {
     // get lesson # from URL
@@ -121,29 +121,26 @@ function Quizzes () {
     };
 
     return (
-        <div className="quiz-wrapper">
-            <div className="quiz-container">
-                <h1 className="page-title">Lesson {lesson} Quiz</h1>
-                <Quiz 
-                    word={quizList[currentIndex]} 
-                    answers={getAnswerChoices(currentIndex, wordList)} 
-                    current_num={currentIndex}
-                    answeredQs={answeredQs} 
-                    onAnsweredQ={onAnsweredQ} 
-                />
-                <div className="quiz-navigation">
-                    <button onClick={setFirstQ}>&lt;&lt;</button>
-                    <button onClick={prevQ}>&lt;</button>
-                    &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
-                    <button onClick={nextQ}>&gt;</button>
-                    <button onClick={setLastQ}>&gt;&gt;</button>
-    
-                    &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp; {answeredQs >= quizList.length ? <span className="complete-message">Complete!</span> : ""}
-                </div>
+        <div className="quiz-container">
+            <h1 className="page-title">Lesson {lesson} Quiz</h1>
+            <Quiz 
+                word={quizList[currentIndex]} 
+                answers={getAnswerChoices(currentIndex, wordList)} 
+                current_num={currentIndex}
+                answeredQs={answeredQs} 
+                onAnsweredQ={onAnsweredQ} 
+            />
+            <div className="quiz-navigation">
+                <button onClick={setFirstQ}>&lt;&lt;</button>
+                <button onClick={prevQ}>&lt;</button>
+                &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
+                <button onClick={nextQ}>&gt;</button>
+                <button onClick={setLastQ}>&gt;&gt;</button>
+
+                &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp; {answeredQs >= quizList.length ? <span className="complete-message">Complete!</span> : ""}
             </div>
         </div>
     );
-    
 };
 
 export default Quizzes;

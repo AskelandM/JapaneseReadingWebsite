@@ -13,11 +13,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 20px;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #8d8b8b80;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+    max-width: 90vw;
+    margin: 40px auto; /* center and vertical spacing */
+}
+
+/* Optional: Wrap the entire page content */
+.quiz-wrapper {
+    display: flex;
+    justify-content: center;
 }
 
 /* Styling the navigation buttons container */
@@ -25,7 +33,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 25px;
+    flex-wrap: wrap;
 }
 
 /* Styling the buttons */
@@ -37,7 +46,7 @@
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     transition: background-color 0.3s ease;
 }
 
@@ -50,4 +59,28 @@
     font-size: 1.2rem;
     color: green;
     font-weight: bold;
+}
+
+/* 🎯 NEW: Style for the answer choice buttons */
+.answer-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.answer-buttons button {
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.answer-buttons button:hover {
+    background-color: #e6f0ff;
+    border-color: #007bff;
 }

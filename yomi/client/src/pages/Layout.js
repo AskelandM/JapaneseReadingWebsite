@@ -63,7 +63,16 @@ const Layout = () => {
             <FaTrophy style={{ fontSize: "2rem" }} />
           </Link>
 
-          <h1>YOMI</h1>
+          <h1 style={{ 
+            textAlign: 'center', 
+            color: '#ffffff', 
+            fontFamily: 'Arial, sans-serif', 
+            fontSize: '1.1em', 
+            fontWeight: 'bold',
+            padding: '20px 0' 
+          }}>
+            YOMI
+          </h1>
 
           {/* Profile Button */}
           <Link
@@ -87,7 +96,7 @@ const Layout = () => {
 
 const styles = {
   header: {
-    backgroundColor: "#A7C7E7",
+    backgroundColor:'rgb(22, 59, 97)',
     padding: "10px",
   },
   nav: {

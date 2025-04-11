@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Flashcard } from '../components/Flashcard.js';
-import '../flashcard.css';
-import { Box, Paper, ToggleButton, Typography } from '@mui/material';
+import './index.css';
+import { ToggleButton } from '@mui/material';
 import front_toggle_image from '../icons/front_toggle.png';
 import back_toggle_image from '../icons/back_toggle.png';
 import { useLocation } from 'react-router';
@@ -117,79 +117,45 @@ export function Flashcards() {
     }
 
     return (
-        <Box
-            sx={{
-                bgcolor: "#f5f5f5", // Light background
-                minHeight: "100vh",
-                py: 6,
-                px: 2,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "flex-start",
-            }}
-        >
-            <Paper
-                elevation={4}
-                sx={{
-                borderRadius: 4,
-                p: 4,
-                maxWidth: 500,
-                width: "90%",
-                textAlign: "center",
-                }}
-            >
-                <Typography variant="h4" gutterBottom>
-                Flashcards
-                </Typography>
-
-                {flashcards.length > 0 && flashcards[currentIndex] ? (
-                    !isSwapped ? (
-                        <Flashcard 
-                            frontContent={flashcards[currentIndex].front}
-                            backContent={flashcards[currentIndex].back}
-                        />
-                    ) : (
-                        <Flashcard 
-                            frontContent={flashcards[currentIndex].back}
-                            backContent={flashcards[currentIndex].front}
-                        />
-                    )
+        <div>
+            <h1 className='page-title'>Flashcards</h1>
+            {flashcards.length > 0 && flashcards[currentIndex] ? (
+                !isSwapped ? (
+                    <Flashcard 
+                        frontContent={flashcards[currentIndex].front}
+                        backContent={flashcards[currentIndex].back}
+                    />
                 ) : (
-                    <p>Loading flashcards...</p>
-                )}  
-
-                <Box mt={4}>
+                    <Flashcard 
+                        frontContent={flashcards[currentIndex].back}
+                        backContent={flashcards[currentIndex].front}
+                    />
+                )
+            ) : (
+                <p>Loading flashcards...</p> // Show a message while data loads
+            )}
+            <div>
                 <button onClick={setFirstCard}>&lt;&lt;</button>
                 <button onClick={prevCard}>&lt;</button>
                 <button onClick={nextCard}>&gt;</button>
                 <button onClick={setLastCard}>&gt;&gt;</button>
-                <div style={{ marginTop: '10px' }}>
-                    {currentIndex + 1} / {flashcards.length}
-                </div>
-                </Box>
-
-                <Box mt={3} display="flex" flexWrap="wrap" justifyContent="center" gap={2}>
-                <ToggleButton className="toggle-button" selected={isSwapped} onChange={() => setSwapped(prev => !prev)}>
-                    <img src={isSwapped ? back_toggle_image : front_toggle_image} alt="Flip" />
+                {currentIndex + 1} / {flashcards.length}
+                <ToggleButton value="check" selected={isSwapped} onChange={() => setSwapped((prevSelected) => !prevSelected)}>
+                    <img src={isSwapped ? back_toggle_image : front_toggle_image} alt="Toggle between the front and back of the card" />
                 </ToggleButton>
-
-                <ToggleButton className="toggle-button" selected={shuffled} onChange={shuffleFlashcards}>
-                    <img src={shuffled ? shuffle_on_icon : shuffle_icon} alt="Shuffle" />
+                <ToggleButton value="check" selected={shuffled} onChange={() => shuffleFlashcards((prevSelected) => !prevSelected)}>
+                    <img src={shuffled ? "shuffle_icon" : "shuffle_on_icon"} alt="Toggle shuffling the flashcards" />
                 </ToggleButton>
-                
-                <ToggleButton value="romaji" selected={showRomaji} onChange={() => setShowRomaji(prev => !prev)}>
+                <ToggleButton value="check" selected={showRomaji} onChange={() => setShowRomaji((prevSelected) => !prevSelected)}>
                     Romaji
                 </ToggleButton>
-                <ToggleButton value="kanji" selected={showKanji} onChange={() => setShowKanji(prev => !prev)}>
+                <ToggleButton value="check" selected={showKanji} onChange={() => setShowKanji((prevSelected) => !prevSelected)}>
                     Kanji
                 </ToggleButton>
-                <ToggleButton value="kana" selected={showKana} onChange={() => setShowKana(prev => !prev)}>
+                <ToggleButton value="check" selected={showKana} onChange={() => setShowKana((prevSelected) => !prevSelected)}>
                     Kana
                 </ToggleButton>
-                </Box>
-            </Paper>
-        </Box>
-
+            </div>
+        </div>
     );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const NotFound = () => {
   return (
@@ -24,7 +24,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "85vh",
+    height: "100vh",
     backgroundColor: "#f7f7f7",
     fontFamily: "'Arial', sans-serif",
   },
