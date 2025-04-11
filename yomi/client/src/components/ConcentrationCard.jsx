@@ -11,7 +11,6 @@ const ConcentrationCard = ({
 
   const handleFlip = () => {
     //onCardFlip will ensure whether the card can be flipped or not
-    console.log(words);
     setFlippedState(onCardFlip(wordIndex));
   };
 
