@@ -13,6 +13,7 @@ import Game from "./pages/Game";
 import Profile from "./pages/Profile";
 import React, { useEffect, useState } from "react";
 import QuizOptions from "./pages/QuizOptions";
+import Sentences from "./pages/Sentences";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +41,7 @@ export default function App() {
             <Route path="lessons" element={<Lessons />} />
             <Route path="profile" element={<Profile />} />
             <Route path="game" element={<Game />} />
+            <Route path="sentences" element={<Sentences />} />
           </Route>
         )}
       </Routes>
