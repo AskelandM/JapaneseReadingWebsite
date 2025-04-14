@@ -1,4 +1,4 @@
-import { Grid2, Box, Stack, Paper } from "@mui/material";
+import { Grid2, Paper } from "@mui/material";
 import { useState } from "react";
 const ConcentrationCard = ({
   wordIndex,
@@ -19,11 +19,12 @@ const ConcentrationCard = ({
       <Paper
         style={{
           backgroundColor: "white",
-          width: "20vh",
-          height: "20vh",
+          width: "22vh",
+          height: "22vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          overflow: "visible",
           cursor: "pointer",
           transition: "transform 0.3s ease-in-out",
           transform: flippedCards.includes(wordIndex)
