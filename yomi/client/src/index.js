@@ -33,7 +33,7 @@ export default function App() {
         {!user ? (
           <Route path="*" element={<SignIn />} />
         ) : (
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Layout setUser={setUser} />}>
             <Route index element={<Home />} />
             <Route path="quizzes" element={<Quizzes />} />
             <Route path="quizoptions" element={<QuizOptions />} />
