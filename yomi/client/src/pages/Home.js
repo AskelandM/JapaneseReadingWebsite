@@ -30,7 +30,7 @@ export default function Home() {
 const styles = {
   container: {
     padding: "20px",
-    height: "100vh",
+    height: "85vh",
     display: "flex",
     flexDirection: "row",
     backgroundColor: "white",
