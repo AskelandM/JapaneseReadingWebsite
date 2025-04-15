@@ -22,7 +22,7 @@ function Quizzes() {
   const [quizList, setQuiz] = useState([
     { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
   ]);
-
+ const [size, setSize] = useState(0);
   // get words from DB
   useEffect(() => {
     async function getWords() {
@@ -39,12 +39,15 @@ function Quizzes() {
 
     getWords();
   }, [lesson]);
-
+    
   // get words into quizList
   useEffect(() => {
     setQuiz(getQuestionChoices(wordList, qNum));
   }, [wordList]);
 
+  useEffect(() => {
+    setSize(wordList.length);
+  }, [wordList]);
   // keep track of current question and how many we've answered
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredQs, setAnsweredQs] = useState(0);
@@ -142,7 +145,9 @@ function Quizzes() {
         answers={getAnswerChoices(currentIndex, wordList)}
         current_num={currentIndex}
         answeredQs={answeredQs}
+        size = {size}
         onAnsweredQ={onAnsweredQ}
+        lesson={lesson} 
         format={{ kanji: kanji, kana: kana, en: en }}
       />
       <div>

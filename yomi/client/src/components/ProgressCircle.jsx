@@ -1,37 +1,24 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+// ProgressBar.js
+import React from 'react';
 
-function CircularProgressWithLabel(props) {
+const ProgressBar = ({ current = 0, total }) => {
+  const percentage = total === 0 ? 0 : (current / total) * 100;
+  console.log("Current:", current, "Total:", total, "Percent:", percentage);
   return (
-    <Box position="relative" display="inline-flex">
-      <CircularProgress
-        size={props.size}
-        color={
-          props.value < 25 ? "error" : props.value < 75 ? "warning" : "success"
-        }
-        variant="determinate"
-        value={props.value}
-      />
-      <Box
-        top={0}
-        left={0}
-        bottom={0}
-        right={0}
-        position="absolute"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="textSecondary"
-          fontSize={props.fontSize}
-        >
-          {Math.round(props.value)}
-        </Typography>
-      </Box>
-    </Box>
+    <div style={{
+      width: '80%',
+      height: '20px',
+      backgroundColor: '#eee',
+      borderRadius: '10px',
+      overflow: 'hidden'
+    }}>
+      <div style={{
+        width: `${percentage}%`,
+        height: '100%',
+        backgroundColor: '#3b82f6'
+      }} />
+    </div>
   );
-}
+};
 
-export default CircularProgressWithLabel;
+export default ProgressBar;
