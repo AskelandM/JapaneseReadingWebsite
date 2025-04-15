@@ -1,10 +1,17 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { FaHome, FaUser } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
 
-const Layout = () => {
+const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
+
   useEffect(() => {
     const checkUser = async () => {
       const {
@@ -42,7 +49,7 @@ const Layout = () => {
             to="/"
             style={{
               ...styles.homeIcon,
-              color: hoveredIcon === "home" ? "orange" : "white", // Change color on hover
+              color: hoveredIcon === "home" ? "orange" : "white",
             }}
             onMouseEnter={() => setHoveredIcon("home")}
             onMouseLeave={() => setHoveredIcon(null)}
@@ -54,13 +61,28 @@ const Layout = () => {
             to="/profile"
             style={{
               ...styles.profileIcon,
-              color: hoveredIcon === "profile" ? "orange" : "white", // Change color on hover
+              color: hoveredIcon === "profile" ? "orange" : "white",
             }}
             onMouseEnter={() => setHoveredIcon("profile")}
             onMouseLeave={() => setHoveredIcon(null)}
           >
             <FaUser style={{ fontSize: "2rem" }} />
           </Link>
+          <button
+            onClick={handleLogout}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: hoveredIcon === "logout" ? "orange" : "white",
+              fontSize: "1rem",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+            onMouseEnter={() => setHoveredIcon("logout")}
+            onMouseLeave={() => setHoveredIcon(null)}
+          >
+            Sign Out
+          </button>
         </nav>
       </header>
 

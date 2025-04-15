@@ -17,7 +17,7 @@ export default function Home() {
             <br/>
             <strong>Total Progress</strong>
           </h1>
-          <CircularProgressWithLabel value={50} size={200} fontSize={20} />
+        
         </div>
       </div>
       <div style={styles.rightColumn}>

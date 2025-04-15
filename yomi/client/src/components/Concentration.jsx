@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid2, Box, Stack, Paper } from "@mui/material";
+import { Grid2, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 import ConcentrationCard from "./ConcentrationCard";
 import supabase from "../supabaseclient.js";
@@ -11,12 +11,17 @@ async function fetchWords(lesson) {
 
   await supabase
     .from("Words")
-    .select("kana, English")
+    .select("kana, kanji, English")
     .eq("lesson", lesson)
     .then((response) => {
       response.data.forEach((word) => {
-        words.push([word.kana, word.English]);
+        if (word.kanji && word.kana) {
+          words.push([word.kanji + " (" + word.kana + ")", word.English]);
+        } else {
+          words.push([word.kana, word.English]);
+        }
       });
+
       // Shuffle the array
       words.sort(() => Math.random() - 0.5);
       words = words.slice(0, 8);
@@ -42,6 +47,7 @@ const Concentration = ({ lesson }) => {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
   const [shuffledArray, setShuffledArray] = useState([]);
+  const [wonGame, setWonGame] = useState(false);
   const [gameAnswers, setGameAnswers] = useState({});
 
   const handleCardFlip = (wordIndex) => {
@@ -66,6 +72,7 @@ const Concentration = ({ lesson }) => {
       fetchWords(lesson).then((data) => {
         setShuffledArray(data.res);
         setGameAnswers(data.answers);
+        console.log(data.answers);
       });
     }
 
@@ -80,6 +87,11 @@ const Concentration = ({ lesson }) => {
         console.log("MATCH");
         matchedCards.push(firstCard);
         matchedCards.push(secondCard);
+
+        if (matchedCards.length === shuffledArray.length) {
+          console.log("YOU WON");
+          setWonGame(true);
+        }
       } else {
         console.log("NO MATCH");
       }
@@ -93,10 +105,14 @@ const Concentration = ({ lesson }) => {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
+      <h1 style={{ textAlign: "center", color: "green" }}>
+        {wonGame ? "YOU WIN" : ""}
+      </h1>
       <Grid2 container spacing={2}>
         {Array.from({ length: 4 }).map((_, rowIndex) => (
           <Stack spacing={1}>
