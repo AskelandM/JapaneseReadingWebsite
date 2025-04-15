@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTrophy } from "react-icons/fa";
+import supabase from "../supabaseclient.js";
 import {
   Table,
   TableBody,
@@ -17,21 +18,28 @@ const Leaderboard = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("http://localhost:4000/api/leaderboard");
-        if (!response.ok) {
-          throw new Error("Failed to fetch leaderboard data");
-        }
-        const data = await response.json();
-        setLeaderboardData(data);
-      } catch (error) {
-        console.log(error);
-        setError("Unable to load leaderboard. Please try again later.");
-      }
-    }
+    const correctPoints = async () => {
+      const { data: correctData, error } = await supabase
+        .from("leaderBoard_points")
+        .select("*");
 
-    fetchData();
+      if (error) {
+        console.error("Error fetching leaderboard:", error);
+        setError(error);
+      } else {
+        const mapped = correctData
+          .sort((a, b) => b.user_points - a.user_points)
+          .map((row, index) => ({
+            rank: index + 1,
+            name: row.userName,
+            score: row.user_points,
+          }));
+
+        setLeaderboardData(mapped);
+      }
+    };
+
+    correctPoints();
   }, []);
 
   return (
