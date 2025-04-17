@@ -1,11 +1,11 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
-import { FaHome, FaUser } from "react-icons/fa";
+import { Outlet, Link } from "react-router-dom";
+import { FaHome, FaUser, FaTrophy, FaBook, FaSearch, FaSignOutAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
+import "../layout.css";
 
 const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
-  
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -43,72 +43,49 @@ const Layout = ({ setUser }) => {
 
   return (
     <>
-      <header style={styles.header}>
-        <nav style={styles.nav}>
-          <Link
-            to="/"
-            style={{
-              ...styles.homeIcon,
-              color: hoveredIcon === "home" ? "orange" : "white",
-            }}
-            onMouseEnter={() => setHoveredIcon("home")}
-            onMouseLeave={() => setHoveredIcon(null)}
-          >
+      <nav className="nav">
+        <div className="nav-section">
+          <Link to="/">
             <FaHome style={{ fontSize: "2rem" }} />
           </Link>
+          <Link to="/leaderboard">
+            <FaTrophy style={{ fontSize: "2rem" }} />
+          </Link>
+          <Link to="/lessons">
+            <FaBook style={{ fontSize: "2rem" }} />
+          </Link>
+          <Link to="/sentences">
+            <FaSearch style={{ fontSize: "2rem" }} />
+          </Link>
+        </div>
+
+        <div className="nav-center">
           <h1>YOMI</h1>
-          <Link
-            to="/profile"
-            style={{
-              ...styles.profileIcon,
-              color: hoveredIcon === "profile" ? "orange" : "white",
-            }}
-            onMouseEnter={() => setHoveredIcon("profile")}
-            onMouseLeave={() => setHoveredIcon(null)}
-          >
+          <img
+            src="/images/gator_student.png"
+            alt="YOMI logo"
+            className="logo-image"
+          />
+        </div>
+
+        <div className="nav-section">
+          <Link to="/profile">
             <FaUser style={{ fontSize: "2rem" }} />
           </Link>
           <button
             onClick={handleLogout}
-            style={{
-              background: "transparent",
-              border: "none",
-              color: hoveredIcon === "logout" ? "orange" : "white",
-              fontSize: "1rem",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
+            className="logout-button"
             onMouseEnter={() => setHoveredIcon("logout")}
             onMouseLeave={() => setHoveredIcon(null)}
           >
-            Sign Out
+            <FaSignOutAlt style={{ fontSize: "2rem" }} />
           </button>
-        </nav>
-      </header>
+        </div>
+      </nav>
 
       <Outlet />
     </>
   );
-};
-
-const styles = {
-  header: {
-    backgroundColor: "#A7C7E7",
-    padding: "10px",
-  },
-  nav: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  homeIcon: {
-    textDecoration: "none",
-    transition: "color 0.1s",
-  },
-  profileIcon: {
-    textDecoration: "none",
-    transition: "color 0.1s",
-  },
 };
 
 export default Layout;
