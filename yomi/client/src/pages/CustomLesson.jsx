@@ -22,7 +22,7 @@ const CustomLesson = () => {
   };
 
   const generateUniqueId = () => {
-    return Math.floor(Math.random() * 1000000);
+    return Math.floor(Math.random() * 1000000) + 100;
   };
 
   const isDuplicateTitle = async (title) => {
