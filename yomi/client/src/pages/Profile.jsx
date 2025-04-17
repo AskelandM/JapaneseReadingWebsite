@@ -12,23 +12,23 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import supabase from "./supabaseclient";
+import supabase from "../supabaseclient";
 import { useEffect, useState } from "react";
 
 function Profile() {
   const [Username, setUsername] = useState(null);
-  
+
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUsername(user.email);
       console.log(user);
     };
-    
 
     checkUser();
   }, []);
-
 
   return (
     <Box sx={{ maxWidth: "1200px", margin: "0 auto", padding: 2 }}>
@@ -36,7 +36,7 @@ function Profile() {
       <Box sx={{ display: "flex", alignItems: "center", marginBottom: 3 }}>
         <Avatar
           alt="User Avatar"
-          src="https://via.placeholder.com/150"
+          src="images/oni.png"
           sx={{ width: 100, height: 100, marginRight: 3 }}
         />
         <Box>

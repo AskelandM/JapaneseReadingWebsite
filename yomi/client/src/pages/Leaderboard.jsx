@@ -43,15 +43,7 @@ const Leaderboard = () => {
       </Typography>
       <TableContainer
         component={Paper}
-        sx={{
-          borderRadius: 4,
-          overflow: "hidden",
-          maxWidth: 600, // adjust as needed
-          mx: "auto", // horizontally center the container
-          mt: 4,
-          bgcolor: "#f5f5f5",
-          boxShadow: 3,
-        }}
+        sx={{ borderRadius: 4, overflow: "hidden" }}
       >
         <Table>
           <TableHead>

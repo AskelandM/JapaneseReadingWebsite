@@ -1,14 +1,22 @@
 import { Outlet, Link } from "react-router-dom";
-import { FaHome, FaUser, FaTrophy } from "react-icons/fa"; // Import FaTrophy for leaderboard icon
+import { FaHome, FaUser, FaTrophy, FaBook, FaSearch, FaSignOutAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import supabase from './supabaseclient.js';
+import supabase from "../supabaseclient.js";
+import "../layout.css";
 
-const Layout = () => {
+const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
 
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) return;
 
@@ -19,7 +27,7 @@ const Layout = () => {
         .single();
 
       if (!userData) {
-        await supabase.from("usersLogin").insert([ 
+        await supabase.from("usersLogin").insert([
           {
             id: user.id,
             email: user.email,
@@ -35,89 +43,49 @@ const Layout = () => {
 
   return (
     <>
-      <header style={styles.header}>
-        <nav style={styles.nav}>
-          {/* Home Button */}
-          <Link
-            to="/"
-            style={{
-              ...styles.homeIcon,
-              color: hoveredIcon === "home" ? "orange" : "white", // Change color on hover
-            }}
-            onMouseEnter={() => setHoveredIcon("home")}
-            onMouseLeave={() => setHoveredIcon(null)}
-          >
+      <nav className="nav">
+        <div className="nav-section">
+          <Link to="/">
             <FaHome style={{ fontSize: "2rem" }} />
           </Link>
-
-          {/* Leaderboard Button */}
-          <Link
-            to="/leaderboard"
-            style={{
-              ...styles.leaderboardIcon,
-              color: hoveredIcon === "leaderboard" ? "orange" : "white", // Change color on hover
-            }}
-            onMouseEnter={() => setHoveredIcon("leaderboard")}
-            onMouseLeave={() => setHoveredIcon(null)}
-          >
+          <Link to="/leaderboard">
             <FaTrophy style={{ fontSize: "2rem" }} />
           </Link>
+          <Link to="/lessons">
+            <FaBook style={{ fontSize: "2rem" }} />
+          </Link>
+          <Link to="/sentences">
+            <FaSearch style={{ fontSize: "2rem" }} />
+          </Link>
+        </div>
 
-          <h1 style={{ 
-            textAlign: 'center', 
-            color: '#ffffff', 
-            fontFamily: 'Arial, sans-serif', 
-            fontSize: '1.1em', 
-            fontWeight: 'bold',
-            padding: '20px 0' 
-          }}>
-            YOMI
-          </h1>
+        <div className="nav-center">
+          <h1>YOMI</h1>
+          <img
+            src="/images/gator_student.png"
+            alt="YOMI logo"
+            className="logo-image"
+          />
+        </div>
 
-          {/* Profile Button */}
-          <Link
-            to="/profile"
-            style={{
-              ...styles.profileIcon,
-              color: hoveredIcon === "profile" ? "orange" : "white", // Change color on hover
-            }}
-            onMouseEnter={() => setHoveredIcon("profile")}
-            onMouseLeave={() => setHoveredIcon(null)}
-          >
+        <div className="nav-section">
+          <Link to="/profile">
             <FaUser style={{ fontSize: "2rem" }} />
           </Link>
-        </nav>
-      </header>
+          <button
+            onClick={handleLogout}
+            className="logout-button"
+            onMouseEnter={() => setHoveredIcon("logout")}
+            onMouseLeave={() => setHoveredIcon(null)}
+          >
+            <FaSignOutAlt style={{ fontSize: "2rem" }} />
+          </button>
+        </div>
+      </nav>
 
       <Outlet />
     </>
   );
-};
-
-const styles = {
-  header: {
-    backgroundColor:'rgb(22, 59, 97)',
-    padding: "10px",
-  },
-  nav: {
-    display: "flex",
-    alignItems: "center",
-  },
-  homeIcon: {
-    textDecoration: "none",
-    transition: "color 0.1s",
-    marginRight: "20px", // Space between Home and Leaderboard buttons
-  },
-  leaderboardIcon: {
-    textDecoration: "none",
-    transition: "color 0.1s",
-    marginRight: "895px", // Space between Leaderboard and Profile buttons
-  },
-  profileIcon: {
-    textDecoration: "none",
-    transition: "color 0.1s",
-    marginLeft: "930px",
-  },
 };
 
 export default Layout;

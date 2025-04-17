@@ -1,6 +1,7 @@
 import React from "react";
 import Leaderboard from "./Leaderboard";
 import Lessons from "./Lessons";
+import { Link } from "react-router-dom";
 import CircularProgressWithLabel from "../components/ProgressCircle";
 
 export default function Home() {
@@ -10,12 +11,7 @@ export default function Home() {
         <div style={styles.leaderboard}>
           <Leaderboard> </Leaderboard>
         </div>
-        <div style={{ textAlign: "center" }}>
-          <h1>
-            <strong>Total Progress</strong>
-          </h1>
-          <CircularProgressWithLabel value={50} size={150} fontSize={20} />
-        </div>
+        
       </div>
       <div style={styles.rightColumn}>
         <Lessons />
@@ -40,7 +36,6 @@ const styles = {
     gap: "100px",
     borderRight: "3px solid black", // Add a dividing line
     paddingRight: "20px",
-    height: '80%',
   },
   rightColumn: {
     display: "flex",
