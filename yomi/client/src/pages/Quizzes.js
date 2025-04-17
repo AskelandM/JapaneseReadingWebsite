@@ -30,18 +30,28 @@ function Quizzes() {
       { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
       { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." }],
   ]);
- const [size, setSize] = useState(0);
+  const [size, setSize] = useState(0);
+
+  // get this user
+  const [Username, setUsername] = useState(null);
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUsername(user.email);
+      console.log(Username);
+    };
+
+    checkUser();
+  }, []);
+
   // get words from DB
   useEffect(() => {
     async function getWords() {
       const { data, error } = await supabase
         .from("Words")
         .select(`id, kana, kanji, English`)
-        //
-        // .select('id, word, UserWords!inner(user_id, known)')
-        // .eq('UserWords.user_id', user.id)
-        // .eq('UserWords.known', true);
-        //
         .eq("lesson", lesson);
       if (error) {
         console.warn(error);
@@ -50,7 +60,43 @@ function Quizzes() {
       }
     }
 
-    getWords();
+    async function getMissedWords() {
+      const { data, error } = await supabase
+        .from("Words")
+        .select(`
+          id,
+          kana,
+          kanji,
+          English,
+          lesson,
+          missedPool!inner(
+            userName,
+            failed_times
+          )
+        `)
+        .eq("lesson", lesson)
+        // .eq("missedPool.userName", Username)
+        .gt("missedPool.failed_times", 0);
+      if (error) {
+        console.warn(error);
+      } else if (data) {
+        if (data.length > 0) {
+          setWords(data);
+        }
+        else {
+          setWords([{ id: 0, kana: "Empty (No missed words)", kanji: "Empty (No missed words)", English: "Empty (No missed words)" }]);
+        }
+      }
+    }
+
+    if (missed === "t") {
+      getMissedWords();
+      console.log("missed words");
+    }
+    else {
+      getWords();
+      console.log("not missed words");
+    }
   }, [lesson]);
     
   // get words into quizList
@@ -112,7 +158,7 @@ function Quizzes() {
       // already exists; do not recreate
       return quizList;
     }
-    if (quizLength === 0 || quizLength === "0") {
+    if (quizLength === 0 || quizLength === "0" || wordList.length < qNum) {
       // all questions
       quizLength = wordList.length;
     }
