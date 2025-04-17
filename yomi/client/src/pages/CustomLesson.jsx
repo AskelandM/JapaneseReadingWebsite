@@ -46,6 +46,10 @@ const CustomLesson = () => {
   const handleSave = async () => {
     if (await isDuplicateTitle(lessonTitle)) {
       alert("Lesson title already exists, please choose another one");
+    } else if (lessonTitle === "") {
+      alert("Please enter a lesson title");
+    } else if (entries.length === 0) {
+      alert("Please add at least one word to the lesson");
     } else {
       try {
         const lessonId = generateUniqueId();
