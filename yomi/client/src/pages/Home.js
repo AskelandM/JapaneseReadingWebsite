@@ -34,13 +34,6 @@ export default function Home(currUser) {
         <div style={styles.leaderboard}>
           <Leaderboard> </Leaderboard>
         </div>
-        <div style={{ textAlign: "center" }}>
-          <h1>
-            <Link to={{ pathname: "/sentences" }}>Example Sentence Search</Link>
-            <br />
-            <strong>Total Progress</strong>
-          </h1>
-        </div>
       </div>
       <div style={styles.rightColumn}>
         <Lessons />

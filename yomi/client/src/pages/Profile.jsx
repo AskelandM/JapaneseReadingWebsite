@@ -36,7 +36,7 @@ function Profile() {
       <Box sx={{ display: "flex", alignItems: "center", marginBottom: 3 }}>
         <Avatar
           alt="User Avatar"
-          src="https://via.placeholder.com/150"
+          src="images/oni.png"
           sx={{ width: 100, height: 100, marginRight: 3 }}
         />
         <Box>
