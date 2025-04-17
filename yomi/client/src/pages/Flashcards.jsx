@@ -211,5 +211,4 @@ export function Flashcards() {
     </div>
   );
   
-  
 }

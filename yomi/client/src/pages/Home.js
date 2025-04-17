@@ -11,7 +11,6 @@ export default function Home() {
         <div style={styles.leaderboard}>
           <Leaderboard> </Leaderboard>
         </div>
-        
       </div>
       <div style={styles.rightColumn}>
         <Lessons />
