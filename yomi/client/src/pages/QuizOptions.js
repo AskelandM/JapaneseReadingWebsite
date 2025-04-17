@@ -17,6 +17,7 @@ function QuizOptions () {
     const [kanji, setKanji] = useState("q");
     const [kana, setKana] = useState("q");
     const [en, setEn] = useState("a");
+    const [missed, setMissed] = useState("f");
 
     const handleQNum = (event, newQNum) => {
         setQNum(newQNum);
@@ -30,11 +31,28 @@ function QuizOptions () {
     const handleEn = (event, newEn) => {
         setEn(newEn);
     };
+    const handleMissed = (event, newMissed) => {
+        setMissed(newMissed);
+    };
 
     return (
         <div>
             <br/>
             <h1 className='page-title'>Lesson {lesson} Quiz</h1>
+            <ToggleButtonGroup
+                value={missed}
+                exclusive
+                onChange={handleMissed}
+                aria-label="missed"
+                >
+                <ToggleButton value="f" aria-label="all">
+                    All
+                </ToggleButton>
+                <ToggleButton value="t" aria-label="missed">
+                    Missed Questions Only
+                </ToggleButton>
+            </ToggleButtonGroup>
+            <br/>
             <p>Number of Questions:</p>
             <ToggleButtonGroup
                 value={qNum}

@@ -171,15 +171,14 @@ console.log('size')
           <div/>
     <div className="question">
       <h2>
-    
-        {format.kanji == "q" ? word.kanji + " " : ""}
         {format.kana == "q" ? word.kana + " " : ""}
+        {format.kanji == "q" ? word.kanji + " " : ""}
         {format.en == "q" ? word.English + " " : ""}
       </h2>
       {answers.map((answer) => (
         <Button variant="contained" onClick={() => handleClick(answer)}>
-          {format.kanji == "a" ? answer.kanji + " " : ""}
           {format.kana == "a" ? answer.kana + " " : ""}
+          {format.kanji == "a" ? answer.kanji + " " : ""}
           {format.en == "a" ? answer.English + " " : ""}
         </Button>
       ))}

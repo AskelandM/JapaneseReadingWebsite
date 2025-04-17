@@ -13,6 +13,7 @@ function Quizzes() {
   const kanji = searchParams.get("kj");
   const kana = searchParams.get("kn");
   const en = searchParams.get("en");
+  const missed = searchParams.get("missed");
 
   // all words for this lesson
   const [wordList, setWords] = useState([
@@ -22,6 +23,13 @@ function Quizzes() {
   const [quizList, setQuiz] = useState([
     { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
   ]);
+  // all possible answers for this quiz
+  const [answerList, setAnswer] = useState([
+    [{ id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
+      { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
+      { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
+      { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." }],
+  ]);
  const [size, setSize] = useState(0);
   // get words from DB
   useEffect(() => {
@@ -29,6 +37,11 @@ function Quizzes() {
       const { data, error } = await supabase
         .from("Words")
         .select(`id, kana, kanji, English`)
+        //
+        // .select('id, word, UserWords!inner(user_id, known)')
+        // .eq('UserWords.user_id', user.id)
+        // .eq('UserWords.known', true);
+        //
         .eq("lesson", lesson);
       if (error) {
         console.warn(error);
@@ -45,6 +58,15 @@ function Quizzes() {
     setQuiz(getQuestionChoices(wordList, qNum));
   }, [wordList]);
 
+  // get words into answerList
+  useEffect(() => {
+    let ansBank = [];
+    quizList.map((row) => {
+      ansBank = [...ansBank, getAnswerChoices(row, wordList)];
+    })
+    setAnswer(ansBank);
+  }, [quizList])
+
   useEffect(() => {
     setSize(wordList.length);
   }, [wordList]);
@@ -55,7 +77,10 @@ function Quizzes() {
   const nextQ = () => {
     // only lets you advance if you got this Q right
     if (answeredQs > currentIndex) {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % quizList.length);
+      // don't go past number of questions
+      if (currentIndex < qNum - 1 || (qNum == 0 && currentIndex < quizList.length - 1)) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1));
+      }
     }
   };
 
@@ -104,16 +129,16 @@ function Quizzes() {
   };
 
   // function to choose 3 random wordList that aren't the word in question + the word (for mult choice answers)
-  const getAnswerChoices = (index, wordList) => {
+  const getAnswerChoices = (correct_ans, wordList) => {
     if (wordList.length <= 1) {
       // not yet loaded
       return [];
     }
     let answerBank = wordList.slice();
-    let answers = [quizList[index]];
+    let answers = [correct_ans];
     // remove the correct answer from possible answers
     answerBank = answerBank.filter((val) => {
-      return val.id !== quizList[index].id;
+      return val.id !== correct_ans.id;
     });
     let randInt = 0;
     for (let i = 0; i < 3; i++) {
@@ -142,7 +167,7 @@ function Quizzes() {
       <h1 className="page-title">Lesson {lesson} Quiz</h1>
       <Quiz
         word={quizList[currentIndex]}
-        answers={getAnswerChoices(currentIndex, wordList)}
+        answers={answerList[currentIndex]}
         current_num={currentIndex}
         answeredQs={answeredQs}
         size = {size}
