@@ -46,7 +46,7 @@ export default function App() {
             <Route path="game" element={<Game />} />
             <Route path="sentences" element={<Sentences />} />
             <Route path="vocab" element={<Vocab />} />
-            <Route path="custom" element={<CustomLesson />} />
+            <Route path="custom" element={<CustomLesson currUser={user} />} />
           </Route>
         )}
       </Routes>

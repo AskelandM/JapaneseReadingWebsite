@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import supabase from "../supabaseclient";
 
-const CustomLesson = () => {
+const CustomLesson = (currUser) => {
   const [entries, setEntries] = useState([]);
   const [lessonTitle, setLessonTitle] = useState("");
 
@@ -44,6 +44,7 @@ const CustomLesson = () => {
   };
 
   const handleSave = async () => {
+    console.log(currUser.currUser.email);
     if (await isDuplicateTitle(lessonTitle)) {
       alert("Lesson title already exists, please choose another one");
     } else if (lessonTitle === "") {
@@ -55,7 +56,11 @@ const CustomLesson = () => {
         const lessonId = generateUniqueId();
         await supabase
           .from("lessons")
-          .insert({ id: lessonId, title: lessonTitle })
+          .insert({
+            id: lessonId,
+            title: lessonTitle,
+            creator: currUser.currUser.email,
+          })
           .then((response) => {
             console.log("Lesson saved with id:", lessonId);
           });
