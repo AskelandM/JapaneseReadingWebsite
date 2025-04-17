@@ -44,7 +44,6 @@ const CustomLesson = (currUser) => {
   };
 
   const handleSave = async () => {
-    console.log(currUser.currUser.email);
     if (await isDuplicateTitle(lessonTitle)) {
       alert("Lesson title already exists, please choose another one");
     } else if (lessonTitle === "") {

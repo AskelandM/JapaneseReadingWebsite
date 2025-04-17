@@ -36,7 +36,7 @@ export default function App() {
           <Route path="*" element={<SignIn />} />
         ) : (
           <Route path="/" element={<Layout setUser={setUser} />}>
-            <Route index element={<Home />} />
+            <Route index element={<Home currUser={user} />} />
             <Route path="quizzes" element={<Quizzes />} />
             <Route path="quizoptions" element={<QuizOptions />} />
             <Route path="flashcards" element={<Flashcards />} />
