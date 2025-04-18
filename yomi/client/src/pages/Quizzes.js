@@ -40,10 +40,10 @@ function Quizzes() {
         data: { user },
       } = await supabase.auth.getUser();
       setUsername(user.email);
-      console.log(Username);
     };
 
     checkUser();
+    console.log(Username);
   }, []);
 
   // get words from DB
@@ -61,22 +61,10 @@ function Quizzes() {
     }
 
     async function getMissedWords() {
-      const { data, error } = await supabase
-        .from("Words")
-        .select(`
-          id,
-          kana,
-          kanji,
-          English,
-          lesson,
-          missedPool!inner(
-            userName,
-            failed_times
-          )
-        `)
-        .eq("lesson", lesson)
-        // .eq("missedPool.userName", Username)
-        .gt("missedPool.failed_times", 0);
+      const { data, error } = await supabase.rpc("get_missed_words", {
+        target_username: Username,
+        target_lesson: lesson
+      });
       if (error) {
         console.warn(error);
       } else if (data) {
@@ -84,7 +72,7 @@ function Quizzes() {
           setWords(data);
         }
         else {
-          setWords([{ id: 0, kana: "Empty (No missed words)", kanji: "Empty (No missed words)", English: "Empty (No missed words)" }]);
+          setWords([{ id: 0, kana: "Empty", kanji: "(No missed words)", English: "Empty (No missed words)" }]);
         }
       }
     }
@@ -97,8 +85,10 @@ function Quizzes() {
       getWords();
       console.log("not missed words");
     }
-  }, [lesson]);
+  }, [lesson, Username]);
     
+
+
   // get words into quizList
   useEffect(() => {
     setQuiz(getQuestionChoices(wordList, qNum));
@@ -116,6 +106,9 @@ function Quizzes() {
   useEffect(() => {
     setSize(wordList.length);
   }, [wordList]);
+
+
+
   // keep track of current question and how many we've answered
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredQs, setAnsweredQs] = useState(0);
@@ -151,6 +144,8 @@ function Quizzes() {
       setCurrentIndex(quizList.length - 1);
     }
   };
+
+
 
   // function to choose 10 random words for each quiz
   const getQuestionChoices = (wordList, quizLength) => {
@@ -206,6 +201,9 @@ function Quizzes() {
       setAnsweredQs(answeredQs + 1);
     }
   };
+
+
+
 
   return (
     <div>
