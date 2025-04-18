@@ -8,20 +8,25 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 3px solid #000000;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
 }
   
 .nav-section {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
 }
   
 .nav-center {
-    flex: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    justify-content: center;
     align-items: center;
+    pointer-events: none; /* optional: allows clicks to pass through */
 }
   
 .nav h1 {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Flashcard } from "../components/Flashcard.js";
-import "../flashcard.css";
+import "../styling/flashcard.css";
 import { ToggleButton } from "@mui/material";
 import { useLocation } from "react-router";
 import supabase from "../supabaseclient.js";

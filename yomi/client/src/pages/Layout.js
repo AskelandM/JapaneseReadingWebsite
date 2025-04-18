@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
-import "../layout.css";
+import "../styling/layout.css";
 import authTeacher from "./util.js";
 
 const Layout = ({ setUser }) => {

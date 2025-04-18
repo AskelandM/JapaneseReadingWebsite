@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Quiz from "../components/Quiz.js";
 import { useLocation } from "react-router";
 import supabase from "../supabaseclient.js";
-import "../flashcard.css";
+import "../styling/flashcard.css";
 
 function Quizzes() {
   // get lesson # from URL
@@ -13,6 +13,7 @@ function Quizzes() {
   const kanji = searchParams.get("kj");
   const kana = searchParams.get("kn");
   const en = searchParams.get("en");
+  const missed = searchParams.get("missed");
 
   // all words for this lesson
   const [wordList, setWords] = useState([
@@ -22,7 +23,29 @@ function Quizzes() {
   const [quizList, setQuiz] = useState([
     { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
   ]);
- const [size, setSize] = useState(0);
+  // all possible answers for this quiz
+  const [answerList, setAnswer] = useState([
+    [{ id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
+      { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
+      { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." },
+      { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." }],
+  ]);
+  const [size, setSize] = useState(0);
+
+  // get this user
+  const [Username, setUsername] = useState(null);
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUsername(user.email);
+    };
+
+    checkUser();
+    console.log(Username);
+  }, []);
+
   // get words from DB
   useEffect(() => {
     async function getWords() {
@@ -37,17 +60,55 @@ function Quizzes() {
       }
     }
 
-    getWords();
-  }, [lesson]);
+    async function getMissedWords() {
+      const { data, error } = await supabase.rpc("get_missed_words", {
+        target_username: Username,
+        target_lesson: lesson
+      });
+      if (error) {
+        console.warn(error);
+      } else if (data) {
+        if (data.length > 0) {
+          setWords(data);
+        }
+        else {
+          setWords([{ id: 0, kana: "Empty", kanji: "(No missed words)", English: "Empty (No missed words)" }]);
+        }
+      }
+    }
+
+    if (missed === "t") {
+      getMissedWords();
+      console.log("missed words");
+    }
+    else {
+      getWords();
+      console.log("not missed words");
+    }
+  }, [lesson, Username]);
     
+
+
   // get words into quizList
   useEffect(() => {
     setQuiz(getQuestionChoices(wordList, qNum));
   }, [wordList]);
 
+  // get words into answerList
+  useEffect(() => {
+    let ansBank = [];
+    quizList.map((row) => {
+      ansBank = [...ansBank, getAnswerChoices(row, wordList)];
+    })
+    setAnswer(ansBank);
+  }, [quizList])
+
   useEffect(() => {
     setSize(wordList.length);
   }, [wordList]);
+
+
+
   // keep track of current question and how many we've answered
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredQs, setAnsweredQs] = useState(0);
@@ -55,7 +116,10 @@ function Quizzes() {
   const nextQ = () => {
     // only lets you advance if you got this Q right
     if (answeredQs > currentIndex) {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % quizList.length);
+      // don't go past number of questions
+      if (currentIndex < qNum - 1 || (qNum == 0 && currentIndex < quizList.length - 1)) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1));
+      }
     }
   };
 
@@ -81,13 +145,15 @@ function Quizzes() {
     }
   };
 
+
+
   // function to choose 10 random words for each quiz
   const getQuestionChoices = (wordList, quizLength) => {
     if (answeredQs > 0) {
       // already exists; do not recreate
       return quizList;
     }
-    if (quizLength === 0 || quizLength === "0") {
+    if (quizLength === 0 || quizLength === "0" || wordList.length < qNum) {
       // all questions
       quizLength = wordList.length;
     }
@@ -104,16 +170,16 @@ function Quizzes() {
   };
 
   // function to choose 3 random wordList that aren't the word in question + the word (for mult choice answers)
-  const getAnswerChoices = (index, wordList) => {
+  const getAnswerChoices = (correct_ans, wordList) => {
     if (wordList.length <= 1) {
       // not yet loaded
       return [];
     }
     let answerBank = wordList.slice();
-    let answers = [quizList[index]];
+    let answers = [correct_ans];
     // remove the correct answer from possible answers
     answerBank = answerBank.filter((val) => {
-      return val.id !== quizList[index].id;
+      return val.id !== correct_ans.id;
     });
     let randInt = 0;
     for (let i = 0; i < 3; i++) {
@@ -136,13 +202,16 @@ function Quizzes() {
     }
   };
 
+
+
+
   return (
     <div>
       <br />
       <h1 className="page-title">Lesson {lesson} Quiz</h1>
       <Quiz
         word={quizList[currentIndex]}
-        answers={getAnswerChoices(currentIndex, wordList)}
+        answers={answerList[currentIndex]}
         current_num={currentIndex}
         answeredQs={answeredQs}
         size = {size}
