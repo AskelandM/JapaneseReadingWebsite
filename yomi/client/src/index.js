@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import QuizOptions from "./pages/QuizOptions";
 import Sentences from "./pages/Sentences";
 import Vocab from "./pages/Vocab";
+import CustomLesson from "./pages/CustomLesson";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -35,7 +36,7 @@ export default function App() {
           <Route path="*" element={<SignIn />} />
         ) : (
           <Route path="/" element={<Layout setUser={setUser} />}>
-            <Route index element={<Home />} />
+            <Route index element={<Home currUser={user} />} />
             <Route path="quizzes" element={<Quizzes />} />
             <Route path="quizoptions" element={<QuizOptions />} />
             <Route path="flashcards" element={<Flashcards />} />
@@ -45,6 +46,7 @@ export default function App() {
             <Route path="game" element={<Game />} />
             <Route path="sentences" element={<Sentences />} />
             <Route path="vocab" element={<Vocab />} />
+            <Route path="custom" element={<CustomLesson currUser={user} />} />
           </Route>
         )}
       </Routes>
