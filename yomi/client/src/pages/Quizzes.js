@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Quiz from "../components/Quiz.js";
 import { useLocation } from "react-router";
 import supabase from "../supabaseclient.js";
-import "../flashcard.css";
+import "../styling/flashcard.css";
 
 function Quizzes() {
   // get lesson # from URL

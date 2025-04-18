@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import supabase from "../supabaseclient.js";
-import "../signin.css";
+import "../styling/signin.css";
 
 const SignIn = () => {
   const handleLogin = async () => {

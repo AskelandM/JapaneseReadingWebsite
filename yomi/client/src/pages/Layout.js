@@ -2,7 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import { FaHome, FaUser, FaTrophy, FaBook, FaSearch, FaSignOutAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
-import "../layout.css";
+import "../styling/layout.css";
 
 const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
