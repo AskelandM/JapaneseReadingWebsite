@@ -92,19 +92,23 @@ const CustomLesson = (currUser) => {
         onChange={(e) => setLessonTitle(e.target.value)}
         placeholder="Enter Lesson Title"
       />
-      <table>
+      <table style={{ borderCollapse: "collapse", width: "100%" }}>
         <thead>
           <tr>
-            <th>Kanji</th>
-            <th>Kana</th>
-            <th>Romaji</th>
-            <th>English</th>
+            <th style={{ border: "1px solid black", padding: "8px" }}>Kanji</th>
+            <th style={{ border: "1px solid black", padding: "8px" }}>Kana</th>
+            <th style={{ border: "1px solid black", padding: "8px" }}>
+              Romaji
+            </th>
+            <th style={{ border: "1px solid black", padding: "8px" }}>
+              English
+            </th>
           </tr>
         </thead>
         <tbody>
           {entries.map((entry, index) => (
             <tr key={index}>
-              <td>
+              <td style={{ border: "1px solid black", padding: "8px" }}>
                 <input
                   type="text"
                   value={entry.kanji}
@@ -113,7 +117,7 @@ const CustomLesson = (currUser) => {
                   }
                 />
               </td>
-              <td>
+              <td style={{ border: "1px solid black", padding: "8px" }}>
                 <input
                   type="text"
                   value={entry.kana}
@@ -122,7 +126,7 @@ const CustomLesson = (currUser) => {
                   }
                 />
               </td>
-              <td>
+              <td style={{ border: "1px solid black", padding: "8px" }}>
                 <input
                   type="text"
                   value={entry.romaji}
@@ -131,7 +135,7 @@ const CustomLesson = (currUser) => {
                   }
                 />
               </td>
-              <td>
+              <td style={{ border: "1px solid black", padding: "8px" }}>
                 <input
                   type="text"
                   value={entry.english}
@@ -140,7 +144,7 @@ const CustomLesson = (currUser) => {
                   }
                 />
               </td>
-              <td>
+              <td style={{ border: "1px solid black", padding: "8px" }}>
                 <button onClick={() => handleRemoveEntry(index)}>Remove</button>
               </td>
             </tr>
