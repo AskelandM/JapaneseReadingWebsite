@@ -1,11 +1,20 @@
 import { Outlet, Link } from "react-router-dom";
-import { FaHome, FaUser, FaTrophy, FaBook, FaSearch, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaUser,
+  FaTrophy,
+  FaBook,
+  FaSearch,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
 import "../layout.css";
+import authTeacher from "./util.js";
 
 const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [isTeacher, setIsTeacher] = useState(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -34,6 +43,9 @@ const Layout = ({ setUser }) => {
           },
         ]);
       } else {
+        if (authTeacher(user.email)) {
+          setIsTeacher(true);
+        }
         console.log("found user!");
       }
     };
@@ -60,7 +72,7 @@ const Layout = ({ setUser }) => {
         </div>
 
         <div className="nav-center">
-          <h1>YOMI</h1>
+          <h1>{isTeacher ? "YOMI TEACHER" : "YOMI"} </h1>
           <img
             src="/images/gator_student.png"
             alt="YOMI logo"

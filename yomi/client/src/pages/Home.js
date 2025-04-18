@@ -6,20 +6,7 @@ import CircularProgressWithLabel from "../components/ProgressCircle";
 import { FaPlusCircle } from "react-icons/fa";
 import { Button, Typography } from "@mui/material";
 import supabase from "../supabaseclient";
-
-async function authTeacher(email) {
-  const { data, error } = await supabase
-    .from("teachers")
-    .select("*")
-    .eq("email", email);
-
-  if (error) {
-    console.error("Error fetching teacher data:", error);
-    return false;
-  }
-
-  return data.length > 0;
-}
+import authTeacher from "./util";
 
 export default function Home(currUser) {
   const [isTeacher, setIsTeacher] = React.useState(
