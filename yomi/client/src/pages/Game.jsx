@@ -1,8 +1,9 @@
+import React from "react";
 import Concentration from "../components/Concentration";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router";
 import supabase from "../supabaseclient";
-import React from "react";
+import "../styling/game.css";
 
 const Game = () => {
   const location = useLocation();
@@ -26,12 +27,14 @@ const Game = () => {
     fetchTitle(lessonID).then((title) => {
       setLessonTitle(title);
     });
-  });
+  }, [lessonID]);
 
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>{lessonTitle}</h1>
-      <Concentration lessonID={lessonID} />
+    <div className="game-container">
+      <h1 className="game-title">{lessonTitle}</h1>
+      <div className="game-box">
+        <Concentration lessonID={lessonID} />
+      </div>
     </div>
   );
 };
