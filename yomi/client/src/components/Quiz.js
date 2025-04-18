@@ -121,19 +121,19 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ, format, siz
       .select("correct_id")
       .eq("userName", user.email)
       .eq("lesson", lesson);
-      console.log(error)
-      console.log(correctData)
-     console.log(user.email)
-     console.log(lesson)
+    //   console.log(error)
+    //   console.log(correctData)
+    //  console.log(user.email)
+    //  console.log(lesson)
 
       const correctCount = correctData?.length || 0;
-      console.log('correctCount')
-      console.log(correctCount)
+      // console.log('correctCount')
+      // console.log(correctCount)
      const { data: missedData, error: missedError } = await supabase
 .from("missedPool")
 .select("failed_times, success_streak")
 .eq("userName", user.email);
- console.log(missedData)
+//  console.log(missedData)
 
 const recoveredCount = missedData
 ? missedData.filter(item => item.failed_times === item.success_streak).length
@@ -153,10 +153,10 @@ setFinal(true);
 
 
 //calculate how many student already got it right here, need to trigger rerender if needed
-console.log('size')
-    console.log(size)
-    console.log('progress')
-    console.log(progress)
+// console.log('size')
+//     console.log(size)
+//     console.log('progress')
+//     console.log(progress)
 
   // button component
   return (
@@ -171,15 +171,14 @@ console.log('size')
           <div/>
     <div className="question">
       <h2>
-    
-        {format.kanji == "q" ? word.kanji + " " : ""}
         {format.kana == "q" ? word.kana + " " : ""}
+        {format.kanji == "q" ? word.kanji + " " : ""}
         {format.en == "q" ? word.English + " " : ""}
       </h2>
       {answers.map((answer) => (
         <Button variant="contained" onClick={() => handleClick(answer)}>
-          {format.kanji == "a" ? answer.kanji + " " : ""}
           {format.kana == "a" ? answer.kana + " " : ""}
+          {format.kanji == "a" ? answer.kanji + " " : ""}
           {format.en == "a" ? answer.English + " " : ""}
         </Button>
       ))}

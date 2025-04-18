@@ -17,6 +17,44 @@ function QuizOptions () {
     const [kanji, setKanji] = useState("q");
     const [kana, setKana] = useState("q");
     const [en, setEn] = useState("a");
+    const [missed, setMissed] = useState("f");
+
+    // // check if there are any missed questions by this user
+    // // get this user
+    // const [Username, setUsername] = useState(null);
+    // useEffect(() => {
+    //     const checkUser = async () => {
+    //     const {
+    //         data: { user },
+    //     } = await supabase.auth.getUser();
+    //     setUsername(user.email);
+    //     console.log(user);
+    //     };
+
+    //     checkUser();
+    // }, []);
+
+    // // get words from DB
+    // useEffect(() => {
+
+    //     async function getMissedWords() {
+    //     const { data, error } = await supabase
+    //         .from("Words")
+    //         .select('id, kana, kanji, English, missedPool!inner(userName, failed_times)')
+    //         .eq('missedPool.userName', Username)
+    //         .gt('missedPool.failed_times', 0)
+    //         .eq("lesson", lesson);
+    //     if (error) {
+    //         console.warn(error);
+    //     } else if (data) {
+    //         setWords(data);
+    //     }
+    //     }
+
+    //     if (missed === "t") {
+    //     getMissedWords();
+    //     }
+    // }, [lesson]);
 
     const handleQNum = (event, newQNum) => {
         setQNum(newQNum);
@@ -30,11 +68,28 @@ function QuizOptions () {
     const handleEn = (event, newEn) => {
         setEn(newEn);
     };
+    const handleMissed = (event, newMissed) => {
+        setMissed(newMissed);
+    };
 
     return (
         <div>
             <br/>
             <h1 className='page-title'>Lesson {lesson} Quiz</h1>
+            <ToggleButtonGroup
+                value={missed}
+                exclusive
+                onChange={handleMissed}
+                aria-label="missed"
+                >
+                <ToggleButton value="f" aria-label="all">
+                    All
+                </ToggleButton>
+                <ToggleButton value="t" aria-label="missed">
+                    Missed Questions Only
+                </ToggleButton>
+            </ToggleButtonGroup>
+            <br/>
             <p>Number of Questions:</p>
             <ToggleButtonGroup
                 value={qNum}
@@ -112,7 +167,7 @@ function QuizOptions () {
 
             <Link to={{
                 pathname: "/quizzes",
-                search: `?lesson=${lesson}&qnum=${qNum}&kj=${kanji}&kn=${kana}&en=${en}`
+                search: `?lesson=${lesson}&qnum=${qNum}&kj=${kanji}&kn=${kana}&en=${en}&missed=${missed}`
             }}><Button>Start Quiz</Button></Link>
         </div>
     );
