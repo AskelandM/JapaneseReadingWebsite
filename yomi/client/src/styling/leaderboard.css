@@ -1,0 +1,57 @@
+/* leaderboard.css */
+
+.leaderboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+  }
+  
+  .leaderboard-card {
+    background-color: #edf2f7;
+    border: 2px solid #2a4365; /* Thicker and more visible border */
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    padding: 30px 40px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .leaderboard-title {
+    font-size: 2rem;
+    color: #2a4365;
+    margin-bottom: 20px;
+  }
+  
+  .leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 12px;
+    border-bottom: 2px solid #cbd5e0; /* Slightly darker lines for clarity */
+  }
+  
+  .leaderboard-table th {
+    background-color: #2a4365;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .leaderboard-table td {
+    color: #2d3748;
+    background-color: #f7fafc;
+  }
+  
+  .leaderboard-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .trophy-icon {
+    font-size: 1.5rem;
+    vertical-align: middle;
+  }
+  
