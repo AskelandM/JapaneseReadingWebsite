@@ -43,7 +43,8 @@ const Layout = ({ setUser }) => {
           },
         ]);
       } else {
-        if (authTeacher(user.email)) {
+        const res = await authTeacher(user.email);
+        if (res === true) {
           setIsTeacher(true);
         }
         console.log("found user!");
