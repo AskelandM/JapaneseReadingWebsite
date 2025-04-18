@@ -48,6 +48,7 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     backgroundColor: "white",
+    overflowX: "hidden",
   },
   leftColumn: {
     display: "flex",
