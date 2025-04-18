@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Quiz from "../components/Quiz.js";
 import { useLocation } from "react-router";
-import supabase from "../supabaseclient.js";
+import supabase from "../supabaseclient";
 import "../styling/flashcard.css";
 
 function Quizzes() {
@@ -32,20 +32,6 @@ function Quizzes() {
   ]);
   const [size, setSize] = useState(0);
 
-  // get this user
-  const [Username, setUsername] = useState(null);
-  useEffect(() => {
-    const checkUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUsername(user.email);
-    };
-
-    checkUser();
-    console.log(Username);
-  }, []);
-
   // get words from DB
   useEffect(() => {
     async function getWords() {
@@ -61,8 +47,12 @@ function Quizzes() {
     }
 
     async function getMissedWords() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { data, error } = await supabase.rpc("get_missed_words", {
-        target_username: Username,
+        target_username: user.email,
         target_lesson: lesson
       });
       if (error) {
@@ -85,7 +75,7 @@ function Quizzes() {
       getWords();
       console.log("not missed words");
     }
-  }, [lesson, Username]);
+  }, [lesson]);
     
 
 
