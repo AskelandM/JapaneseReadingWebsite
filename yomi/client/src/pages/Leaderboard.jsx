@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTrophy } from "react-icons/fa";
+import supabase from "../supabaseclient.js";
 import {
   Table,
   TableBody,
@@ -11,76 +12,71 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import "../styling/leaderboard.css"
 
 const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("http://localhost:4000/api/leaderboard");
-        if (!response.ok) {
-          throw new Error("Failed to fetch leaderboard data");
-        }
-        const data = await response.json();
-        setLeaderboardData(data);
-      } catch (error) {
-        console.log(error);
-        setError("Unable to load leaderboard. Please try again later.");
-      }
-    }
+    const correctPoints = async () => {
+      const { data: correctData, error } = await supabase
+        .from("leaderBoard_points")
+        .select("*");
 
-    fetchData();
+      if (error) {
+        console.error("Error fetching leaderboard:", error);
+        setError(error);
+      } else {
+        const mapped = correctData
+          .sort((a, b) => b.user_points - a.user_points)
+          .map((row, index) => ({
+            rank: index + 1,
+            name: row.userName,
+            score: row.user_points,
+          }));
+
+        setLeaderboardData(mapped);
+      }
+    };
+
+    correctPoints();
   }, []);
 
   return (
-    <>
-      <Typography align="center" gutterBottom>
-        <h1>
-          <strong>Weekly Leaderboard</strong>
-        </h1>
-      </Typography>
-      <TableContainer
-        component={Paper}
-        sx={{ borderRadius: 4, overflow: "hidden" }}
-      >
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <strong>Rank</strong>
-              </TableCell>
-              <TableCell>
-                <strong>Name</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Score</strong>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+    <div className="leaderboard-container">
+      <div className="leaderboard-card">
+        <h1 className="leaderboard-title">Weekly Leaderboard</h1>
+        <table className="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
             {leaderboardData.map((user) => (
-              <TableRow key={user.rank}>
-                <TableCell>
+              <tr key={user.rank}>
+                <td>
                   {user.rank === 1 ? (
-                    <FaTrophy color="gold" />
+                    <FaTrophy className="trophy-icon" color="gold" />
                   ) : user.rank === 2 ? (
-                    <FaTrophy color="silver" />
+                    <FaTrophy className="trophy-icon" color="silver" />
                   ) : user.rank === 3 ? (
-                    <FaTrophy color="brown" />
+                    <FaTrophy className="trophy-icon" color="saddlebrown" />
                   ) : (
                     user.rank
                   )}
-                </TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell align="right">{user.score}</TableCell>
-              </TableRow>
+                </td>
+                <td>{user.name}</td>
+                <td>{user.score}</td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

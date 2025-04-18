@@ -1,0 +1,58 @@
+.header {
+    background-color: #2a4365;
+    padding: 10px 20px;
+}
+  
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #000000;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+  
+.nav-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+  
+.nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    pointer-events: none; /* optional: allows clicks to pass through */
+}
+  
+.nav h1 {
+    color: white;
+    font-size: 2rem;
+    margin: 0;
+    letter-spacing: 1px;
+}
+  
+.logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+  
+.nav a, .logout-button {
+    color: white;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+  
+.nav a:hover,.logout-button:hover {
+    color: orange;
+}
+  

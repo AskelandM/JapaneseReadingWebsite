@@ -43,7 +43,7 @@ async function fetchWords(lesson) {
 
 const cardArray = [];
 
-const Concentration = ({ lesson }) => {
+const Concentration = ({ lessonID }) => {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
   const [shuffledArray, setShuffledArray] = useState([]);
@@ -69,10 +69,9 @@ const Concentration = ({ lesson }) => {
 
   useEffect(() => {
     if (shuffledArray.length === 0) {
-      fetchWords(lesson).then((data) => {
+      fetchWords(lessonID).then((data) => {
         setShuffledArray(data.res);
         setGameAnswers(data.answers);
-        console.log(data.answers);
       });
     }
 
@@ -99,43 +98,62 @@ const Concentration = ({ lesson }) => {
         setFlippedCards([]);
       }, 1000);
     }
-  }, [flippedCards, gameAnswers, lesson, matchedCards, shuffledArray]);
+  }, [flippedCards, gameAnswers, lessonID, matchedCards, shuffledArray]);
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <h1 style={{ textAlign: "center", color: "green" }}>
-        {wonGame ? "YOU WIN" : ""}
-      </h1>
-      <Grid2 container spacing={2}>
-        {Array.from({ length: 4 }).map((_, rowIndex) => (
-          <Stack spacing={1}>
-            {Array.from({ length: 4 }).map((_, colIndex) => {
-              const wordIndex = rowIndex * 4 + colIndex;
-              const card = (
-                <ConcentrationCard
-                  key={wordIndex}
-                  wordIndex={wordIndex}
-                  words={shuffledArray}
-                  flippedCards={flippedCards}
-                  matchedCards={matchedCards}
-                  onCardFlip={handleCardFlip}
-                />
-              );
-              cardArray.push(card);
-              return card;
-            })}
-          </Stack>
-        ))}
-      </Grid2>
-    </div>
-  );
+  if (shuffledArray.length >= 16) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ textAlign: "center", color: "green" }}>
+          {wonGame ? "YOU WIN" : ""}
+        </h1>
+        <Grid2 container spacing={2}>
+          {Array.from({ length: 4 }).map((_, rowIndex) => (
+            <Stack spacing={1}>
+              {Array.from({ length: 4 }).map((_, colIndex) => {
+                const wordIndex = rowIndex * 4 + colIndex;
+                const card = (
+                  <ConcentrationCard
+                    key={wordIndex}
+                    wordIndex={wordIndex}
+                    words={shuffledArray}
+                    flippedCards={flippedCards}
+                    matchedCards={matchedCards}
+                    onCardFlip={handleCardFlip}
+                  />
+                );
+                cardArray.push(card);
+                return card;
+              })}
+            </Stack>
+          ))}
+        </Grid2>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ textAlign: "center", color: "black" }}>
+          {shuffledArray.length === 0
+            ? "Loading..."
+            : "Not enough words found, please select another lesson."}
+        </h1>
+      </div>
+    );
+  }
 };
 
 export default Concentration;
