@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import LessonCard from "../components/LessonCard";
+import "../styling/lessons.css"
 
 //lessonData is an array of JSON objects with values "title" and "progress"
 const Lessons = () => {
@@ -21,20 +22,14 @@ const Lessons = () => {
   }, []);
 
   return (
-    <div style={styles.lessons}>
-      {lessonData.map((lesson, index) => (
-        <LessonCard lesson={lesson} index={index}></LessonCard>
-      ))}
+    <div className="lessons-container">
+      <div className="lessons-scroll-box">
+        {lessonData.map((lesson, index) => (
+          <LessonCard key={index} lesson={lesson} index={index} />
+        ))}
+      </div>
     </div>
   );
-};
-
-const styles = {
-  lessons: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-  },
 };
 
 export default Lessons;
