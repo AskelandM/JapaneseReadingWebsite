@@ -10,7 +10,7 @@ import {
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
 import "../styling/layout.css";
-import authTeacher from "./util.js";
+import { authTeacher } from "./util.js";
 
 const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
