@@ -26,8 +26,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "client": "react-scripts start",
-    "server": "cd ../server && npm run server",
-    "yomi": "concurrently \"npm run server\" \"npm run client\""
+    "yomi": "npm run client"
   },
   "eslintConfig": {
     "extends": [

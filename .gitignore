@@ -16,6 +16,7 @@ yomi/client/src/pages/supabaseclient.js
 /build
 
 # misc
+.vscode
 .DS_Store
 .env.local
 .env.development.local
