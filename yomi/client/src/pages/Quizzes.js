@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Quiz from "../components/Quiz.js";
 import { useLocation } from "react-router";
-import supabase from "../supabaseclient";
+import supabase from "../supabaseclient.js";
 import "../styling/flashcard.css";
 
 function Quizzes() {
@@ -31,6 +31,20 @@ function Quizzes() {
       { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." }],
   ]);
   const [size, setSize] = useState(0);
+  const[missedmode, setMissedmode]= useState(false);
+  // get this user
+  const [Username, setUsername] = useState(null);
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUsername(user.email);
+    };
+
+    checkUser();
+    console.log(Username);
+  }, []);
 
   // get words from DB
   useEffect(() => {
@@ -50,32 +64,47 @@ function Quizzes() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      
+      const { data, error } = await supabase
+      .from("Words")
+      .select('id, kana, kanji, English, missedPool!inner(userName, failed_times, success_updatedStreak)')
+      .eq('missedPool.userName', user.email)
+      .eq('lesson', lesson); // string is fine
+    
+      console.log("📦 Raw data from Supabase join:", data);
+      console.log("👤 Username:", user.email);
+      console.log("📘 Lesson:", lesson);
 
-      const { data, error } = await supabase.rpc("get_missed_words", {
-        target_username: user.email,
-        target_lesson: lesson
+
+    if (error) {
+      console.warn(error);
+    } else if (data) {
+      // Filter manually for failed > recovered
+      const filtered = data.filter(item => {
+        const pool = item.missedPool?.[0]; 
+        return pool && pool.failed_times > pool.success_updatedStreak;
       });
-      if (error) {
-        console.warn(error);
-      } else if (data) {
-        if (data.length > 0) {
-          setWords(data);
-        }
-        else {
-          setWords([{ id: 0, kana: "Empty", kanji: "(No missed words)", English: "Empty (No missed words)" }]);
-        }
-      }
+    
+      setWords(
+        filtered.length > 0
+          ? filtered
+          : [{ id: 0, kana: "Empty", kanji: "(No missed words)", English: "Empty (No missed words)" }]
+      );
+    
+      console.log("Filtered missed words:", filtered);
+    }
     }
 
     if (missed === "t") {
       getMissedWords();
+      setMissedmode(true);
       console.log("missed words");
     }
     else {
       getWords();
       console.log("not missed words");
     }
-  }, [lesson]);
+  }, [lesson, Username]);
     
 
 
@@ -205,6 +234,7 @@ function Quizzes() {
         current_num={currentIndex}
         answeredQs={answeredQs}
         size = {size}
+        missedmode = {missedmode}
         onAnsweredQ={onAnsweredQ}
         lesson={lesson} 
         format={{ kanji: kanji, kana: kana, en: en }}
