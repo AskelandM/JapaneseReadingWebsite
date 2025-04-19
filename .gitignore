@@ -1,5 +1,6 @@
 
 # dependencies
+yomi/client/build/
 yomi/client/node_modules
 yomi/server/node_modules
 yomi/node_modules
