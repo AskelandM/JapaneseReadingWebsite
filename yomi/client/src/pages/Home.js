@@ -3,8 +3,18 @@ import Leaderboard from "./Leaderboard";
 import Lessons from "./Lessons";
 import { Link } from "react-router-dom";
 import CircularProgressWithLabel from "../components/ProgressCircle";
+import { FaPlusCircle } from "react-icons/fa";
+import { Button, Typography } from "@mui/material";
+import supabase from "../supabaseclient";
+import authTeacher from "./util";
 
-export default function Home() {
+export default function Home(currUser) {
+  const [isTeacher, setIsTeacher] = React.useState(
+    authTeacher(currUser.currUser.email).then((result) => {
+      setIsTeacher(result);
+    })
+  );
+  // Replace with actual logic to determine if the user is a teacher
   return (
     <div style={styles.container}>
       <div style={styles.leftColumn}>
@@ -14,6 +24,18 @@ export default function Home() {
       </div>
       <div style={styles.rightColumn}>
         <Lessons />
+
+        {isTeacher && (
+          <div style={styles.plusIcon}>
+            <Button>
+              <Link to={{ pathname: "/custom" }}>
+                <Typography>Add new lesson</Typography>
+              </Link>
+
+              <FaPlusCircle></FaPlusCircle>
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -26,6 +48,7 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     backgroundColor: "white",
+    overflowX: "hidden",
   },
   leftColumn: {
     display: "flex",
@@ -38,7 +61,14 @@ const styles = {
   },
   rightColumn: {
     display: "flex",
+    flexDirection: "column",
     flex: "1",
     justifyContent: "center",
+  },
+  plusIcon: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "20px",
   },
 };

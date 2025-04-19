@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useLocation } from 'react-router';
 import { Link } from "react-router-dom";
+import supabase from "../supabaseclient.js";
 
 
 function QuizOptions () {
@@ -19,42 +20,34 @@ function QuizOptions () {
     const [en, setEn] = useState("a");
     const [missed, setMissed] = useState("f");
 
-    // // check if there are any missed questions by this user
-    // // get this user
-    // const [Username, setUsername] = useState(null);
-    // useEffect(() => {
-    //     const checkUser = async () => {
-    //     const {
-    //         data: { user },
-    //     } = await supabase.auth.getUser();
-    //     setUsername(user.email);
-    //     console.log(user);
-    //     };
+    // check if missedwords button should display
+    const [showMissed, setShowM] = useState(false);
+    // check if there are any
+    useEffect(() => {
+        async function getMissedWords() {
+            const {
+              data: { user },
+            } = await supabase.auth.getUser();
+      
+            const { data, error } = await supabase.rpc("get_missed_words", {
+              target_username: user.email,
+              target_lesson: lesson
+            });
+        if (error) {
+            console.warn(error);
+        } else if (data) {
+            if (data.length > 0) {
+                setShowM(true);
+            }
+            else {
+                setShowM(false);
+            }
+        }
+        }
 
-    //     checkUser();
-    // }, []);
+        getMissedWords();
+    }, [lesson]);
 
-    // // get words from DB
-    // useEffect(() => {
-
-    //     async function getMissedWords() {
-    //     const { data, error } = await supabase
-    //         .from("Words")
-    //         .select('id, kana, kanji, English, missedPool!inner(userName, failed_times)')
-    //         .eq('missedPool.userName', Username)
-    //         .gt('missedPool.failed_times', 0)
-    //         .eq("lesson", lesson);
-    //     if (error) {
-    //         console.warn(error);
-    //     } else if (data) {
-    //         setWords(data);
-    //     }
-    //     }
-
-    //     if (missed === "t") {
-    //     getMissedWords();
-    //     }
-    // }, [lesson]);
 
     const handleQNum = (event, newQNum) => {
         setQNum(newQNum);
@@ -76,20 +69,24 @@ function QuizOptions () {
         <div>
             <br/>
             <h1 className='page-title'>Lesson {lesson} Quiz</h1>
-            <ToggleButtonGroup
-                value={missed}
-                exclusive
-                onChange={handleMissed}
-                aria-label="missed"
-                >
-                <ToggleButton value="f" aria-label="all">
-                    All
-                </ToggleButton>
-                <ToggleButton value="t" aria-label="missed">
-                    Missed Questions Only
-                </ToggleButton>
-            </ToggleButtonGroup>
-            <br/>
+            {showMissed ?
+                <div>
+                <ToggleButtonGroup
+                    value={missed}
+                    exclusive
+                    onChange={handleMissed}
+                    aria-label="missed"
+                    >
+                    <ToggleButton value="f" aria-label="all">
+                        All
+                    </ToggleButton>
+                    <ToggleButton value="t" aria-label="missed">
+                        Missed Questions Only
+                    </ToggleButton>
+                </ToggleButtonGroup>
+                <br/>
+                </div>
+            : ""}
             <p>Number of Questions:</p>
             <ToggleButtonGroup
                 value={qNum}
