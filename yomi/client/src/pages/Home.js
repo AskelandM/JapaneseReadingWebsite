@@ -2,10 +2,8 @@ import React from "react";
 import Leaderboard from "./Leaderboard";
 import Lessons from "./Lessons";
 import { Link } from "react-router-dom";
-import CircularProgressWithLabel from "../components/ProgressCircle";
 import { FaPlusCircle } from "react-icons/fa";
 import { Button, Typography } from "@mui/material";
-import supabase from "../supabaseclient";
 import authTeacher from "./util";
 
 export default function Home(currUser) {

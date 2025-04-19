@@ -3,9 +3,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import { AccordionActions, Box, Button } from "@mui/material";
-import CircularProgressWithLabel from "../components/ProgressCircle";
 import * as React from "react";
-
 
 const LessonCard = ({ lesson, index }) => {
   //Lesson ID < 100 are hardcode Genki Lessons, over 100 are custom lessons
@@ -13,7 +11,6 @@ const LessonCard = ({ lesson, index }) => {
   return (
     <Accordion className="lesson-card">
       <AccordionSummary
-        expandIcon={<CircularProgressWithLabel value={10} />}
         aria-controls={`lesson${lessonID}`}
         id={`panel${lessonID}-header`}
         className="lesson-summary"
