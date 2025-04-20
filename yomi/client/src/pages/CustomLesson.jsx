@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import supabase from "../supabaseclient";
-
+import { authTeacher } from "./util";
 const CustomLesson = (currUser) => {
   const [entries, setEntries] = useState([]);
   const [lessonTitle, setLessonTitle] = useState("");
+  const [isTeacher, setIsTeacher] = useState(false);
 
   const handleAddEntry = () => {
     setEntries([...entries, { kanji: "", kana: "", romaji: "", English: "" }]);
@@ -84,80 +85,96 @@ const CustomLesson = (currUser) => {
     }
   };
 
-  return (
-    <div>
-      <input
-        type="text"
-        value={lessonTitle}
-        onChange={(e) => setLessonTitle(e.target.value)}
-        placeholder="Enter Lesson Title"
-      />
-      <table style={{ borderCollapse: "collapse", width: "100%" }}>
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid black", padding: "8px" }}>Kanji</th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>Kana</th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>
-              Romaji
-            </th>
-            <th style={{ border: "1px solid black", padding: "8px" }}>
-              English
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map((entry, index) => (
-            <tr key={index}>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                <input
-                  type="text"
-                  value={entry.kanji}
-                  onChange={(e) =>
-                    handleInputChange(index, "kanji", e.target.value)
-                  }
-                />
-              </td>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                <input
-                  type="text"
-                  value={entry.kana}
-                  onChange={(e) =>
-                    handleInputChange(index, "kana", e.target.value)
-                  }
-                />
-              </td>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                <input
-                  type="text"
-                  value={entry.romaji}
-                  onChange={(e) =>
-                    handleInputChange(index, "romaji", e.target.value)
-                  }
-                />
-              </td>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                <input
-                  type="text"
-                  value={entry.english}
-                  onChange={(e) =>
-                    handleInputChange(index, "English", e.target.value)
-                  }
-                />
-              </td>
-              <td style={{ border: "1px solid black", padding: "8px" }}>
-                <button onClick={() => handleRemoveEntry(index)}>Remove</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  useEffect(() => {
+    authTeacher(currUser.currUser.email).then((res) => {
+      setIsTeacher(res);
+    });
+  }, [currUser, isTeacher]);
 
-      <button onClick={handleAddEntry}>Add Word</button>
+  if (!isTeacher) {
+    return <div>Loading...</div>;
+  } else {
+    return (
       <div>
-        <button onClick={handleSave}>Save Lesson</button>
+        <input
+          type="text"
+          value={lessonTitle}
+          onChange={(e) => setLessonTitle(e.target.value)}
+          placeholder="Enter Lesson Title"
+        />
+        <table style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid black", padding: "8px" }}>
+                Kanji
+              </th>
+              <th style={{ border: "1px solid black", padding: "8px" }}>
+                Kana
+              </th>
+              <th style={{ border: "1px solid black", padding: "8px" }}>
+                Romaji
+              </th>
+              <th style={{ border: "1px solid black", padding: "8px" }}>
+                English
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map((entry, index) => (
+              <tr key={index}>
+                <td style={{ border: "1px solid black", padding: "8px" }}>
+                  <input
+                    type="text"
+                    value={entry.kanji}
+                    onChange={(e) =>
+                      handleInputChange(index, "kanji", e.target.value)
+                    }
+                  />
+                </td>
+                <td style={{ border: "1px solid black", padding: "8px" }}>
+                  <input
+                    type="text"
+                    value={entry.kana}
+                    onChange={(e) =>
+                      handleInputChange(index, "kana", e.target.value)
+                    }
+                  />
+                </td>
+                <td style={{ border: "1px solid black", padding: "8px" }}>
+                  <input
+                    type="text"
+                    value={entry.romaji}
+                    onChange={(e) =>
+                      handleInputChange(index, "romaji", e.target.value)
+                    }
+                  />
+                </td>
+                <td style={{ border: "1px solid black", padding: "8px" }}>
+                  <input
+                    type="text"
+                    value={entry.english}
+                    onChange={(e) =>
+                      handleInputChange(index, "English", e.target.value)
+                    }
+                  />
+                </td>
+                <td style={{ border: "1px solid black", padding: "8px" }}>
+                  <button onClick={() => handleRemoveEntry(index)}>
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <button onClick={handleAddEntry}>Add Word</button>
+        <div>
+          <button onClick={handleSave}>Save Lesson</button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default CustomLesson;
