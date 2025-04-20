@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DisplayTable from "../components/DisplayTable";
 import supabase from "../supabaseclient";
 import { authAdmin } from "./util";
+import "../styling/admin.css"; // ✅ Import the CSS
 
 const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -9,64 +10,11 @@ const Admin = () => {
   const [addingTeacher, setAddingTeacher] = useState(false);
   const [newEmail, setNewEmail] = useState("");
 
-  const toggleAddTeacher = () => {
-    setNewEmail("");
-    setAddingTeacher(!addingTeacher);
-  };
-
-  const removeTeacher = async (email) => {
-    try {
-      await supabase
-        .from("teachers")
-        .delete()
-        .eq("email", email)
-        .neq("role", "admin");
-    } catch (error) {
-      alert("Error deleting teacher:", error);
-      return;
-    }
-    alert("Teacher removed successfully!");
-    fetchTeachers();
-  };
-
-  const handleInputChange = (e) => {
-    setNewEmail(e.target.value);
-  };
-
-  const handleSubmit = async () => {
-    try {
-      await supabase
-        .from("teachers")
-        .insert({ email: newEmail, role: "teacher" });
-    } catch (error) {
-      alert("Error inserting new teacher:", error);
-      return;
-    }
-    setAddingTeacher(false);
-    alert("New teacher added successfully!");
-    fetchTeachers();
-  };
-
-  const fetchTeachers = async () => {
-    let teachersArr = [];
-    await supabase
-      .from("teachers")
-      .select("email")
-      .neq("role", "admin")
-      .then((res) => {
-        res.data.forEach((row) => {
-          teachersArr.push([row.email]);
-        });
-      });
-    setTeachersData(teachersArr);
-  };
-
   useEffect(() => {
     const checkUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-
       if (!user) return;
 
       const { data: userData } = await supabase
@@ -83,11 +31,8 @@ const Admin = () => {
           },
         ]);
       } else {
-        //Check if admin
-        const adminRes = await authAdmin(user.email);
-        if (adminRes === true) {
-          setIsAdmin(true);
-        }
+        const isValidAdmin = await authAdmin(user.email);
+        setIsAdmin(isValidAdmin);
       }
     };
 
@@ -95,33 +40,87 @@ const Admin = () => {
     fetchTeachers();
   }, []);
 
-  if (!isAdmin) {
-    return <div>Authorizing...</div>;
-  } else {
-    return (
-      <div>
-        <h1>Teachers</h1>
+  const fetchTeachers = async () => {
+    const { data, error } = await supabase
+      .from("teachers")
+      .select("email")
+      .neq("role", "admin");
+
+    if (error) {
+      console.error("Error fetching teachers:", error);
+      return;
+    }
+
+    const formatted = data.map((row) => [row.email]);
+    setTeachersData(formatted);
+  };
+
+  const toggleAddTeacher = () => {
+    setNewEmail("");
+    setAddingTeacher(!addingTeacher);
+  };
+
+  const removeTeacher = async (email) => {
+    try {
+      await supabase
+        .from("teachers")
+        .delete()
+        .eq("email", email)
+        .neq("role", "admin");
+      fetchTeachers();
+      alert("Teacher removed successfully.");
+    } catch (error) {
+      alert("Error removing teacher:", error.message);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await supabase
+        .from("teachers")
+        .insert({ email: newEmail, role: "teacher" });
+      fetchTeachers();
+      setAddingTeacher(false);
+      alert("New teacher added!");
+    } catch (error) {
+      alert("Error adding teacher:", error.message);
+    }
+  };
+
+  if (!isAdmin) return <div className="admin-wrapper">Authorizing...</div>;
+
+  return (
+    <div className="admin-wrapper">
+      <div className="admin-box">
+        <h1 className="admin-title">Teacher Management</h1>
+
         <DisplayTable
           rows={teachersData}
           columns={["Email"]}
           removeCallback={removeTeacher}
-        ></DisplayTable>
+        />
+
         {!addingTeacher ? (
-          <button onClick={toggleAddTeacher}>Add Teacher</button>
+          <div className="admin-actions">
+            <button onClick={toggleAddTeacher}>Add Teacher</button>
+          </div>
         ) : (
-          <>
+          <div className="admin-form">
             <input
+              type="email"
               placeholder="Enter teacher email"
               value={newEmail}
-              onChange={handleInputChange}
-            ></input>
-            <button onClick={toggleAddTeacher}>Back</button>
-            <button onClick={handleSubmit}>Submit</button>
-          </>
+              onChange={(e) => setNewEmail(e.target.value)}
+            />
+            <div className="admin-buttons">
+              <button onClick={toggleAddTeacher}>Cancel</button>
+              <button onClick={handleSubmit}>Submit</button>
+            </div>
+          </div>
         )}
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export default Admin;

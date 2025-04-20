@@ -13,16 +13,25 @@ export default function Home(currUser) {
       setIsTeacher(result);
     })
   );
+  React.useEffect(() => {
+    // Save current overflow setting
+    const originalOverflow = document.body.style.overflow;
+
+    // Disable scroll
+    document.body.style.overflow = "hidden";
+
+    // Re-enable scroll on unmount
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
+
   // Replace with actual logic to determine if the user is a teacher
   return (
     <div className="home-container">
       <div className="home-left">
         <Leaderboard />
-      </div>
-
-      <div className="home-right">
-        <Lessons />
-
         {isTeacher && (
           <div className="add-lesson-button">
             <Link to="/custom" className="add-link">
@@ -33,6 +42,12 @@ export default function Home(currUser) {
             </Link>
           </div>
         )}
+      </div>
+
+      <div className="home-right">
+        <div className="lessons-wrapper">
+          <Lessons />
+        </div>
       </div>
     </div>
   );
