@@ -1,12 +1,14 @@
 import DisplayTable from "../components/DisplayTable";
 import supabase from "../supabaseclient";
 import { useState, useEffect } from "react";
+import { authTeacher } from "./util";
 
 const EditLessons = (currUser) => {
   const [customLessons, setCustomLessons] = useState([]);
   const [selectedLesson, setSelectedLesson] = useState("");
   const [lessonWords, setLessonWords] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isTeacher, setIsTeacher] = useState(false);
 
   const handleDeleteLesson = async () => {
     const { wordError } = await supabase
@@ -83,48 +85,61 @@ const EditLessons = (currUser) => {
       return data;
     }
 
-    fetchCustomLessons().then((data) => {
-      setCustomLessons(data);
+    authTeacher(currUser.currUser.email).then((res) => {
+      setIsTeacher(res);
     });
-    fetchLessonWords(selectedLesson);
-  }, [currUser, selectedLesson]);
+    if (isTeacher === true) {
+      fetchCustomLessons().then((data) => {
+        setCustomLessons(data);
+      });
+      fetchLessonWords(selectedLesson);
+    }
+  }, [currUser, selectedLesson, isTeacher]);
 
-  return (
-    <div>
-      <select
-        onChange={(e) => setSelectedLesson(e.target.value)}
-        value={selectedLesson.title}
-      >
-        <option value="">Select a lesson</option>
-        {customLessons.map((lesson) => (
-          <option key={lesson.id} value={lesson.id}>
-            {lesson.title}
-          </option>
-        ))}
-      </select>
+  if (!isTeacher) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <select
+          onChange={(e) => setSelectedLesson(e.target.value)}
+          value={selectedLesson.title}
+        >
+          <option value="">Select a lesson</option>
+          {customLessons.map((lesson) => (
+            <option key={lesson.id} value={lesson.id}>
+              {lesson.title}
+            </option>
+          ))}
+        </select>
 
-      {selectedLesson && (
-        <div>
-          <h2>Lesson Words</h2>
-          <DisplayTable
-            rows={lessonWords}
-            columns={["Kanji", "Kana", "Romaji", "English"]}
-            removeCallback={removeWord}
-          ></DisplayTable>
-          <button>Add Word</button>
-          {isDeleting ? (
-            <>
-              <text>Are you sure?</text>
-              <button onClick={handleDeleteLesson}>Yes</button>
-              <button onClick={() => setIsDeleting(false)}>No</button>
-            </>
-          ) : (
-            <button onClick={() => setIsDeleting(true)}>Delete Lesson</button>
-          )}
-        </div>
-      )}
-    </div>
-  );
+        {selectedLesson && (
+          <div>
+            <h2>Lesson Words</h2>
+            <DisplayTable
+              rows={lessonWords}
+              columns={["Kanji", "Kana", "Romaji", "English"]}
+              removeCallback={removeWord}
+            ></DisplayTable>
+            <button>Add Word</button>
+            {isDeleting ? (
+              <>
+                <text>Are you sure?</text>
+                <button onClick={handleDeleteLesson}>Yes</button>
+                <button onClick={() => setIsDeleting(false)}>No</button>
+              </>
+            ) : (
+              <button onClick={() => setIsDeleting(true)}>Delete Lesson</button>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
 };
 
 export default EditLessons;
