@@ -26,17 +26,27 @@ function QuizOptions () {
     useEffect(() => {
         async function getMissedWords() {
             const {
-              data: { user },
-            } = await supabase.auth.getUser();
-      
-            const { data, error } = await supabase.rpc("get_missed_words", {
-              target_username: user.email,
-              target_lesson: lesson
-            });
+                data: { user },
+              } = await supabase.auth.getUser();
+              
+              const { data, error } = await supabase
+              .from("Words")
+              .select('id, kana, kanji, English, missedPool!inner(userName, failed_times, success_updatedStreak)')
+              .eq('missedPool.userName', user.email)
+              .eq('lesson', lesson); // string is fine
+            
+              console.log("📦 Raw data from Supabase join:", data);
+              console.log("👤 Username:", user.email);
+              console.log("📘 Lesson:", lesson);
         if (error) {
             console.warn(error);
         } else if (data) {
-            if (data.length > 0) {
+            // Filter manually for failed > recovered
+            const filtered = data.filter(item => {
+              const pool = item.missedPool?.[0]; 
+              return pool && pool.failed_times > pool.success_updatedStreak;
+            });
+            if (filtered.length > 3) {
                 setShowM(true);
             }
             else {
