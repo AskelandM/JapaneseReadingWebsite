@@ -6,6 +6,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import { Button, Typography } from "@mui/material";
 import { authTeacher } from "./util";
 import "../styling/home.css";
+import { FaPencil } from "react-icons/fa6";
 
 export default function Home(currUser) {
   const [isTeacher, setIsTeacher] = React.useState(
@@ -26,7 +27,6 @@ export default function Home(currUser) {
     };
   }, []);
 
-
   // Replace with actual logic to determine if the user is a teacher
   return (
     <div className="home-container">
@@ -37,7 +37,17 @@ export default function Home(currUser) {
             <Link to="/custom" className="add-link">
               <Button variant="contained" color="primary">
                 <FaPlusCircle className="plus-icon" />
-                <Typography sx={{ marginLeft: "8px" }}>Add New Lesson</Typography>
+                <Typography sx={{ marginLeft: "8px" }}>
+                  Add New Lesson
+                </Typography>
+              </Button>
+            </Link>
+            <Link to="/custom/edit" className="add-link">
+              <Button variant="contained" color="primary">
+                <FaPencil className="plus-icon" />
+                <Typography sx={{ marginLeft: "8px" }}>
+                  My Custom Lessons
+                </Typography>
               </Button>
             </Link>
           </div>
