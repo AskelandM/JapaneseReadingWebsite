@@ -16,6 +16,7 @@ import QuizOptions from "./pages/QuizOptions";
 import Sentences from "./pages/Sentences";
 import Vocab from "./pages/Vocab";
 import CustomLesson from "./pages/CustomLesson";
+import Admin from "./pages/Admin";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="sentences" element={<Sentences />} />
             <Route path="vocab" element={<Vocab />} />
             <Route path="custom" element={<CustomLesson currUser={user} />} />
+            <Route path="admin" element={<Admin />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         )}

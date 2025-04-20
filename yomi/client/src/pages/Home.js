@@ -6,6 +6,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import { Button, Typography } from "@mui/material";
 import authTeacher from "./util";
 import "../styling/home.css";
+import { authTeacher } from "./util";
 
 export default function Home(currUser) {
   const [isTeacher, setIsTeacher] = React.useState(
