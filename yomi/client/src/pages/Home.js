@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FaPlusCircle } from "react-icons/fa";
 import { Button, Typography } from "@mui/material";
 import authTeacher from "./util";
+import "../styling/home.css";
 
 export default function Home(currUser) {
   const [isTeacher, setIsTeacher] = React.useState(
@@ -14,59 +15,25 @@ export default function Home(currUser) {
   );
   // Replace with actual logic to determine if the user is a teacher
   return (
-    <div style={styles.container}>
-      <div style={styles.leftColumn}>
-        <div style={styles.leaderboard}>
-          <Leaderboard> </Leaderboard>
-        </div>
+    <div className="home-container">
+      <div className="home-left">
+        <Leaderboard />
       </div>
-      <div style={styles.rightColumn}>
+
+      <div className="home-right">
         <Lessons />
 
         {isTeacher && (
-          <div style={styles.plusIcon}>
-            <Button>
-              <Link to={{ pathname: "/custom" }}>
-                <Typography>Add new lesson</Typography>
-              </Link>
-
-              <FaPlusCircle></FaPlusCircle>
-            </Button>
+          <div className="add-lesson-button">
+            <Link to="/custom" className="add-link">
+              <Button variant="contained" color="primary">
+                <FaPlusCircle className="plus-icon" />
+                <Typography sx={{ marginLeft: "8px" }}>Add New Lesson</Typography>
+              </Button>
+            </Link>
           </div>
         )}
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    padding: "20px",
-    height: "85vh",
-    display: "flex",
-    flexDirection: "row",
-    backgroundColor: "white",
-    overflowX: "hidden",
-  },
-  leftColumn: {
-    display: "flex",
-    flexDirection: "column", // Stack items vertically
-    marginRight: "20px", // Add a gap between left and right columns
-    // justifyContent: "space-between", // Align items to the top and bottom
-    gap: "100px",
-    borderRight: "3px solid black", // Add a dividing line
-    paddingRight: "20px",
-  },
-  rightColumn: {
-    display: "flex",
-    flexDirection: "column",
-    flex: "1",
-    justifyContent: "center",
-  },
-  plusIcon: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "20px",
-  },
-};
