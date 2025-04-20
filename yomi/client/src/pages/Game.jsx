@@ -31,12 +31,15 @@ const Game = () => {
 
   return (
     <div className="game-container">
-      <h1 className="game-title">{lessonTitle}</h1>
-      <div className="game-box">
-        <Concentration lessonID={lessonID} />
+      <div className="scroll-box-wrapper">
+        <h1 className="game-title">{lessonTitle}</h1>
+        <div className="game-box">
+          <Concentration lessonID={lessonID} />
+        </div>
       </div>
     </div>
   );
+  
 };
 
 export default Game;

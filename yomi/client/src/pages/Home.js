@@ -1,5 +1,5 @@
 import React from "react";
-import Leaderboard from "./Leaderboard";
+import Leaderboard from "../components/Leaderboard";
 import Lessons from "./Lessons";
 import { Link } from "react-router-dom";
 import { FaPlusCircle } from "react-icons/fa";
@@ -13,18 +13,7 @@ export default function Home(currUser) {
       setIsTeacher(result);
     })
   );
-  React.useEffect(() => {
-    // Save current overflow setting
-    const originalOverflow = document.body.style.overflow;
-
-    // Disable scroll
-    document.body.style.overflow = "hidden";
-
-    // Re-enable scroll on unmount
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
+  
 
 
   // Replace with actual logic to determine if the user is a teacher
@@ -32,6 +21,7 @@ export default function Home(currUser) {
     <div className="home-container">
       <div className="home-left">
         <Leaderboard />
+
         {isTeacher && (
           <div className="add-lesson-button">
             <Link to="/custom" className="add-link">

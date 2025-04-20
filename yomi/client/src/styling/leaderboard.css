@@ -1,3 +1,18 @@
+/* Ensure full page white background */
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.leaderboard-page {
+    background-color: white;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
 .leaderboard-container {
     display: flex;
     justify-content: center;
@@ -14,6 +29,7 @@
     width: 90%;
     max-width: 600px;
     text-align: center;
+    margin-bottom: 0;
 }
 
 .leaderboard-title {

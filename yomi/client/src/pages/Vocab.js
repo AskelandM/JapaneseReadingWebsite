@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import "../styling/vocab.css";
 
 function Vocab () {
     // get lesson # from URL
@@ -15,61 +16,63 @@ function Vocab () {
     const searchParams = new URLSearchParams(location.search);
     const lesson = searchParams.get("lesson");
 
-    // all words for this lesson
-    const [wordList, setWords] = useState([{ id: 0, kana: "loading", kanji: "loading", English: "loading" }]);
+    const [wordList, setWords] = useState([
+        { id: 0, kana: "loading", kanji: "loading", English: "loading" }
+    ]);
 
     // get words from DB
     useEffect(() => {
         async function getWords() {
-        const { data, error } = await supabase
-            .from("Words")
-            .select(`id, kana, kanji, English`)
-            .eq("lesson", lesson);
-        if (error) {
-            console.warn(error);
-        } else if (data) {
-            addWordNum(data); // sets words, but also adds indices
-        }
+            const { data, error } = await supabase
+                .from("Words")
+                .select(`id, kana, kanji, English`)
+                .eq("lesson", lesson);
+            if (error) {
+                console.warn(error);
+            } else if (data) {
+                addWordNum(data);
+            }
         }
 
         getWords();
     }, [lesson]);
 
     function addWordNum(data) {
-        let data2 = data.slice();
-        data.map((row, index) => {
-            data2[index] = {index: index, ...row};
-        })
+        const data2 = data.map((row, index) => ({
+            index: index + 1,
+            ...row
+        }));
         setWords(data2);
     }
 
-    // display in table (map function)
     return (
-        <TableContainer component={Paper}>
-        <Table sx={{ maxWidth: "sm", margin: "auto" }} size="small" aria-label="simple table">
-            <TableHead>
-            <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell>English</TableCell>
-                <TableCell>漢字</TableCell>
-                <TableCell>カナ</TableCell>
-            </TableRow>
-            </TableHead>
-            <TableBody>
-            {wordList.map((row) => (
-                <TableRow
-                key={row.kanji}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                <TableCell>{row.index}</TableCell>
-                <TableCell>{row.English}</TableCell>
-                <TableCell component="th" scope="row">{row.kanji}</TableCell>
-                <TableCell>{row.kana}</TableCell>
-                </TableRow>
-            ))}
-            </TableBody>
-        </Table>
-        </TableContainer>
+        <div className="vocab-container">
+            <div className="vocab-scrollbox">
+                <h1 className="vocab-title">Lesson {lesson} Vocabulary</h1>
+                <TableContainer component={Paper} className="vocab-table-container">
+                    <Table size="small" aria-label="vocab table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>#</TableCell>
+                                <TableCell>English</TableCell>
+                                <TableCell>漢字</TableCell>
+                                <TableCell>カナ</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {wordList.map((row) => (
+                                <TableRow key={row.index}>
+                                    <TableCell>{row.index}</TableCell>
+                                    <TableCell>{row.English}</TableCell>
+                                    <TableCell>{row.kanji}</TableCell>
+                                    <TableCell>{row.kana}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+        </div>
     );
 };
 

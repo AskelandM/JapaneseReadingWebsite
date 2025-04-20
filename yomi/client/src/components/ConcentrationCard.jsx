@@ -17,20 +17,22 @@ const ConcentrationCard = ({
   return (
     <Grid2 item>
       <Paper
-        style={{
-          backgroundColor: "white",
-          width: "22vh",
-          height: "22vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "visible",
-          cursor: "pointer",
-          transition: "transform 0.3s ease-in-out",
-          transform: flippedCards.includes(wordIndex)
-            ? "rotateY(180deg)"
-            : "rotateY(0)",
-        }}
+          style={{
+            backgroundColor: "white",
+            width: "140px",
+            height: "140px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            overflow: "visible",
+            cursor: "pointer",
+            border: "2px solid #2a4365",
+            transition: "transform 0.3s ease-in-out",
+            transform: flippedCards.includes(wordIndex)
+              ? "rotateY(180deg)"
+              : "rotateY(0)",
+          }}
+        
         onClick={() => handleFlip()}
       >
         <div

@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Quizzes from "./pages/Quizzes";
 import { Flashcards } from "./pages/Flashcards";
-import Leaderboard from "./pages/Leaderboard";
+import Leaderboard from "./components/Leaderboard";
 import supabase from "./supabaseclient";
 import Lessons from "./pages/Lessons";
 import SignIn from "./pages/SignIn";
@@ -17,6 +17,7 @@ import Sentences from "./pages/Sentences";
 import Vocab from "./pages/Vocab";
 import CustomLesson from "./pages/CustomLesson";
 import Admin from "./pages/Admin";
+import LeaderboardPage from "./pages/LeaderboardPage";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -41,7 +42,8 @@ export default function App() {
             <Route path="quizzes" element={<Quizzes />} />
             <Route path="quizoptions" element={<QuizOptions />} />
             <Route path="flashcards" element={<Flashcards />} />
-            <Route path="leaderboard" element={<Leaderboard />} />
+            <Route path="leaderboard" element={<LeaderboardPage />} />
+
             <Route path="lessons" element={<Lessons />} />
             <Route path="profile" element={<Profile />} />
             <Route path="game" element={<Game />} />

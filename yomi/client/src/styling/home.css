@@ -19,12 +19,14 @@ body {
   width: 33.33%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-right: 20px;
+  align-items: stretch;       /* stretch children to fill width */
+  justify-content: flex-start; /* ensure items stack from the top */
+  padding: 40px 20px;
   box-sizing: border-box;
   gap: 24px;
+  overflow-y: auto;
 }
+
 
 .home-right {
   width: 66.66%;

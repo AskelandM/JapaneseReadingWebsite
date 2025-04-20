@@ -113,27 +113,18 @@ const Concentration = ({ lessonID }) => {
         <h1 style={{ textAlign: "center", color: "green" }}>
           {wonGame ? "YOU WIN" : ""}
         </h1>
-        <Grid2 container spacing={2}>
-          {Array.from({ length: 4 }).map((_, rowIndex) => (
-            <Stack spacing={1}>
-              {Array.from({ length: 4 }).map((_, colIndex) => {
-                const wordIndex = rowIndex * 4 + colIndex;
-                const card = (
-                  <ConcentrationCard
-                    key={wordIndex}
-                    wordIndex={wordIndex}
-                    words={shuffledArray}
-                    flippedCards={flippedCards}
-                    matchedCards={matchedCards}
-                    onCardFlip={handleCardFlip}
-                  />
-                );
-                cardArray.push(card);
-                return card;
-              })}
-            </Stack>
+        <div className="grid-wrapper">
+          {shuffledArray.map((_, index) => (
+            <ConcentrationCard
+              key={index}
+              wordIndex={index}
+              words={shuffledArray}
+              flippedCards={flippedCards}
+              matchedCards={matchedCards}
+              onCardFlip={handleCardFlip}
+            />
           ))}
-        </Grid2>
+        </div>
       </div>
     );
   } else {

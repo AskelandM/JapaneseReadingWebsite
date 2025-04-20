@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaTrophy } from "react-icons/fa";
 import supabase from "../supabaseclient.js";
@@ -41,12 +42,18 @@ const Leaderboard = () => {
     };
 
     correctPoints();
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
   }, []);
 
   return (
     <div className="leaderboard-container">
       <div className="leaderboard-card">
-        <h1 className="leaderboard-title">Weekly Leaderboard</h1>
+        <h1 className="leaderboard-title">Leaderboard</h1>
         <table className="leaderboard-table">
           <thead>
             <tr>
@@ -78,6 +85,7 @@ const Leaderboard = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Leaderboard;
