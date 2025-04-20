@@ -1,6 +1,7 @@
 import DisplayTable from "../components/DisplayTable";
 import supabase from "../supabaseclient";
 import { useState, useEffect } from "react";
+import { TableRow, TableCell } from "@mui/material";
 import { authTeacher } from "./util";
 
 const EditLessons = (currUser) => {
@@ -8,7 +9,41 @@ const EditLessons = (currUser) => {
   const [selectedLesson, setSelectedLesson] = useState("");
   const [lessonWords, setLessonWords] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isAddingWord, setIsAddingWord] = useState(false);
+  const [newWordData, setNewWordData] = useState({
+    kanji: "",
+    kana: "",
+    romaji: "",
+    English: "",
+  });
   const [isTeacher, setIsTeacher] = useState(false);
+
+  const handleInputChange = (field, value) => {
+    let newData = { ...newWordData };
+    newData[field] = value;
+    setNewWordData(newData);
+  };
+
+  async function handleSaveWord() {
+    const { error } = await supabase.from("Words").insert({
+      ...newWordData,
+      lesson: selectedLesson,
+    });
+
+    if (error) {
+      alert("Error saving word:", error);
+    } else {
+      alert("Added word!");
+      setNewWordData({
+        kanji: "",
+        kana: "",
+        romaji: "",
+        English: "",
+      });
+      fetchLessonWords(selectedLesson);
+      setIsAddingWord(false);
+    }
+  }
 
   const handleDeleteLesson = async () => {
     const { wordError } = await supabase
@@ -125,7 +160,39 @@ const EditLessons = (currUser) => {
               columns={["Kanji", "Kana", "Romaji", "English"]}
               removeCallback={removeWord}
             ></DisplayTable>
-            <button>Add Word</button>
+            {isAddingWord ? (
+              <>
+                <input
+                  placeholder="Enter kanji"
+                  value={newWordData.kanji}
+                  onChange={(e) => handleInputChange("kanji", e.target.value)}
+                ></input>
+                <input
+                  placeholder="Enter kana"
+                  value={newWordData.kana}
+                  onChange={(e) => handleInputChange("kana", e.target.value)}
+                ></input>
+                <input
+                  placeholder="Enter romaji"
+                  value={newWordData.romaji}
+                  onChange={(e) => handleInputChange("romaji", e.target.value)}
+                ></input>
+                <input
+                  placeholder="Enter english"
+                  value={newWordData.English}
+                  onChange={(e) => handleInputChange("English", e.target.value)}
+                ></input>
+              </>
+            ) : null}
+            {!isAddingWord ? (
+              <button onClick={() => setIsAddingWord(true)}>Add Word</button>
+            ) : (
+              <>
+                <button onClick={handleSaveWord}>Save word</button>
+                <button onClick={() => setIsAddingWord(false)}>Back</button>
+              </>
+            )}
+
             {isDeleting ? (
               <>
                 <text>Are you sure?</text>

@@ -68,7 +68,7 @@ const CustomLesson = (currUser) => {
         const entriesWithLessonId = entries.map((entry) => {
           return { ...entry, lesson: lessonId.toString() };
         });
-        console.log(entriesWithLessonId);
+
         await supabase
           .from("Words")
           .insert(entriesWithLessonId)

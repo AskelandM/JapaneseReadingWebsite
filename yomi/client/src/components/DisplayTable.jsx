@@ -26,13 +26,16 @@ const DisplayTable = ({ rows, columns, removeCallback }) => {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={"ROW-KEY" + row.name}>
               {row.map((value) => (
                 <TableCell key={value} align="left">
                   {value}
                 </TableCell>
               ))}
-              <button className="admin-table-button" onClick={() => handleRemoveEntry(row[0])}>
+              <button
+                className="admin-table-button"
+                onClick={() => handleRemoveEntry(row[0])}
+              >
                 Remove
               </button>
             </TableRow>
