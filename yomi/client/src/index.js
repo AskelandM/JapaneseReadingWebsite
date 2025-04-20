@@ -17,6 +17,7 @@ import Sentences from "./pages/Sentences";
 import Vocab from "./pages/Vocab";
 import CustomLesson from "./pages/CustomLesson";
 import Admin from "./pages/Admin";
+import EditLessons from "./pages/EditLessons";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -48,6 +49,10 @@ export default function App() {
             <Route path="sentences" element={<Sentences />} />
             <Route path="vocab" element={<Vocab />} />
             <Route path="custom" element={<CustomLesson currUser={user} />} />
+            <Route
+              path="custom/edit"
+              element={<EditLessons currUser={user} />}
+            />
             <Route path="admin" element={<Admin />} />
             <Route path="*" element={<NoPage />} />
           </Route>
