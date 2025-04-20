@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import "../index.css";
 import supabase from "../supabaseclient.js";
 import { Link } from "react-router-dom";
 import ProgressBar from "../components/ProgressCircle";
+import "../styling/quizzes.css"
 
 function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ, format, size, lesson, missedmode }) {
   const [message, setMessage] = useState(
@@ -200,35 +200,39 @@ setFinal(true);
 //     console.log('progress')
 //     console.log(progress)
 
-  // button component
   return (
-       
-        <div>
-        <div>
-          {
-            final &&  <ProgressBar current={progress} total={size} />
-          }
-       
+    <>
+      <div className="progress-container">
+        {final && <ProgressBar current={progress} total={size} />}
+      </div>
+  
+      <div className="question-container">
+        <h2 className="question-text">
+          {format.kana === "q" ? word.kana + " " : ""}
+          {format.kanji === "q" ? word.kanji + " " : ""}
+          {format.en === "q" ? word.English + " " : ""}
+        </h2>
+  
+        <div className="answers-grid">
+          {answers.map((answer, idx) => (
+            <Button
+              key={idx}
+              variant="contained"
+              className="answer-button"
+              onClick={() => handleClick(answer)}
+            >
+              {format.kana === "a" ? answer.kana + " " : ""}
+              {format.kanji === "a" ? answer.kanji + " " : ""}
+              {format.en === "a" ? answer.English + " " : ""}
+            </Button>
+          ))}
         </div>
-          <div/>
-    <div className="question">
-      <h2>
-        {format.kana == "q" ? word.kana + " " : ""}
-        {format.kanji == "q" ? word.kanji + " " : ""}
-        {format.en == "q" ? word.English + " " : ""}
-      </h2>
-      {answers.map((answer) => (
-        <Button variant="contained" onClick={() => handleClick(answer)}>
-          {format.kana == "a" ? answer.kana + " " : ""}
-          {format.kanji == "a" ? answer.kanji + " " : ""}
-          {format.en == "a" ? answer.English + " " : ""}
-        </Button>
-      ))}
-      {message}
-     
-    </div>
-    </div>
+  
+        <div className="message">{message}</div>
+      </div>
+    </>
   );
+  
 }
 
 export default Quiz;

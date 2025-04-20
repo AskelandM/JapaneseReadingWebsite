@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Quiz from "../components/Quiz.js";
 import { useLocation } from "react-router";
 import supabase from "../supabaseclient.js";
-import "../styling/flashcard.css";
+import "../styling/quizzes.css";
+import { FaFastBackward, FaBackward, FaForward,FaFastForward } from "react-icons/fa";
+
 
 function Quizzes() {
   // get lesson # from URL
@@ -221,35 +223,39 @@ function Quizzes() {
     }
   };
 
-
-
-
   return (
-    <div>
-      <br />
-      <h1 className="page-title">Lesson {lesson} Quiz</h1>
-      <Quiz
-        word={quizList[currentIndex]}
-        answers={answerList[currentIndex]}
-        current_num={currentIndex}
-        answeredQs={answeredQs}
-        size = {size}
-        missedmode = {missedmode}
-        onAnsweredQ={onAnsweredQ}
-        lesson={lesson} 
-        format={{ kanji: kanji, kana: kana, en: en }}
-      />
-      <div>
-        <button onClick={setFirstQ}>&lt;&lt;</button>
-        <button onClick={prevQ}>&lt;</button>
-        &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
-        <button onClick={nextQ}>&gt;</button>
-        <button onClick={setLastQ}>&gt;&gt;</button>
-        &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp;{" "}
-        {answeredQs >= quizList.length ? "Complete!" : ""}
+    <div className="quizzes-wrapper">
+      <div className="quiz-card">
+        <h1 className="page-title">Lesson {lesson} Quiz</h1>
+  
+        <Quiz
+          word={quizList[currentIndex]}
+          answers={answerList[currentIndex]}
+          current_num={currentIndex}
+          answeredQs={answeredQs}
+          size={size}
+          missedmode={missedmode}
+          onAnsweredQ={onAnsweredQ}
+          lesson={lesson}
+          format={{ kanji: kanji, kana: kana, en: en }}
+        />
+  
+        <div className="nav-controls">
+          <button onClick={setFirstQ}><FaFastBackward></FaFastBackward></button>
+          <button onClick={prevQ}><FaBackward></FaBackward></button>
+          &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
+          <button onClick={nextQ}><FaForward></FaForward></button>
+          <button onClick={setLastQ}><FaFastForward></FaFastForward></button>
+        </div>
+  
+        <div className="quiz-status">
+          Questions Answered: {answeredQs} &nbsp;&nbsp;
+          {answeredQs >= quizList.length ? "Complete!" : ""}
+        </div>
       </div>
     </div>
   );
+  
 }
 
 export default Quizzes;

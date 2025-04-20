@@ -3,7 +3,7 @@ import { Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useLocation } from 'react-router';
 import { Link } from "react-router-dom";
 import supabase from "../supabaseclient.js";
-
+import "../styling/quizoptions.css"
 
 function QuizOptions () {
     // get lesson # from URL
@@ -76,108 +76,92 @@ function QuizOptions () {
     };
 
     return (
-        <div>
-            <br/>
-            <h1 className='page-title'>Lesson {lesson} Quiz</h1>
-            {showMissed ?
-                <div>
-                <ToggleButtonGroup
-                    value={missed}
-                    exclusive
-                    onChange={handleMissed}
-                    aria-label="missed"
+        <div className="quiz-page">
+            <div className="quiz-container">
+                <h1 className='page-title'>Lesson {lesson} Quiz</h1>
+                {showMissed && (
+                    <div>
+                        <ToggleButtonGroup
+                            value={missed}
+                            exclusive
+                            onChange={handleMissed}
+                            aria-label="missed"
+                        >
+                            <ToggleButton value="f" aria-label="all">
+                                All
+                            </ToggleButton>
+                            <ToggleButton value="t" aria-label="missed">
+                                Missed Questions Only
+                            </ToggleButton>
+                        </ToggleButtonGroup>
+                    </div>
+                )}
+    
+                <div className="quiz-section">
+                    <p>Number of Questions:</p>
+                    <ToggleButtonGroup
+                        value={qNum}
+                        exclusive
+                        onChange={handleQNum}
+                        aria-label="number of questions"
                     >
-                    <ToggleButton value="f" aria-label="all">
-                        All
-                    </ToggleButton>
-                    <ToggleButton value="t" aria-label="missed">
-                        Missed Questions Only
-                    </ToggleButton>
-                </ToggleButtonGroup>
-                <br/>
+                        <ToggleButton value="0" aria-label="all">All</ToggleButton>
+                        <ToggleButton value="5" aria-label="five">5</ToggleButton>
+                        <ToggleButton value="10" aria-label="ten">10</ToggleButton>
+                    </ToggleButtonGroup>
                 </div>
-            : ""}
-            <p>Number of Questions:</p>
-            <ToggleButtonGroup
-                value={qNum}
-                exclusive
-                onChange={handleQNum}
-                aria-label="number of questions"
-                >
-                <ToggleButton value="0" aria-label="all">
-                    All
-                </ToggleButton>
-                <ToggleButton value="5" aria-label="five">
-                    5
-                </ToggleButton>
-                <ToggleButton value="10" aria-label="ten">
-                    10
-                </ToggleButton>
-            </ToggleButtonGroup>
-            <br/>
-
-            <p>Question Type:</p>
-            <p>Kanji</p>
-            <ToggleButtonGroup
-                value={kanji}
-                exclusive
-                onChange={handleKanji}
-                aria-label="kanji"
-                >
-                <ToggleButton value="q" aria-label="question">
-                    question
-                </ToggleButton>
-                <ToggleButton value="a" aria-label="answer">
-                    answer
-                </ToggleButton>
-                <ToggleButton value="n" aria-label="none">
-                    none
-                </ToggleButton>
-            </ToggleButtonGroup>
-            <br/>
-            <p>Kana</p>
-            <ToggleButtonGroup
-                value={kana}
-                exclusive
-                onChange={handleKana}
-                aria-label="kana"
-                >
-                <ToggleButton value="q" aria-label="question">
-                    question
-                </ToggleButton>
-                <ToggleButton value="a" aria-label="answer">
-                    answer
-                </ToggleButton>
-                <ToggleButton value="n" aria-label="none">
-                    none
-                </ToggleButton>
-            </ToggleButtonGroup>
-            <br/>
-            <p>English</p>
-            <ToggleButtonGroup
-                value={en}
-                exclusive
-                onChange={handleEn}
-                aria-label="english"
-                >
-                <ToggleButton value="q" aria-label="question">
-                    question
-                </ToggleButton>
-                <ToggleButton value="a" aria-label="answer">
-                    answer
-                </ToggleButton>
-                <ToggleButton value="n" aria-label="none">
-                    none
-                </ToggleButton>
-            </ToggleButtonGroup>
-            <br/>
-
-            <Link to={{
-                pathname: "/quizzes",
-                search: `?lesson=${lesson}&qnum=${qNum}&kj=${kanji}&kn=${kana}&en=${en}&missed=${missed}`
-            }}><Button>Start Quiz</Button></Link>
+    
+                <div className="quiz-section">
+                    <p>Question Type:</p>
+                    <p>Kanji</p>
+                    <ToggleButtonGroup
+                        value={kanji}
+                        exclusive
+                        onChange={handleKanji}
+                        aria-label="kanji"
+                    >
+                        <ToggleButton value="q">question</ToggleButton>
+                        <ToggleButton value="a">answer</ToggleButton>
+                        <ToggleButton value="n">none</ToggleButton>
+                    </ToggleButtonGroup>
+    
+                    <p>Kana</p>
+                    <ToggleButtonGroup
+                        value={kana}
+                        exclusive
+                        onChange={handleKana}
+                        aria-label="kana"
+                    >
+                        <ToggleButton value="q">question</ToggleButton>
+                        <ToggleButton value="a">answer</ToggleButton>
+                        <ToggleButton value="n">none</ToggleButton>
+                    </ToggleButtonGroup>
+    
+                    <p>English</p>
+                    <ToggleButtonGroup
+                        value={en}
+                        exclusive
+                        onChange={handleEn}
+                        aria-label="english"
+                    >
+                        <ToggleButton value="q">question</ToggleButton>
+                        <ToggleButton value="a">answer</ToggleButton>
+                        <ToggleButton value="n">none</ToggleButton>
+                    </ToggleButtonGroup>
+                </div>
+    
+                <div className="quiz-button">
+                    <Link to={{
+                        pathname: "/quizzes",
+                        search: `?lesson=${lesson}&qnum=${qNum}&kj=${kanji}&kn=${kana}&en=${en}&missed=${missed}`
+                    }}>
+                        <Button>Start Quiz</Button>
+                    </Link>
+                </div>
+            </div>
         </div>
     );
+    
 };
 
 export default QuizOptions;
