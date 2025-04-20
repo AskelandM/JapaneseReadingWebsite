@@ -6,15 +6,17 @@ import {
   FaBook,
   FaSearch,
   FaSignOutAlt,
+  FaGavel,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import supabase from "../supabaseclient.js";
 import "../styling/layout.css";
-import { authTeacher } from "./util.js";
+import { authTeacher, authAdmin } from "./util.js";
 
 const Layout = ({ setUser }) => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
   const [isTeacher, setIsTeacher] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -43,6 +45,12 @@ const Layout = ({ setUser }) => {
           },
         ]);
       } else {
+        //Check if admin
+        const adminRes = await authAdmin(user.email);
+        if (adminRes === true) {
+          setIsAdmin(true);
+        }
+        //Check if teacher
         const res = await authTeacher(user.email);
         if (res === true) {
           setIsTeacher(true);
@@ -70,10 +78,17 @@ const Layout = ({ setUser }) => {
           <Link to="/sentences">
             <FaSearch style={{ fontSize: "2rem" }} />
           </Link>
+          {isAdmin && (
+            <Link to="/admin">
+              <FaGavel style={{ fontSize: "2rem" }} />
+            </Link>
+          )}
         </div>
 
         <div className="nav-center">
-          <h1>{isTeacher ? "YOMI TEACHER" : "YOMI"} </h1>
+          <h1>
+            {isAdmin ? "YOMI ADMIN" : isTeacher ? "YOMI TEACHER" : "YOMI"}
+          </h1>
           <img
             src="/images/gator_student.png"
             alt="YOMI logo"
