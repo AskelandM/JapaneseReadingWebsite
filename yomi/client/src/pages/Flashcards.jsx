@@ -10,9 +10,9 @@ import { BsFront } from "react-icons/bs";
 
 export function Flashcards() {
   // controls which alphabets are shown on the front of the flashcard
-  // Romaji shown by default
-  const [showRomaji, setShowRomaji] = useState(true);
-  const [showKanji, setShowKanji] = useState(false);
+  // Kanji shown by default
+  const [showRomaji, setShowRomaji] = useState(false);
+  const [showKanji, setShowKanji] = useState(true);
   const [showKana, setShowKana] = useState(false);
 
   const [wordList, setWords] = React.useState([
@@ -62,13 +62,6 @@ export function Flashcards() {
   useEffect(() => {
     console.log("Updated wordList:", wordList);
   }, [wordList]);
-
-  // change flashcard logic so that the front of a flashcard can show up to 3 different japanese alphabets
-  // database calls to get the flashcards
-  // list all flashcards front and backs below the flashcard
-
-  // flashcard data should come in form of word, romaji, kana, kanji
-  // flashcards are then constructed with word on the front and the back being dependent on the state of the romaji, kana, kanji toggles
 
   // controls which flashcard is shown
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Quiz from "../components/Quiz.js";
 import { useLocation } from "react-router";
 import supabase from "../supabaseclient.js";
-import "../styling/flashcard.css";
+import "../styling/quizzes.css";
+import { FaFastBackward, FaBackward, FaForward,FaFastForward } from "react-icons/fa";
+
 
 function Quizzes() {
   // get lesson # from URL
@@ -31,7 +33,7 @@ function Quizzes() {
       { id: 0, kana: "loading...", kanji: "loading...", English: "loading..." }],
   ]);
   const [size, setSize] = useState(0);
-
+  const[missedmode, setMissedmode]= useState(false);
   // get this user
   const [Username, setUsername] = useState(null);
   useEffect(() => {
@@ -61,24 +63,43 @@ function Quizzes() {
     }
 
     async function getMissedWords() {
-      const { data, error } = await supabase.rpc("get_missed_words", {
-        target_username: Username,
-        target_lesson: lesson
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      
+      const { data, error } = await supabase
+      .from("Words")
+      .select('id, kana, kanji, English, missedPool!inner(userName, failed_times, success_updatedStreak)')
+      .eq('missedPool.userName', user.email)
+      .eq('lesson', lesson); // string is fine
+    
+      console.log("📦 Raw data from Supabase join:", data);
+      console.log("👤 Username:", user.email);
+      console.log("📘 Lesson:", lesson);
+
+
+    if (error) {
+      console.warn(error);
+    } else if (data) {
+      // Filter manually for failed > recovered
+      const filtered = data.filter(item => {
+        const pool = item.missedPool?.[0]; 
+        return pool && pool.failed_times > pool.success_updatedStreak;
       });
-      if (error) {
-        console.warn(error);
-      } else if (data) {
-        if (data.length > 0) {
-          setWords(data);
-        }
-        else {
-          setWords([{ id: 0, kana: "Empty", kanji: "(No missed words)", English: "Empty (No missed words)" }]);
-        }
-      }
+    
+      setWords(
+        filtered.length > 0
+          ? filtered
+          : [{ id: 0, kana: "Empty", kanji: "(No missed words)", English: "Empty (No missed words)" }]
+      );
+    
+      console.log("Filtered missed words:", filtered);
+    }
     }
 
     if (missed === "t") {
       getMissedWords();
+      setMissedmode(true);
       console.log("missed words");
     }
     else {
@@ -202,34 +223,39 @@ function Quizzes() {
     }
   };
 
-
-
-
   return (
-    <div>
-      <br />
-      <h1 className="page-title">Lesson {lesson} Quiz</h1>
-      <Quiz
-        word={quizList[currentIndex]}
-        answers={answerList[currentIndex]}
-        current_num={currentIndex}
-        answeredQs={answeredQs}
-        size = {size}
-        onAnsweredQ={onAnsweredQ}
-        lesson={lesson} 
-        format={{ kanji: kanji, kana: kana, en: en }}
-      />
-      <div>
-        <button onClick={setFirstQ}>&lt;&lt;</button>
-        <button onClick={prevQ}>&lt;</button>
-        &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
-        <button onClick={nextQ}>&gt;</button>
-        <button onClick={setLastQ}>&gt;&gt;</button>
-        &nbsp;answered Qs: {answeredQs} &nbsp;&nbsp;{" "}
-        {answeredQs >= quizList.length ? "Complete!" : ""}
+    <div className="quizzes-wrapper">
+      <div className="quiz-card">
+        <h1 className="page-title">Lesson {lesson} Quiz</h1>
+  
+        <Quiz
+          word={quizList[currentIndex]}
+          answers={answerList[currentIndex]}
+          current_num={currentIndex}
+          answeredQs={answeredQs}
+          size={size}
+          missedmode={missedmode}
+          onAnsweredQ={onAnsweredQ}
+          lesson={lesson}
+          format={{ kanji: kanji, kana: kana, en: en }}
+        />
+  
+        <div className="nav-controls">
+          <button onClick={setFirstQ}><FaFastBackward></FaFastBackward></button>
+          <button onClick={prevQ}><FaBackward></FaBackward></button>
+          &nbsp;{currentIndex + 1} / {quizList.length}&nbsp;
+          <button onClick={nextQ}><FaForward></FaForward></button>
+          <button onClick={setLastQ}><FaFastForward></FaFastForward></button>
+        </div>
+  
+        <div className="quiz-status">
+          Questions Answered: {answeredQs} &nbsp;&nbsp;
+          {answeredQs >= quizList.length ? "Complete!" : ""}
+        </div>
       </div>
     </div>
   );
+  
 }
 
 export default Quizzes;

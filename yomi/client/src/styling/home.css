@@ -1,0 +1,51 @@
+/* home.css */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* ✅ Disable all scrolling */
+}
+
+.home-container {
+  display: flex;
+  padding: 20px 40px; /* Add space on both sides */
+  min-height: 100vh;
+  box-sizing: border-box;
+  background-color: white;
+  gap: 32px;
+}
+
+.home-left {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding-right: 20px;
+}
+
+.home-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 24px;
+  padding-left: 20px;
+}
+
+.add-lesson-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.add-link {
+  text-decoration: none;
+}
+
+.plus-icon {
+  margin-right: 6px;
+  font-size: 1.25rem;
+}

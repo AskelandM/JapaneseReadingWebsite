@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useEffect } from "react";
 import LessonCard from "../components/LessonCard";
+import "../styling/lessons.css";
+import supabase from "../supabaseclient";
 
 //lessonData is an array of JSON objects with values "title" and "progress"
 const Lessons = () => {
@@ -9,8 +11,12 @@ const Lessons = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:4000/api/lessons");
-        const data = await response.json();
+        const lessons = await supabase.from("lessons").select("*");
+        if (lessons.error) {
+          console.error("Error fetching lessons:", lessons.error);
+          return;
+        }
+        const data = lessons.data;
         setLessons(data);
       } catch (error) {
         console.log(error);
@@ -21,20 +27,14 @@ const Lessons = () => {
   }, []);
 
   return (
-    <div style={styles.lessons}>
-      {lessonData.map((lesson, index) => (
-        <LessonCard lesson={lesson} index={index}></LessonCard>
-      ))}
+    <div className="lessons-container">
+      <div className="lessons-scroll-box">
+        {lessonData.map((lesson, index) => (
+          <LessonCard key={index} lesson={lesson} index={index} />
+        ))}
+      </div>
     </div>
   );
-};
-
-const styles = {
-  lessons: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-  },
 };
 
 export default Lessons;

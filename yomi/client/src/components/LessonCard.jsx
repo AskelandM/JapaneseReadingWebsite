@@ -3,24 +3,17 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import { AccordionActions, Box, Button } from "@mui/material";
-import CircularProgressWithLabel from "../components/ProgressCircle";
 import * as React from "react";
 
 const LessonCard = ({ lesson, index }) => {
   //Lesson ID < 100 are hardcode Genki Lessons, over 100 are custom lessons
   const [lessonID, setLessonID] = React.useState(lesson.id);
   return (
-    <Accordion
-      sx={{
-        border: "1px solid black",
-        borderRadius: "12px",
-        overflow: "hidden",
-      }}
-    >
+    <Accordion className="lesson-card">
       <AccordionSummary
-        expandIcon={<CircularProgressWithLabel value={10} />}
         aria-controls={`lesson${lessonID}`}
         id={`panel${lessonID}-header`}
+        className="lesson-summary"
         sx={{
           "& .MuiAccordionSummary-expandIconWrapper": {
             transform: "none",
@@ -30,12 +23,12 @@ const LessonCard = ({ lesson, index }) => {
           },
         }}
       >
-        <Typography component="span">
+        <Typography component="span" className="lesson-title">
           {lessonID > 100 ? "Bonus: " + lesson.title : lesson.title}
         </Typography>
       </AccordionSummary>
 
-      <Box display="flex" alignItems="center" justifyContent="flex-start">
+      <Box className="lesson-actions">
         <AccordionActions>
           <Link
             to={{
@@ -43,7 +36,7 @@ const LessonCard = ({ lesson, index }) => {
               search: `?lesson=${lessonID}`,
             }}
           >
-            <Button>Vocabulary</Button>
+            <Button className="lesson-button">Vocabulary</Button>
           </Link>
           <Link
             to={{
@@ -51,7 +44,7 @@ const LessonCard = ({ lesson, index }) => {
               search: `?lesson=${lessonID}`,
             }}
           >
-            <Button>Flashcards</Button>
+            <Button className="lesson-button">Flashcards</Button>
           </Link>
           <Link
             to={{
@@ -59,7 +52,7 @@ const LessonCard = ({ lesson, index }) => {
               search: `?lesson=${lessonID}`,
             }}
           >
-            <Button>Quizzes</Button>
+            <Button className="lesson-button">Quizzes</Button>
           </Link>
           <Link
             to={{
@@ -67,7 +60,7 @@ const LessonCard = ({ lesson, index }) => {
               search: `?lesson=${lessonID}`,
             }}
           >
-            <Button>Game</Button>
+            <Button className="lesson-button">Game</Button>
           </Link>
         </AccordionActions>
       </Box>

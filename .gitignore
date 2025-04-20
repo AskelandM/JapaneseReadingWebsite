@@ -1,11 +1,13 @@
 
 # dependencies
+yomi/client/build/
 yomi/client/node_modules
 yomi/server/node_modules
 yomi/node_modules
 /node_modules
 yomi/client/src/supabaseclient.js
 yomi/client/src/pages/supabaseclient.js
+**/supabaseclient
 /.pnp
 .pnp.js
 
@@ -16,6 +18,7 @@ yomi/client/src/pages/supabaseclient.js
 /build
 
 # misc
+.vscode
 .DS_Store
 .env.local
 .env.development.local
