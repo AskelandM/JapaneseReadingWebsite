@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import supabase from "../supabaseclient";
 import { useEffect, useState } from "react";
+import "../styling/profile.css";
 
 function Profile() {
   const [Username, setUsername] = useState(null);
@@ -24,41 +25,31 @@ function Profile() {
         data: { user },
       } = await supabase.auth.getUser();
       setUsername(user.email);
-      console.log(user);
     };
 
     checkUser();
   }, []);
 
   return (
-    <Box sx={{ maxWidth: "1200px", margin: "0 auto", padding: 2 }}>
+    <div className="profile-container">
       {/* Profile Header Section */}
-      <Box sx={{ display: "flex", alignItems: "center", marginBottom: 3 }}>
+      <div className="profile-header">
         <Avatar
           alt="User Avatar"
           src="images/oni.png"
-          sx={{ width: 100, height: 100, marginRight: 3 }}
+          className="profile-avatar"
         />
-        <Box>
+        <div className="profile-info">
           <Typography variant="h4">{Username}</Typography>
           <Typography variant="body1" color="text.secondary">
             Student
           </Typography>
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      {/* Profile Information */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: 3,
-          border: "4px solid black",
-          borderRadius: "12px",
-          overflow: "hidden",
-        }}
-      >
-        <Card>
+      {/* Profile Content */}
+      <div className="profile-content">
+        <Card className="profile-card">
           <CardContent>
             <Typography variant="h6">Personal Information</Typography>
             <Typography variant="body1">UFID: 123456789</Typography>
@@ -69,47 +60,36 @@ function Profile() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="profile-card">
           <CardContent>
             <Typography variant="h6">Activity</Typography>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>
-                      <strong>Task</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Lesson</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Points Earned</strong>
-                    </TableCell>
+                    <TableCell><strong>Task</strong></TableCell>
+                    <TableCell><strong>Lesson</strong></TableCell>
+                    <TableCell><strong>Points Earned</strong></TableCell>
                   </TableRow>
                 </TableHead>
-
                 <TableBody>
                   <TableRow>
                     <TableCell>Quiz</TableCell>
                     <TableCell>Lesson 1: New Friends</TableCell>
-                    <TableCell style={{ color: 50 >= 0 ? "green" : "inherit" }}>
-                      +50
-                    </TableCell>
+                    <TableCell style={{ color: "green" }}>+50</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Created flashcards</TableCell>
+                    <TableCell>Practiced flashcards</TableCell>
                     <TableCell>Lesson 1: New Friends</TableCell>
-                    <TableCell style={{ color: 10 >= 0 ? "green" : "inherit" }}>
-                      +10
-                    </TableCell>
+                    <TableCell style={{ color: "green" }}>+10</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
           </CardContent>
         </Card>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 
