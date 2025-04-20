@@ -14,7 +14,7 @@ const DisplayTable = ({ rows, columns, removeCallback }) => {
   };
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             {columns.map((colName) => (
@@ -32,7 +32,7 @@ const DisplayTable = ({ rows, columns, removeCallback }) => {
                   {value}
                 </TableCell>
               ))}
-              <button key={row[0]} onClick={() => handleRemoveEntry(row[0])}>
+              <button className="admin-table-button" onClick={() => handleRemoveEntry(row[0])}>
                 Remove
               </button>
             </TableRow>
