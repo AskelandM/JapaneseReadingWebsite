@@ -17,30 +17,27 @@ function Sentences () {
         }
     `
   
-    useEffect(() => { 
-        const loadPost = async () => { 
-            // Till the data is fetch using API 
-            // the Loading page will show. 
-            setLoading(true); 
-  
-            // Await make wait until that 
-            // promise settles and return its result 
-            const response = await axios.get( 
-                "https://tatoeba.org/eng/api_v0/search?from=" + (fromEn ? "eng" : "jpn") + "&has_audio=&list=&native=&original=&orphans=no&query=" + query + "&sort=relevance&sort_reverse=&tags=&to=" + (fromEn ? "jpn" : "eng") + "&trans_filter=limit&trans_has_audio=&trans_link=&trans_orphan=&trans_to=" + (fromEn ? "jpn" : "eng") + "&trans_unapproved=&trans_user=&unapproved=no&user=&word_count_max=&word_count_min=1"
-            ); 
-  
-            // After fetching data stored it in posts state. 
-            setPosts(response.data); 
-  
-            // Closed the loading page 
-            setLoading(false); 
-        }; 
-  
-        // Call the function 
-        if (query != "") {
-            loadPost(); 
+    useEffect(() => {
+        const loadPost = async () => {
+            setLoading(true);
+        
+            try {
+                const response = await axios.get(
+                `/api/tatoeba?query=${encodeURIComponent(query)}&fromEn=${fromEn}`
+                );
+                setPosts(response.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        
+            setLoading(false);
+        };
+      
+        if (query !== "") {
+            loadPost();
         }
-    }, [query]); 
+    }, [query]);
+
 
     useEffect(() => {
         console.log(posts)
