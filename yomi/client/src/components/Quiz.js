@@ -61,9 +61,22 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ, format, siz
       {
         userName: user.email,
         correct_id: word.id,
+        lesson: String(lesson)
+      },
+    ]).select();
+
+    const { error } = await supabase
+    .from("correctPool")
+    .insert([
+      {
+        userName: user.email,
+        correct_id: word.id,
         lesson: lesson
       },
-    ]);
+    ])
+    .select();
+  
+  if (error) console.error("Insert error:", error.message);
   }
 
   const updateStreaks = async () => {
@@ -163,6 +176,7 @@ function Quiz({ word, answers, current_num, answeredQs, onAnsweredQ, format, siz
       .select("correct_id")
       .eq("userName", user.email)
       .eq("lesson", lesson);
+      console.log("Lesson value being sent:", lesson);
     //   console.log(error)
     //   console.log(correctData)
     //  console.log(user.email)
@@ -195,10 +209,10 @@ setFinal(true);
 
 
 //calculate how many student already got it right here, need to trigger rerender if needed
-// console.log('size')
-//     console.log(size)
-//     console.log('progress')
-//     console.log(progress)
+console.log('size')
+    console.log(size)
+    console.log('progress')
+    console.log(progress)
 
   // button component
   return (
