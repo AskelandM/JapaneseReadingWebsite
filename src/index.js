@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Quizzes from "./pages/Quizzes";
 import { Flashcards } from "./pages/Flashcards";
-import Leaderboard from "./components/Leaderboard";
 import supabase from "./supabaseclient";
 import Lessons from "./pages/Lessons";
 import SignIn from "./pages/SignIn";
@@ -32,6 +31,11 @@ export default function App() {
     checkSession();
   }, [setUser]);
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -44,7 +48,6 @@ export default function App() {
             <Route path="quizoptions" element={<QuizOptions />} />
             <Route path="flashcards" element={<Flashcards />} />
             <Route path="leaderboard" element={<LeaderboardPage />} />
-
             <Route path="lessons" element={<Lessons />} />
             <Route path="profile" element={<Profile />} />
             <Route path="game" element={<Game />} />
