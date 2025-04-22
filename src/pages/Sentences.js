@@ -21,16 +21,20 @@ function Sentences () {
     useEffect(() => {
         const loadPost = async () => {
             setLoading(true);
-        
+          
             try {
-                const response = await axios.get(
+              const response = await axios.get(
                 `/api/tatoeba?query=${encodeURIComponent(query)}&fromEn=${fromEn}`
-                );
-                setPosts(response.data);
+              );
+          
+              console.log("API Response:", response.data);
+          
+              setPosts(response.data?.results || []);
             } catch (error) {
-                console.error("Error fetching data:", error);
+              console.error("Error fetching data:", error);
+              setPosts([]); // fallback
             }
-        
+          
             setLoading(false);
         };
       
