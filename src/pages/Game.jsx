@@ -31,11 +31,9 @@ const Game = () => {
 
   return (
     <div className="game-container">
-      <div className="scroll-box-wrapper">
+      <div className="game-box">
         <h1 className="game-title">{lessonTitle}</h1>
-        <div className="game-box">
-          <Concentration lessonID={lessonID} />
-        </div>
+        <Concentration lessonID={lessonID} />
       </div>
     </div>
   );

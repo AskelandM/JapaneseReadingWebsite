@@ -38,7 +38,7 @@
     color: #2d3748;
 }
 
-  .error-message {
+.error-message {
     font-size: 1.1rem;
     color: #4a5568;
     margin-bottom: 2rem;
@@ -79,7 +79,6 @@
     }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .error-code {
         font-size: 6rem;

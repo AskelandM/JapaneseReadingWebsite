@@ -1,16 +1,10 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: white;
-}
-
 .lessons-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* ✅ align to top */
+  align-items: flex-start;
   min-height: 100vh;
   background-color: white;
-  padding: 40px; /* ✅ remove padding */
+  padding: 40px;
   margin: 0;
   box-sizing: border-box;
 }

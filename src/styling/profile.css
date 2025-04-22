@@ -2,8 +2,8 @@
     max-width: 1000px;
     margin: 40px auto;
     padding: 20px;
-    background-color: white; /* ✅ white background */
-    border: 2px solid #2a4365; /* ✅ visible border */
+    background-color: white;
+    border: 2px solid #2a4365;
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }

@@ -1,109 +1,67 @@
-/* game.css */
+.game-container {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
 
-/* Make the full page background white */
-html, body {
-    margin: 0;
-    padding: 0;
-    background-color: white;
-    height: 100%;
-  }
-  
-  
-  .game-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    height: 100vh;
-    box-sizing: border-box;
-  }
-  
-  
-  .game-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #2a4365;
-  }
-  
-  .game-box {
-    width: 100%;
-    max-width: 800px; /* Smaller overall container */
-    background-color: #edf2f7;
-    border: 2px solid #2a4365;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    padding: 24px;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    border-radius: 12px;
-  }
-  
-  /* Flex container for options */
-  .option-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-  }
-  
-  /* Individual option card styling */
-  .option-card {
-    background-color: #ffffff;
-    border: 1.5px solid #2a4365; /* Slightly more visible border */
-    padding: 16px;
-    text-align: center;
-    flex: 1 1 150px; /* Reduce card size */
-    max-width: 180px;
-    min-width: 120px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-radius: 8px;
-  }
-  
-  .option-card:hover {
-    transform: scale(1.05);
-    background-color: #ebf4ff;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .scroll-box-wrapper {
-    height: 600px;
-    width: 100%;
-    max-width: 900px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 16px;
-    margin-top: 20px;
-    background-color: #edf2f7;
-    border: 2px solid #2a4365;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-    
-    
-  }
-  
-  .scroll-box-wrapper::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  .scroll-box-wrapper::-webkit-scrollbar-thumb {
-    background-color: #2a4365;
-  }
-  
-  .scroll-box-wrapper::-webkit-scrollbar-track {
-    background-color: #d3dce6;
-  }
-  
+.game-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #2a4365;
+}
 
-  .grid-wrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    justify-items: center;
-  }
-  
+.game-box {
+  width: 100%;
+  max-width: 800px;
+  background-color: #edf2f7;
+  border: 2px solid #2a4365;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  border-radius: 12px;
+}
+
+/* Flex container for options */
+.option-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Individual option card styling */
+.option-card {
+  background-color: #ffffff;
+  border: 1.5px solid #2a4365;
+  padding: 16px;
+  text-align: center;
+  flex: 1 1 150px;
+  max-width: 180px;
+  min-width: 120px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+}
+
+.option-card:hover {
+  transform: scale(1.05);
+  background-color: #ebf4ff;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  justify-items: center;
+}
