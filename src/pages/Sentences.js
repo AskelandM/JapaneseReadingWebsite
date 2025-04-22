@@ -87,20 +87,20 @@ function Sentences () {
             <hr />
     
             {loading ? (
-              <h4>Loading...</h4>
+            <h4>Loading...</h4>
             ) : (
-              posts.results.map((item, i) =>
-                item.translations.length > 0 ? (
-                  <div key={i} className="sentence-block">
-                    <h4>{item.text}</h4>
-                    {item.translations.map((trans, idx) =>
-                      trans.length > 0 ? (
-                        <p key={idx} className="translation">{trans[0].text}</p>
-                      ) : null
-                    )}
-                  </div>
-                ) : null
-              )
+                posts.map((item, i) =>
+                    item.translations.length > 0 ? (
+                    <div key={i} className="sentence-block">
+                        <h4>{item.text}</h4>
+                        {item.translations.map((trans, idx) =>
+                        trans.length > 0 ? (
+                            <p key={idx} className="translation">{trans[0].text}</p>
+                        ) : null
+                        )}
+                    </div>
+                    ) : null
+                )
             )}
     
             <hr />
