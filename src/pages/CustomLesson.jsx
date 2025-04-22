@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../supabaseclient";
 import { authTeacher } from "./util";
+import "../styling/addlesson.css"
+
 const CustomLesson = (currUser) => {
   const [entries, setEntries] = useState([]);
   const [lessonTitle, setLessonTitle] = useState("");
@@ -95,81 +97,47 @@ const CustomLesson = (currUser) => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
-        <input
-          type="text"
-          value={lessonTitle}
-          onChange={(e) => setLessonTitle(e.target.value)}
-          placeholder="Enter Lesson Title"
-        />
-        <table style={{ borderCollapse: "collapse", width: "100%" }}>
-          <thead>
-            <tr>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Kanji
-              </th>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Kana
-              </th>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                Romaji
-              </th>
-              <th style={{ border: "1px solid black", padding: "8px" }}>
-                English
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries.map((entry, index) => (
-              <tr key={index}>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  <input
-                    type="text"
-                    value={entry.kanji}
-                    onChange={(e) =>
-                      handleInputChange(index, "kanji", e.target.value)
-                    }
-                  />
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  <input
-                    type="text"
-                    value={entry.kana}
-                    onChange={(e) =>
-                      handleInputChange(index, "kana", e.target.value)
-                    }
-                  />
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  <input
-                    type="text"
-                    value={entry.romaji}
-                    onChange={(e) =>
-                      handleInputChange(index, "romaji", e.target.value)
-                    }
-                  />
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  <input
-                    type="text"
-                    value={entry.english}
-                    onChange={(e) =>
-                      handleInputChange(index, "English", e.target.value)
-                    }
-                  />
-                </td>
-                <td style={{ border: "1px solid black", padding: "8px" }}>
-                  <button onClick={() => handleRemoveEntry(index)}>
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="customlesson-page">
+        <div className="customlesson-container">
+          <h2>Create New Lesson</h2>
+          <input
+            type="text"
+            value={lessonTitle}
+            onChange={(e) => setLessonTitle(e.target.value)}
+            placeholder="Enter Lesson Title"
+          />
 
-        <button onClick={handleAddEntry}>Add Word</button>
-        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Kanji</th>
+                <th>Kana</th>
+                <th>Romaji</th>
+                <th>English</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.map((entry, index) => (
+                <tr key={index}>
+                  {["kanji", "kana", "romaji", "English"].map((field) => (
+                    <td key={field}>
+                      <input
+                        type="text"
+                        value={entry[field]}
+                        onChange={(e) => handleInputChange(index, field, e.target.value)}
+                      />
+                    </td>
+                  ))}
+                  <td>
+                    <button onClick={() => handleRemoveEntry(index)}>Remove</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <button onClick={handleAddEntry}>Add Word</button>
           <button onClick={handleSave}>Save Lesson</button>
         </div>
       </div>

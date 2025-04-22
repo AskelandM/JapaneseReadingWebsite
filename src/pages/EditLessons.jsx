@@ -3,6 +3,7 @@ import supabase from "../supabaseclient";
 import { useState, useEffect } from "react";
 import { TableRow, TableCell } from "@mui/material";
 import { authTeacher } from "./util";
+import "../styling/editlessons.css"
 
 const EditLessons = (currUser) => {
   const [customLessons, setCustomLessons] = useState([]);
@@ -139,71 +140,73 @@ const EditLessons = (currUser) => {
     );
   } else {
     return (
-      <div>
-        <select
-          onChange={(e) => setSelectedLesson(e.target.value)}
-          value={selectedLesson.title}
-        >
-          <option value="">Select a lesson</option>
-          {customLessons.map((lesson) => (
-            <option key={lesson.id} value={lesson.id}>
-              {lesson.title}
-            </option>
-          ))}
-        </select>
+      <div className="editlessons-page">
+        <div className="editlessons-container">
+          <select
+            onChange={(e) => setSelectedLesson(e.target.value)}
+            value={selectedLesson.title}
+          >
+            <option value="">Select a lesson</option>
+            {customLessons.map((lesson) => (
+              <option key={lesson.id} value={lesson.id}>
+                {lesson.title}
+              </option>
+            ))}
+          </select>
 
-        {selectedLesson && (
-          <div>
-            <h2>Lesson Words</h2>
-            <DisplayTable
-              rows={lessonWords}
-              columns={["Kanji", "Kana", "Romaji", "English"]}
-              removeCallback={removeWord}
-            ></DisplayTable>
-            {isAddingWord ? (
-              <>
-                <input
-                  placeholder="Enter kanji"
-                  value={newWordData.kanji}
-                  onChange={(e) => handleInputChange("kanji", e.target.value)}
-                ></input>
-                <input
-                  placeholder="Enter kana"
-                  value={newWordData.kana}
-                  onChange={(e) => handleInputChange("kana", e.target.value)}
-                ></input>
-                <input
-                  placeholder="Enter romaji"
-                  value={newWordData.romaji}
-                  onChange={(e) => handleInputChange("romaji", e.target.value)}
-                ></input>
-                <input
-                  placeholder="Enter english"
-                  value={newWordData.English}
-                  onChange={(e) => handleInputChange("English", e.target.value)}
-                ></input>
-              </>
-            ) : null}
-            {!isAddingWord ? (
-              <button onClick={() => setIsAddingWord(true)}>Add Word</button>
-            ) : (
-              <>
-                <button onClick={handleSaveWord}>Save word</button>
-                <button onClick={() => setIsAddingWord(false)}>Back</button>
-              </>
-            )}
+          {selectedLesson && (
+            <div>
+              <h2>Lesson Words</h2>
+              <DisplayTable
+                rows={lessonWords}
+                columns={["Kanji", "Kana", "Romaji", "English"]}
+                removeCallback={removeWord}
+              ></DisplayTable>
+              {isAddingWord ? (
+                <div className="new-word-inputs">
+                  <input
+                    placeholder="Enter kanji"
+                    value={newWordData.kanji}
+                    onChange={(e) => handleInputChange("kanji", e.target.value)}
+                  ></input>
+                  <input
+                    placeholder="Enter kana"
+                    value={newWordData.kana}
+                    onChange={(e) => handleInputChange("kana", e.target.value)}
+                  ></input>
+                  <input
+                    placeholder="Enter romaji"
+                    value={newWordData.romaji}
+                    onChange={(e) => handleInputChange("romaji", e.target.value)}
+                  ></input>
+                  <input
+                    placeholder="Enter english"
+                    value={newWordData.English}
+                    onChange={(e) => handleInputChange("English", e.target.value)}
+                  ></input>
+                </div>
+              ) : null}
+              {!isAddingWord ? (
+                <button onClick={() => setIsAddingWord(true)}>Add Word</button>
+              ) : (
+                <>
+                  <button onClick={handleSaveWord}>Save word</button>
+                  <button onClick={() => setIsAddingWord(false)}>Back</button>
+                </>
+              )}
 
-            {isDeleting ? (
-              <>
-                <text>Are you sure?</text>
-                <button onClick={handleDeleteLesson}>Yes</button>
-                <button onClick={() => setIsDeleting(false)}>No</button>
-              </>
-            ) : (
-              <button onClick={() => setIsDeleting(true)}>Delete Lesson</button>
-            )}
-          </div>
-        )}
+              {isDeleting ? (
+                <>
+                  <text>Are you sure?</text>
+                  <button onClick={handleDeleteLesson}>Yes</button>
+                  <button onClick={() => setIsDeleting(false)}>No</button>
+                </>
+              ) : (
+                <button onClick={() => setIsDeleting(true)}>Delete Lesson</button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
