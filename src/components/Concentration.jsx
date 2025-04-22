@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid2, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 import ConcentrationCard from "./ConcentrationCard";
 import supabase from "../supabaseclient.js";
@@ -41,11 +40,9 @@ async function fetchWords(lesson) {
   return { res, answers };
 }
 
-const cardArray = [];
-
 const Concentration = ({ lessonID }) => {
   const [flippedCards, setFlippedCards] = useState([]);
-  const [matchedCards, setMatchedCards] = useState([]);
+  const [matchedCards] = useState([]);
   const [shuffledArray, setShuffledArray] = useState([]);
   const [wonGame, setWonGame] = useState(false);
   const [gameAnswers, setGameAnswers] = useState({});

@@ -1,19 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { FaTrophy } from "react-icons/fa";
 import supabase from "../supabaseclient.js";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-} from "@mui/material";
-import "../styling/leaderboard.css"
+import "../styling/leaderboard.css";
 
 const Leaderboard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -23,7 +11,9 @@ const Leaderboard = () => {
     const correctPoints = async () => {
       const { data: correctData, error } = await supabase
         .from("leaderBoard_points")
-        .select("*");
+        .select("*")
+        .order("user_points", { ascending: false })
+        .limit(5);
 
       if (error) {
         console.error("Error fetching leaderboard:", error);
@@ -80,7 +70,6 @@ const Leaderboard = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Leaderboard;

@@ -1,7 +1,6 @@
 import DisplayTable from "../components/DisplayTable";
 import supabase from "../supabaseclient";
 import { useState, useEffect } from "react";
-import { TableRow, TableCell } from "@mui/material";
 import { authTeacher } from "./util";
 import "../styling/editlessons.css"
 
