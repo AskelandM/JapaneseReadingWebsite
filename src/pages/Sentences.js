@@ -21,20 +21,16 @@ function Sentences () {
     useEffect(() => {
         const loadPost = async () => {
             setLoading(true);
-          
+        
             try {
-              const response = await axios.get(
+                const response = await axios.get(
                 `/api/tatoeba?query=${encodeURIComponent(query)}&fromEn=${fromEn}`
-              );
-          
-              console.log("API Response:", response.data);
-          
-              setPosts(response.data?.results || []);
+                );
+                setPosts(response.data);
             } catch (error) {
-              console.error("Error fetching data:", error);
-              setPosts([]); // fallback
+                console.error("Error fetching data:", error);
             }
-          
+        
             setLoading(false);
         };
       
@@ -67,54 +63,42 @@ function Sentences () {
     // contents of search bar go into API req
     // contents of API req (JSON) get displayed on page
     return (
-        <div className="sentences-page">
-          <div className="sentences-card">
-            <h1 className="page-title">Example Sentence Search</h1>
-    
-            <form onSubmit={handleSubmit} className="search-form">
-              <label htmlFor="search-input">Add terms here:</label>
-              <input
-                id="search-input"
-                value={txt}
-                onInput={handleChange}
-                required
-                className="search-input"
-              />
-              <button type="submit" className="submit-btn">Submit</button>
+        <div>
+            <h2>Example Sentence Search</h2>
+            <form onSubmit={handleSubmit}>
+                <label>Add terms here: </label>
+                <input
+                    value={txt}
+                    onInput={handleChange}
+                    required
+                />
+                &nbsp;
+                <button type="submit">Submit</button>
             </form>
-    
-            <FormControlLabel
-              control={<Switch checked={fromEn} onChange={handleSwitch} />}
-              label="Japanese/English"
-            />
-    
-            <hr />
-    
-            {loading ? (
-            <h4>Loading...</h4>
-            ) : (
-                posts.map((item, i) =>
-                    item.translations.length > 0 ? (
-                    <div key={i} className="sentence-block">
-                        <h4>{item.text}</h4>
-                        {item.translations.map((trans, idx) =>
-                        trans.length > 0 ? (
-                            <p key={idx} className="translation">{trans[0].text}</p>
-                        ) : null
-                        )}
+            <FormControlLabel control={<Switch checked={fromEn} onChange={handleSwitch} />} label="Japanese/English" />
+            <hr/>
+            {loading || posts.length === 0 ? ( 
+                loading ? (<h4>Loading...</h4> ) : ""
+            ) : ( 
+                posts.results.map((item) => ( 
+                    // fetch the text and translation
+                    <div>
+                    {item.translations.length > 0 ?
+                        (<div>
+                            <h4>{item.text}</h4>
+                            {item.translations.map((trans) => (trans.length > 0 ? (
+                                <p className='nomargin'><style>{nomargin}</style>
+                                {trans[0].text}</p>)
+                                 : ""))}
+                        </div>)
+                    : " "}
                     </div>
-                    ) : null
-                )
+                )) 
             )}
-    
-            <hr />
-            <p className="footer-note">
-              All sentences are acquired through the{" "}
-              <a href="https://tatoeba.org/ja/">Tatoeba project</a>.
-            </p>
-          </div>
+            <hr/>
+            <p>all sentences are acquired through the <a href="https://tatoeba.org/ja/">Tatoeba project</a>.</p>
         </div>
-      );
+    );
 };
 
 
