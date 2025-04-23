@@ -10,11 +10,10 @@ import { BsFront } from "react-icons/bs";
 
 export function Flashcards() {
   // controls which alphabets are shown on the front of the flashcard
-  // Kanji shown by default
+  // Kana shown by default
   const [showRomaji, setShowRomaji] = useState(false);
-  const [showKanji, setShowKanji] = useState(true);
-  const [showKana, setShowKana] = useState(false);
-
+  const [showKanji, setShowKanji] = useState(false);
+  const [showKana, setShowKana] = useState(true);
   const [wordList, setWords] = React.useState([
     {
       kana: "loading...",
@@ -28,9 +27,7 @@ export function Flashcards() {
   // cards that will be displayed after choosing romaji, kana, kanji
   const outputFlashcards = initialFlashcards.map((word) => ({
     front: word.English,
-    back: `${showRomaji ? word.romaji : ""} ${showKana ? word.kana : ""} ${
-      showKanji ? word.kanji : ""
-    }`.trim(),
+    back: `${showRomaji ? word.romaji : ""} ${showKana ? word.kana : ""} ${showKanji ? word.kanji : ""}`.trim()
   }));
 
   // get lesson # from URL
@@ -73,29 +70,40 @@ export function Flashcards() {
   const [shuffled, setShuffle] = useState(false);
   const [flashcards, setFlashcards] = useState([]);
 
+  // flashcard update for kana, kanji, romaji toggle
   useEffect(() => {
     setFlashcards(
       wordList.map((word) => ({
         front: word.English,
-        back: `${showRomaji ? word.romaji : ""} ${showKana ? word.kana : ""} ${
-          showKanji ? word.kanji : ""
-        }`.trim(),
+        back: `${showRomaji ? word.romaji : ""} ${showKana ? word.kana : ""} ${showKanji ? word.kanji : ""}`.trim(),
       }))
     );
   }, [wordList, showRomaji, showKana, showKanji]);
 
-  // add states for checkboxes for 3 different japanese alphabets
-  // pull from database
-
+  // controls keyboard input for next/previous flashcard
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowRight") {
+        const nextIndex = (currentIndexRef.current + 1) % flashcardsRef.current.length;
+        setCurrentIndex(nextIndex);
+      } else if (event.key === "ArrowLeft") {
+        // if the current index is 0, go to the last card; otherwise, go to the previous card
+        const prevIndex = currentIndexRef.current === 0 ? flashcardsRef.current.length - 1 : currentIndexRef.current - 1;
+        setCurrentIndex(prevIndex);
+      } 
+    };
+  
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+  
   const shuffleFlashcards = () => {
     if (shuffled) {
       setFlashcards(outputFlashcards);
       setCurrentIndex(0);
       setShuffle((prevSelected) => !prevSelected);
     } else {
-      const shuffledFlashcards = [...flashcards].sort(
-        () => Math.random() - 0.5
-      );
+      const shuffledFlashcards = [...flashcards].sort(() => Math.random() - 0.5);
       setFlashcards(shuffledFlashcards);
       setCurrentIndex(0);
       setShuffle((prevSelected) => !prevSelected);
@@ -119,6 +127,14 @@ export function Flashcards() {
   const setLastCard = () => {
     setCurrentIndex(flashcards.length - 1);
   };
+
+  // useRef to keep track of the current index and flashcards
+  const currentIndexRef = React.useRef(currentIndex);
+  const flashcardsRef = React.useRef(flashcards);
+
+  // useEffect to update the current index and flashcards references
+  useEffect(() => {currentIndexRef.current = currentIndex}, [currentIndex]);
+  useEffect(() => {flashcardsRef.current = flashcards}, [flashcards]);  
 
   return (
     <div className="flashcard-page">
@@ -163,7 +179,7 @@ export function Flashcards() {
           <ToggleButton
             value="check"
             selected={isSwapped}
-            onChange={() => setSwapped((prevSelected) => !prevSelected)}
+            onChange={() => setSwapped((prev) => !prev)}
           >
             <BsFront></BsFront>
           </ToggleButton>
@@ -171,7 +187,7 @@ export function Flashcards() {
           <ToggleButton
             value="check"
             selected={shuffled}
-            onChange={() => shuffleFlashcards((prevSelected) => !prevSelected)}
+            onChange={() => shuffleFlashcards((prev) => !prev)}
           >
             <FaShuffle></FaShuffle>
           </ToggleButton>

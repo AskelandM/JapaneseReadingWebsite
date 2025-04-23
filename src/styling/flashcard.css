@@ -29,10 +29,10 @@
   gap: 1.5rem;
 }
 
-/* Flashcard structure */
 .card {
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 266px;
+  font-size: 1.5rem;
   perspective: 500px;
   cursor: pointer;
   position: relative;
@@ -108,3 +108,4 @@
   justify-content: center;
   margin-top: 1rem;
 }
+

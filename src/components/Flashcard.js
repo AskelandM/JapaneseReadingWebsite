@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
 
 export function Flashcard({ frontContent, backContent }) {
@@ -10,8 +10,24 @@ export function Flashcard({ frontContent, backContent }) {
         setIsFlipped(!isFlipped);
     };
 
-    // Flashcard component
-    // If the card is flipped, show the back content
+    // on space key press, flip the card
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === " ") {
+                setIsFlipped((prevState) => !prevState);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        // cleanup function to remove the event listener
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
+
+    // flashcard component
+    // if the card is flipped, show the back content
     return (
         <div className="card" onClick={handleClick}>
             {isFlipped ? (
