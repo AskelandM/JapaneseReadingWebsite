@@ -1,0 +1,46 @@
+.vocab-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: white;
+    min-height: 100vh;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.vocab-scrollbox {
+    width: 100%;
+    max-width: 800px;
+    height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 2px solid #2a4365;
+    background-color: #f0f4f8;
+    padding: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.vocab-scrollbox::-webkit-scrollbar {
+    width: 10px;
+}
+
+.vocab-scrollbox::-webkit-scrollbar-thumb {
+    background-color: #2a4365;
+}
+
+.vocab-scrollbox::-webkit-scrollbar-track {
+    background-color: #d3dce6;
+}
+
+.vocab-title {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #2a4365;
+    margin-bottom: 20px;
+}
+
+.vocab-table-container {
+    background-color: white;
+    border-radius: 8px;
+}

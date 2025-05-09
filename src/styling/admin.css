@@ -1,0 +1,89 @@
+.admin-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.admin-box {
+  background-color: #f7fafc;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  border: 2px solid #cbd5e0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+}
+
+.admin-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #2a4365;
+  margin-bottom: 1.5rem;
+}
+
+.admin-actions,
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.admin-form input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.admin-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.admin-buttons button,
+.admin-actions button {
+  padding: 10px 16px;
+  font-size: 1rem;
+  background-color: #2a4365;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-buttons button:hover,
+.admin-actions button:hover {
+  background-color: #1a365d;
+}
+
+.MuiPaper-root {
+  box-shadow: none !important;
+  border: 1px solid #cbd5e0;
+  border-radius: 12px;
+}
+
+.admin-table-button {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background-color: #2a4365;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-table-button:hover {
+  background-color: #1a365d;
+}
+

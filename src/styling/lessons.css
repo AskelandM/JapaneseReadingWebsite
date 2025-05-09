@@ -1,0 +1,126 @@
+.lessons-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: white;
+  padding: 40px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.lessons-scroll-box {
+  height: 600px;
+  width: 100%;
+  max-width: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0 16px;
+  border: 2px solid #2a4365;
+  background-color: #f0f4f8;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+  
+.lessons-scroll-box::-webkit-scrollbar {
+  width: 10px;
+}
+  
+.lessons-scroll-box::-webkit-scrollbar-thumb {
+  background-color: #2a4365;
+}
+  
+.lessons-scroll-box::-webkit-scrollbar-track {
+  background-color: #d3dce6;
+}
+  
+.lesson-card {
+  width: 100%;
+  background-color: #edf2f7;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin: 16px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+  
+.lesson-summary {
+  background-color: #2a4365;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 12px 12px 0 0;
+}
+  
+.lesson-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+  
+.lesson-actions {
+  padding: 16px;
+  background-color: #f7fafc;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-radius: 0 0 12px 12px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+  
+.lesson-button {
+  background-color: #4a69bb;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 16px;
+  text-transform: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+  
+.lesson-button:hover {
+  background-color: #3a5998;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.MuiButton-root.lesson-button {
+  background-color: #4a69bb !important;
+  color: white !important;
+}
+
+.MuiButton-root.lesson-button:hover {
+  background-color: #3a5998 !important;
+}
+
+.MuiAccordion-root {
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: none !important;
+
+}
+  
+.MuiPaper-elevation1 {
+  box-shadow: none !important;
+}
+
+.MuiAccordionSummary-root {
+  border-radius: 12px 12px 0 0;
+}
+
+.MuiAccordionDetails-root {
+  border-radius: 0 0 12px 12px;
+}
+
+.lesson-summary.MuiAccordionSummary-root {
+  background-color: #2a4365 !important;
+  color: white;
+}
+
+.lesson-button.MuiAccordionSummary-root {
+  background-color: #2a4365 !important;
+  color: white;
+}
